@@ -1,0 +1,131 @@
+@{json(F.config, 'modeContext')}
+
+<section class="preload">
+    <div class="loading waves-button waves-effect waves-light">
+        <div class="logo_load">
+            <div class="typing_loader"></div>
+        </div>
+    </div>
+</section>
+
+<!--Alert Fija-->
+<section class="alertStatic">
+    <div class="wrapper_l relative">
+        <div class="txt">
+            <p></p>
+            <a href="javascript:void(0)" onClick="reset()" class="btn">Aceptar</a>
+        </div>
+        <a href="javascript:void(0)" onclick="closeReset()" class="closeAlert"><i class="fa fa-times"></i></a>
+    </div>
+</section>
+<!--Fin Alert Fija-->
+
+<header>
+    <div class="icon_nav"><span></span></div>
+    <a href="/" class="logo animated fadeInDown">
+        <img src="/generic/images/logo.png">
+    </a>
+    <div class="user_action">
+        <!--<li>
+            <a href="javascript:void(0)" class="clckSearch"><i class="fa fa-search"></i></a>
+            <div class="searchSite">
+                <form class="relative" action="/search" id="formGeneric" method="GET">
+                    <input name="word" type="text" placeholder="Buscar aquí..." id="searchGeneric">
+                    <button><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+        </li>-->
+        <li><a href="/login" title="Mi cuenta"><i aria-hidden="true" class="fa fa-user"></i></a></li>
+        <li><a href="/cart" class="cart carrito"><i aria-hidden="true" class="fa fa-shopping-cart"></i><b
+                class="animated bounceIn">0</b></a></li>
+    </div>
+    <div class="bg_nav" id="menu_header">
+        <nav>
+            <div class="relative">
+                <ul>
+                    <li><a href="/"><span>Inicio</span></a></li>
+                    <li><a href="/restaurants"><span>Zona de Cobertura</span></a></li>
+                    <li v-for="page in pages_menu"><a :href="slugToUrl(page.slug)">{{page.name}}</a></li>
+                    <li><a href="/contacto"><span>Contacto</span></a></li>
+                    <li><a href="/login" id="menu_login"><span>Ingresar</span></a></li>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </nav>
+    </div>
+
+    <a id="modalRefine" href="#modalAdress" data-effect="mfp-zoom-in" class="modales popup_txt"></a>
+    <a href="#modalrate" data-effect="mfp-zoom-in" class="modales eventRating"></a>
+
+    <!--Modal direccion-->
+    <section id="modalAdress" class="modal_pop modal_small mfp-with-anim">
+        <div class="headModal">
+            <h3>{{title}} </h3>
+            <a title="Cerrar (Esc)" class="mfp-close ti-close close"></a>
+        </div>
+        <section class="cont_modal modalGeolocalizacoin">
+            <div class="div-alertGeo">
+                <div class="alertGeo">
+                    <div class="loader"></div>
+                    Estamos localizando su dirección. Al terminar por favor verifique que sea correcta.
+                </div>
+            </div>
+            <h4 v-if="validate">Dirección de domicilio: <span>{{addressUrl}}</span></h4>
+            <article class="block">
+                <form v-on:submit.prevent="createModalAddress" class="formBB txt_center">
+                    <div v-if="!validate" :class="{hide: show_map}">
+                        <select name="city" v-model="selectedCity" required>
+                            <option value="">Seleccione una ciudad</option>
+                            <option v-for="location in city" :value="location">{{location}}</option>
+                        </select>
+                        <select name="ruta" placeholder="Ruta" v-model="selected">
+                        <option value="Cll">Calle</option>
+                        <option value="Kra">Carrera</option>
+                        <option value="Trv">Transversal</option>
+                        <option value="Dig">Diagonal</option>
+                        <option value="Av">Avenida</option>
+                        <option value="Ak">Avenida Carrera</option>
+                        <option value="Ac">Avenida Calle</option>
+                        <option value="Cq">Circular</option>
+                        <option value="Mz">Manzana</option>
+                        <option value="Via">Vía</option>
+                    </select>
+                        <input v-model="street" type="text" name="calle" placeholder="100" maxlength="10" class="small"
+                               required>
+                        <div class="symbol">#</div>
+                        <input v-model="number_one" type="text" name="primer_numero" placeholder="14" maxlength="10"
+                               class="small" required>
+                        <div class="symbol">-</div>
+                        <input v-model="number_two" type="text" name="segundo_numero" placeholder="63" maxlength="4"
+                               class="small" required>
+                        <input v-model="place" type="text" name="tipo_lugar"
+                               placeholder="Apartamento, interior, torre..."
+                               maxlength="40" class="large">
+                    </div>
+                    <section class="padding">
+                        <p v-if="msg_map" class="msg-map" :class="{hide: !show_map}">
+                            <span class="fa fa-warning"></span>&nbsp;{{msg_map}}
+                            <br>
+                            <a href="/restaurants" target="_blank">Ver cobertura</a>
+                        </p>
+                        <section class="cont-map clearfix">
+                            <div id="map-canvas" :class="{hide: !show_map}"></div>
+                        </section>
+                    </section>
+                    <button class="btnb btn-back" type="button" :class="{hide: !show_map}" v-on:click="goToForm()">
+                        Volver
+                    </button>
+                    <button class="btnb" type="submit">{{!checking ? 'Confirmar dirección': 'Validando dirección...'}}
+                    </button>
+                </form>
+
+                <div class="clear"></div>
+                <!-- <a href="/restaurants" class="link homeCober wow fadeInUp">VER ÁREA DE COBERTURA</a> -->
+            </article>
+
+        </section>
+    </section>
+    <!--Fin Modal direccion-->
+</header>
+@{version('header.js')}
+@{component('qualify')}

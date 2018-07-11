@@ -1,0 +1,20 @@
+// default-ip                       : 127.0.0.1
+// default-port                     : 8000
+default-ip                          : auto
+default-port                        : auto
+business_id			                : com.inoutdelivery.inouttemplate
+token                               : 123
+parse_server                        : https://dev.parse.inoutdelivery.com/parse/functions/
+theme                               : generic
+facebook_id                         : 2055563498006137
+facebookPixelId                     : 615311242144115
+mixPanelToken                       : c71a41fe8cac4b1c57a4bb89de676583
+googleAnalyticsId                   : UA-100273913-1
+twitter_user                        : @InoutDelivery
+mode                                : DEV
+title                               : InOut Delivery
+allow_logs                          : true
+version                             : 1.0.1
+allow-compile-js                    : false
+allow-compile-html                  : false
+allow-compile-script                : false

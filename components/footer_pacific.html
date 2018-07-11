@@ -1,0 +1,51 @@
+<footer id="main_footer">
+    <div class="wrapper_l">
+        <div class="logosF">
+            <a href="/"><img src="/generic/images/logo.png"></a>
+        </div>
+        <ul class="map_site">
+            <li><a href="/">Mercado de mar</a></li>
+            <li><a href="/restaurants">Cobertura</a></li>
+            <!-- <li><a href="sostenibilidad.php">Sostenibilidad</a></li>
+            <li><a href="canal_institucion.php">Canal institucional</a></li> -->
+        </ul>
+        <div class="info">
+            <p class="inline">(57) 1 43 78 840</p>
+            <p class="inline">(57) 318 517 1746</p>
+            <p class="block">PARA VENTAS INSTITUCIONALES LLAMAR AL: 318 712 9808</p>
+            <p class="blue">info@pacific.com.co</p>
+            <p class="blue">Carrera 65 # 80 - 07 Bogotá - Colombia</p>
+        </div>
+        <div class="redes">
+            <a v-if="social && social.urlInstagram" :href="social.urlInstagram" target="_blank" class="face"><i class="fa fa-instagram"></i></a>
+            <a v-if="social && social.urlTwitter" :href="social.urlTwitter" target="_blank" class="face"><i class="fa fa-twitter"></i></a>
+            <a v-if="social && social.urlFacebook" :href="social.urlFacebook" target="_blank" class="face"><i class="fa fa-facebook"></i></a>
+        </div>
+        <div class="credi">
+            <p>© Copyright <b>Pacific</b> 2017</p>
+        </div>
+        <div class="large-12 medium-12 small-12 columns credi sin_margin">
+            <p>Powered by <a href="http://www.inoutdelivery.com/" target="_blank">INOUTDELIVERY</a></p>
+        </div>   
+        <div class="clear"></div>
+    </div>
+</footer>
+
+<!--Plugins-->
+<script src="https://npmcdn.com/parse@1.8.5/dist/parse-latest.min.js?v=@{F.config.version}"></script>
+
+@{version('/js/lib/jquery.min.js')}
+@{version('/js/lib/plug.js')}
+@{version('/js/app.min.js')}
+@{version('constans.js')}
+@{version('~parse.utils.js')}
+@{version('~lib/mixpanel.js')}
+@{version('~lib/facebook.js')}
+@{version('~lib/google.analytics.js')}
+@{version('~analitys.js')}
+@{version('~utils.js')}
+@{version('~notification.js')}
+@{version('address.js')}
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAcD9yoP5Ixa6862UtkdeeZxxogwqb325Q&libraries=geometry"></script>
+@{version('footer.js')}

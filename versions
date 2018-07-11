@@ -1,0 +1,32 @@
+// Static files mapping according a version
+
+
+// The framework creates mapping
+
+/js/utils.js   
+/js/analitys.js         
+/js/constans.js
+/js/firebase.js        
+/js/notification.js       
+/js/parse.utils.js
+
+/css/app.css
+
+/burgerking/js/account.js  
+/burgerking/js/address.js
+/burgerking/js/app.min.js 
+/burgerking/js/bill.js
+/burgerking/js/checkout.js
+/burgerking/js/collections.js
+/burgerking/js/contact.js
+/burgerking/js/home.js
+/burgerking/js/index.js
+/burgerking/js/login.js
+/burgerking/js/modal.address.js
+/burgerking/js/orders.js
+/burgerking/js/products.js
+/burgerking/js/promotions.js
+/burgerking/js/recovery.js
+/burgerking/js/restaurants.js
+/burgerking/js/shoppingcart.js
+/burgerking/js/terms.js

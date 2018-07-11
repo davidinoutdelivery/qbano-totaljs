@@ -1,0 +1,16 @@
+default-ip                          : auto
+default-port                        : auto
+business_id			                : com.inoutdelivery.inouttemplate
+token                               : 123
+parse_server                        : https://pro.parse.inoutdelivery.com/parse/functions/
+parse_server_url                    : https://pro.parse.inoutdelivery.com/parse/
+theme                               : generic
+facebook_id                         : XXXXXXXXXXXXXX
+facebookPixelId                     : XXXXXXXXXXXXXX
+mixPanelToken                       : XXXXXXxxxXXXXxxxXXXXxx
+googleAnalyticsId                   : XX-XXXXXX-XX
+twitter_user                        : @InOutDelivery
+mode                                : PRO
+title                               : InOut Delivery
+allow_logs                          : false
+version				                : 0.0.1

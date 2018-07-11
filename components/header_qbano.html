@@ -1,0 +1,456 @@
+@{json(F.config, 'modeContext')}
+
+<section class="preload">
+    <div class="spinner">
+        <div id="shadow"></div>
+        <div id="box"></div>
+    </div>
+</section>
+
+
+<!--Alert Fija-->
+<section class="alertStatic">
+    <div class="wrapper_l relative">
+        <div class="txt">
+            <p></p>
+            <a href="javascript:void(0)" @click="reset()" class="btn">Aceptar</a>
+        </div>
+        <a href="javascript:void(0)" onclick="closeReset()" class="closeAlert"><i class="fa fa-times"></i></a>
+    </div>
+</section>
+<!--Fin Alert Fija-->
+
+<header>
+    <section class="dateH" id="menu_header">
+        <section class="wrapper_l relative">
+            <div class="main-menu__hamburger"><span></span></div>
+            <section class="nav_section">
+                <ul class="nav">
+                    <li><a href="/">INICIO</a></li>
+                    <li><a href="/restaurants">ZONA DE COBERTURA</a></li>
+                    <!-- <li v-for="page in pages_menu"><a :href="slugToUrl(page.slug)">{{page.name}}</a></li> -->
+                    <!-- <li v-if="show_blog"><a href="/blog">BLOG</a></li> -->
+                    <!-- <li><a href="/terms" class="termLink">Términos y condiciones</a></li> -->
+                    <li><a href="/contact">CONTACTO</a></li>
+                    <li class="showMovil"><a href="/login" id="menu_login"><i class="icon ti-user"></i> INGRESAR</a></li>
+                </ul>
+            </section>
+            <a @click="openService()" class="address-active"><i><img src="/generic/images/icons/icon_market.svg"></i> {{service}}</a>
+            <a @click="home()" class="logo cursorPointer">
+                <img src="/generic/images/logo.svg" alt="Qbano">
+            </a>
+            <ul class="datesInfor">
+                <li>
+                    <!-- <a href="javascript:void(0)" class="clckSearch"><span class="icon ti-search"></span></a> -->
+                    <div class="searchSite open">
+                        <form class="relative" @submit.prevent="search()">
+                            <input v-model="searchWord" name="word" type="text" placeholder="Buscar aquí...">
+                            <button type="submit"><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+                </li>
+                <li><a href="/login" class="header_login_icon" title="Mi cuenta"><span class="icon user"></span></a></li>
+                <li><a href="/cart" class="carrito openCart" @click="openCart()"><span class="icon cart"><b>0</b></span></a></li>
+                <!--<li><a href="javascript:void(0)" class="carrito openCart" @click="openCart()"><span class="icon cart"><b>0</b></span></a></li>-->
+            </ul>
+        </section>
+    </section>
+    <div class="clear"></div>
+
+    <a href="#typeService" data-effect="mfp-zoom-in" class="modales modalService"></a>
+    <a href="#modalAdress" data-effect="mfp-zoom-in" class="modales modalRefine"></a>
+    <a href="#modalrate" data-effect="mfp-zoom-in" class="modales eventRating"></a>
+    <a href="#modalPromo" data-effect="mfp-zoom-in" class="modales modalCollection"></a>
+    <a href="#modalAdress2" data-effect="mfp-zoom-in" class="modales modalRefine2"></a>
+    <!-- Modal service -->
+    <section id="typeService" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <a title="Cerrar (Esc)" class="mfp-close ti-close close"></a>
+        </div>
+        <div class="header_modal">
+            <div class="logo">
+                <img src="/generic/images/logo.svg" alt="Qbano">
+            </div>
+            <h4>Bienvenido a nuestro portal de domicilios</h4>
+        </div>  
+        <section class="cont_modal modalGeolocalizacoin">
+            <div class="div_go_to_login_home black-text">
+                <p>Por favor selecciona el tipo de servicio que deseas y escribe tu dirección <br><span v-if="!login"> o <a :href="redirectLogin()">inicia sesión</a></span> para validar la cobertura.</p>
+            </div>
+            <div class="tab-delivery">
+                <div class="padding large-6 medium-6 small-12 columns" v-for="service in listService" :key="service.code">
+                    <a href="javascript:void(0)" @click.prevent="selectService(service)" :id="'service-' + service.code" :class="service.classObject">
+                        <h4 v-if="service.name === 'Domicilio'">Entrega inmediata <small> (Próximamente)</small></h4>
+                        <h4 v-else="">{{service.name}}</h4>
+                        <p>{{service.description}}</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </section>
+    <!-- Fin Modal Service -->
+
+    <!--Modal direccion-->
+    <section id="modalAdress" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <a title="Cerrar (Esc)" class="mfp-close ti-close close"></a>
+        </div>            
+        <section class="cont_modal modalGeolocalizacoin">
+            <a @click="changeService()" class="backModal"><i class="ti-angle-left"></i></a>
+            <div><h2 @click="changeService()">{{typeService.name}}</h2></div>
+            <div v-if="is_product_section">
+                <div v-if="!login" class="div_go_to_login_home black-text">
+                    <p>Por favor escribe tu dirección o <br> <a :href="redirectLogin()">inicia sesión</a> para validar la cobertura.</p>
+                </div>
+                <div v-if="show_select_address" class="div_customer_addresses black-text">
+                    <div class="div_go_to_login_home black-text">
+                        <p>Seleccion una dirección existente o añade una nueva</p>
+                    </div>
+                    <div class="row txt_center">
+                        <div class="large-7 medium-7 small-12 inline">
+                            <form class="formBB form-customer-select">                                
+                                <!-- <label for="costumer_addresses"></label> -->
+                                <select v-model="selected_address" class="large border sin_margin" v-on:change="changeCustomerAddress()" required>
+                                    <option value="default">Selecciona una dirección</option>
+                                    <option v-for="address in costumer_addresses" :value="address">{{address.city}} - {{address.address}}, {{address.description}}</option>
+                                </select>
+                            </form>
+                        </div>
+                        <div class="large-1 medium-1 small-12 inline">
+                            <p>ó</p>
+                        </div>
+                        <div class="large-3 medium-3 small-12 inline">
+                            <button class="btnA border block sin_margin" id="btn_show_form_address2" v-on:click="toogleAddressSection">Nueva dirección</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div-alertGeo">
+                    <div class="alertGeo">
+                        <div class="loader"></div>
+                        Estamos localizando su dirección. Al terminar por favor verifique que sea correcta.
+                    </div>
+                </div>
+                <h4 v-if="addressUrl.length > 0">{{typeService.name}}: <span>{{addressUrl}}</span></h4>
+
+                <article class="block">
+                    <form v-on:submit.prevent="checkAddress()" class="formBB txt_center" id="form_add_address">
+                        <div :class="{hide: !show_address_form}">
+                            <div class="header_modal">
+                                <div class="logo">
+                                    <img src="/generic/images/logo.svg" alt="Qbano">
+                                </div>
+                                <h4>Bienvenido a nuestro portal de domicilios</h4>
+                            </div>  
+                            <div class="div_go_to_login_home black-text">
+                                <p>Añade una nueva dirección para tu pedido</p>
+                            </div>
+                            <div class="large-12 medium-12 small-12 columns paddColumn">
+                                <div class="columns large-4 medium-4 small-12 columns">
+                                    <select name="city"  v-model="selectedCity" required class="large border-left">
+                                        <option value="">Ciudad</option>
+                                        <option v-for="location in city" :value="location.city">{{location.city}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="columns large-8 medium-8 small-12 columns">
+                                    <input v-model="street" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
+                                </div>
+
+                                <div class="columns large-8 medium-8 small-12 columns">
+                                    <input v-model="place" type="text" name="tipo_lugar" placeholder="Apartamento, interior, torre..." maxlength="40" class="large" required>
+                                </div>
+                                <div class="columns large-4 medium-4 small-12 columns p_l_10">
+                                    <button class="btnA block" type="submit">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>                              
+
+                        <section class="padding" :class="{hide: !show_map}">
+                            <p v-if="msg_map" class="msg-map" >
+                                <span class="fa fa-warning"></span>&nbsp;{{msg_map}}
+                                <br>
+                                <a href="/restaurants" target="_blank">Ver cobertura</a>
+                            </p>
+                            <section class="cont-map clearfix" >
+                                <div id="map-canvas"></div>
+                            </section>
+                            <button class="btnC btn-back" type="button" v-on:click="goToForm()">Volver</button>
+                            <button class="btnA" type="button"  @click="confirmAddress()">Confirmar mapa</button>
+                        </section>
+                    </form>
+
+                    <div class="clear"></div>
+                    <!-- <a href="/restaurants" class="link homeCober wow fadeInUp">Ver área de cobertura</a> -->
+                </article>
+            </div>
+        </section>
+    </section>
+    <!--Fin Modal direccion-->
+
+    <!--Modal direccion2-->
+    <section id="modalAdress2" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <a title="Cerrar (Esc)" class="mfp-close ti-close close"></a>
+        </div>
+        <section class="cont_modal modalGeolocalizacoin">
+            <a @click="changeService()" class="backModal"><i class="ti-angle-left"></i></a>
+            <div><h2 @click="changeService()">{{typeService.name}}</h2></div>
+
+            <div v-if="show_select_datetime || show_address_datetime" class="div_go_to_login_home black-text">
+                <p>Ya seleccionaste tu dirección, ahora escoge la fecha en la cual deseas recibir tu pedido</p>
+            </div>
+            <!-- show_select -->
+            <div class="div_customer_addresses black-text" v-if="show_select" >
+                <h4 v-if="addressUrl.length > 0">{{typeService.name}}: <span>{{addressUrl}}</span></h4>
+                <form class="formBB form-customer-select">
+                    <div class="large-12 medium-12 small-12 columns paddColumn" :class="{hide: !show_select_form}">
+                        <div class="div_go_to_login_home black-text">
+                            -->> <p>Selecciona una dirección existente o añade una nueva</p> <<--
+                        </div>
+                        <div class="row txt_center">
+                            <div class="large-7 medium-7 small-12 inline">
+                                <!-- <label for="costumer_addresses"></label> -->
+                                <select v-model="selected_address" class="large border sin_margin" v-on:change="changeCustomerAddress()" required>
+                                    <option value="default">Selecciona una dirección</option>
+                                    <option v-for="address in costumer_addresses" :value="address">{{address.city}} - {{address.address}}, {{address.description}}</option>
+                                </select>    
+                            </div>
+                            <div class="large-1 medium-1 small-12 inline">
+                                <p>ó</p>
+                            </div>
+                            <div class="large-3 medium-3 small-12 inline">
+                                <button class="btnA block border sin_margin" id="btn_show_form_address2" v-on:click="toogleAddressSection()">Nueva dirección</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="large-12 medium-12 small-12 columns paddColumn" :class="{hide: !show_select_datetime}" >
+                        <div class="columns large-7 medium-7 small-12 columns">    
+                            <!-- <label for="bday">Fecha de entrega: </label> -->
+                            <input type="text" id="bday" name="bday" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" v-on:change="changeDateInput()" class="large border-left datepicker" placeholder="Fecha de entrega">
+                        </div>
+                        <div class="columns large-5 medium-5 small-12 columns">
+                            <!-- <label for="startTime">Hora: </label> -->
+                            <input type="text" id="startTime" name="startTime" class="large border-right timepicker" placeholder="Hora">
+                        </div>
+                        <button class="btnC btn-back" type="button" v-on:click="goToForm()">Volver</button>
+                        <button class="btnA" type="button" v-on:click="changeCustomerAddress()">Confirmar horario</button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+            <!--show_select -->
+
+            <div class="div-alertGeo">
+                <div class="alertGeo">
+                    <div class="loader"></div>
+                    Estamos localizando su dirección. Al terminar por favor verifique que sea correcta.
+                </div>
+            </div>
+
+            <!-- show_address  -->
+            <article class="block" v-if="show_address">
+                <h4 v-if="addressUrl.length > 0">{{typeService.name}}: <span>{{addressUrl}}</span></h4>
+
+                <form v-on:submit.prevent="checkAddress()" class="formBB txt_center" id="form_add_address">
+                    <!-- show_address_form -->
+                    <div :class="{hide: !show_address_form}">
+                        <div class="div_go_to_login_home black-text">
+                            <p>Añade una nueva dirección para tu pedido</p>
+                        </div>
+                        <div class="large-12 medium-12 small-12 columns paddColumn paddColumn" >
+                            <div class="columns large-4 medium-4 small-12 columns">
+                                <select name="city"  v-model="selectedCity" required class="large border-left">
+                                    <option value="">Zona</option>
+                                    <option v-for="location in city" :value="location.city">{{location.city}}</option>
+                                </select>
+                            </div>
+
+                            <div class="columns large-8 medium-8 small-12 columns">
+                                <input v-model="street" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
+                            </div>
+
+                            <div class="columns large-8 medium-8 small-12 columns">
+                                <input v-model="place" type="text" name="tipo_lugar" placeholder="Apartamento, interior, torre..." maxlength="40" class="large" required>
+                            </div>
+
+                            <div class="large-4 medium-4 small-12 columns p_l_10">
+                                <button class="btnA block" type="submit">Confirmar</button>
+                            </div>
+                        </div>                        
+                    </div>
+                    <!-- show_address_form -->
+
+                    <!-- !show_address_form -->
+                    <div class="large-12 medium-12 small-12 columns paddColumn" :class="{hide: !show_address_datetime}" >
+                        <div class="columns large-7 medium-7 small-12 columns">    
+                            <!-- <label for="bday">Fecha de entrega: </label> -->
+                            <input type="text" id="bday" name="bday" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="large border-left datepicker" placeholder="Fecha de entrega">
+                        </div>
+                        <div class="columns large-5 medium-5 small-12 columns">
+                            <!-- <label for="startTime">Hora: </label> -->
+                            <input type="text" id="startTime" name="startTime" class="large border-right timepicker" placeholder="Hora">
+                        </div>
+
+
+                        <button class="btnC btn-back" type="button" v-on:click="goToForm()">Volver</button>
+                        <button class="btnA" type="button" v-on:click="confirm()">Confirmar horario</button>
+
+                    </div>
+                    <!-- !show_address_form -->
+
+
+                    <section class="padding" :class="{hide: !show_map}">
+                        <p v-if="msg_map" class="msg-map" >
+                            <span class="fa fa-warning"></span>&nbsp;{{msg_map}}
+                            <br>
+                            <a href="/restaurants" target="_blank">Ver cobertura</a>
+                        </p>
+                        <section class="cont-map clearfix" >
+                            <div id="map-canvas"></div>
+                        </section>
+                        <button class="btnC btn-back" type="button" v-on:click="goToForm()">Volver</button>
+                        <button class="btnA" type="button"  @click="confirmAddress()">Confirmar mapa</button>
+                    </section>
+
+
+                </form>
+
+                <div class="clear"></div>
+                <!-- <a href="/restaurants" class="link homeCober wow fadeInUp">Ver área de cobertura</a> -->
+            </article>
+            <!-- show_address -->
+        </section>
+    </section>
+    <!--Fin Modal direccion2-->
+</header>
+
+<!--Bg Carrito-->
+<section class="cartView">
+    <div id="carrito" class="relative">
+        <div class="header-view">
+            <a href="#" class="close"><i class="ti-angle-right"></i></a>
+            <h3>Tu Carrito</h3>
+        </div>
+        <div v-if="Object.keys(model.items).length > 0">
+            <div class="body-view">
+                <ul class="listCart row padding">
+                    <li class="row" v-for="(item, index) of model.items"  :key="item['@rid']">          
+                        <div class="columns large-4 medium-4 small-4">
+
+                            <a href="#">  
+                                <div class="img" :style="getUrlImage(item, true)"></div>  
+                            </a>
+                        </div>
+                        <div class="columns large-8 medium-8 small-8 padding">
+                            <a href="">
+                                <div class="txt">
+                                    <h4>{{item.product}}</h4>
+                                    <h5>{{currencyFormat(item.priceUnit)}}</h5>
+                                    <p v-html="item.description"></p>
+                                </div>
+                            </a>
+                            <div class="row">
+                                <div class="catidad_real">
+                                    <a class="restar" v-on:click.prevent="updateItem(item['@rid'], {amount: item.amount > 0 ? item.amount-1: item.amount}, index)"><i class="fa fa-minus"
+                                                                                                                                                                      aria-hidden="true"></i></a>
+                                    <input disabled v-model="item.amount" v-on:input="model.total" type="text"
+                                           name="cant" :value="item.amount" size="4" class="cantidad" id="cantidad">
+                                    <a class="mas" v-on:click.prevent="updateItem(item['@rid'], {amount:item.amount+1}, index)"><i class="fa fa-plus"
+                                                                                                                                   aria-hidden="true"></i></a>
+                                </div>
+                                <a v-on:click.prevent="deleteItemCart(item['@rid'], $event)" class="delete"><i class="ti-trash"></i></a>
+                            </div>
+                        </div>                
+                    </li>
+                </ul>
+                <section class="subCartTotal">
+                    <div class="total row padding">
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p>Subtotal</p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p>{{currencyFormat(model.totalItems)}}</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p>Costo de envío</p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p>{{currencyFormat(model.costService)}}</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p><strong>TOTAL</strong></p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p><strong>{{currencyFormat(model.total)}}</strong></p>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row padding">
+                        <a v-on:click.prevent="updatecart()" class="btnA block carritoClic carrito">Continuar al Check Out</a>
+                    </div>
+                </section>
+            </div>
+        </div> 
+        <div v-else>
+            <div class="alertPage">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                <h2>No hay productos agregados.</h2>
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="maskCart"></div>
+<!--Fin Bg Carrito-->
+
+<!--Modal Promo-->
+<section id="modalPromo" class="modal_pop modal_large mfp-with-anim">
+    <div class="headModal">
+        <h3>AÑADE LO QUE MAS TE GUSTA</h3>
+        <a title="Close (Esc)" class="mfp-close ti-close"></a>
+    </div>
+    <section class="cont_modal modalPromo">
+        <!-- <h1>AÑADE LO QUE MAS TE GUSTA</h1> -->
+        <p>Disfruta tu domicilio con los acompañantes ideales para acompañar tus platos favoritos</p>
+        <div class="wrapper_m2 block">
+            <div class="larger-6 medium-6 small-12 columns padding" v-for="product in products" v-if="product.isAvailable">
+                <div class="check_modal c6">
+                    <input type="radio" name="maspromo" :id="product['rid']">
+                    <label :for="product['rid']" class="collection-label">
+                        <div class="img">
+                            <span class=""></span>
+                            <img :src="getUrlImage(product)" alt="image"> 
+                        </div>
+                        <div class="tittle">
+                            <h2>{{product.name}}</h2>
+                            <h2 class="price">{{currencyFormat(product.price)}}</h2>
+                            <a href="javascript:void(0)" class="cart_ico uploadCart" v-on:click="shop(product, $event)" :disabled="product.isAvailable == false">
+                               <span class="fa fa-shopping-cart"></span>
+                            </a>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <button @click="goToCheckout()" class="btnA">Finalizar pedido</button>
+        <div class="clear"></div>
+    </section>
+</section>
+<!--Fin Modal Promo-->
+<div id="picker-inout"></div>
+<div id="timer-inout"></div>
+
+@{version('header.js')}
+@{version('collections.js')}
+@{version('shoppingcart.js')}
+@{component('qualify')}

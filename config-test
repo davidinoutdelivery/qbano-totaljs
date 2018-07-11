@@ -1,0 +1,9 @@
+// default-ip                       : 127.0.0.1
+// default-port                     : 8000
+default-ip                          : auto
+default-port                        : auto
+business_id			                : com.inoutdelivery.burgerking
+token                               : 123
+parse_server                        : https://dev.parse.inoutdelivery.com/parse/functions/
+theme                               : burgerking
+mode                                : DEV

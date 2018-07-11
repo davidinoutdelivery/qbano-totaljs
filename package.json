@@ -1,0 +1,33 @@
+{
+  "name": "webfront-totaljs",
+  "version": "1.0.0",
+  "description": "proyecto web inout",
+  "main": "index.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "del": "^3.0.0",
+    "gulp-babel": "^7.0.0",
+    "html2plaintext": "^2.0.1",
+    "lodash": "^4.17.4",
+    "orientjs": "^2.2.7",
+    "parse": "^1.9.2",
+    "raven": "^2.1.0",
+    "request": "^2.83.0",
+    "total.js": "^2.7.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "require": "^2.4.20"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "total",
+    "js",
+    "web"
+  ],
+  "author": "inout",
+  "license": "ISC"
+}

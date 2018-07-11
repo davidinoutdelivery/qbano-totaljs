@@ -1,0 +1,8 @@
+[submodule "themes/generic/views"]
+	path = themes/generic/views
+	url = git@bitbucket.org:inoutdeliveryweb/views_v2.git
+	ignore = all
+[submodule "themes/generic/public"]
+	path = themes/generic/public
+	url = git@bitbucket.org:inoutdeliveryweb/public_v2.git
+	ignore = all

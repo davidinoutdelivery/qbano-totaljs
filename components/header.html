@@ -1,0 +1,145 @@
+@{json(F.config, 'modeContext')}
+
+<section class="preload">
+    <div class="spinner"></div>
+</section>
+
+
+<!--Alert Fija-->
+<section class="alertStatic">
+    <div class="wrapper_l relative">
+        <div class="txt">
+            <p></p>
+            <a href="javascript:void(0)" onClick="reset()" class="btn">Aceptar</a>
+        </div>
+        <a href="javascript:void(0)" onclick="closeReset()" class="closeAlert"><i class="fa fa-times"></i></a>
+    </div>
+</section>
+<!--Fin Alert Fija-->
+
+<header>
+    <section class="dateH" id="menu_header">
+        <section class="wrapper_l relative">
+            <div class="main-menu__hamburger"><span></span></div>
+            <section class="nav_section">
+                <ul class="nav">
+                    <li><a href="/">INICIO</a></li>
+                    <li><a href="/restaurants">ZONA DE COBERTURA</a></li>
+                    <li v-for="page in pages_menu"><a :href="slugToUrl(page.slug)">{{page.name}}</a></li>
+                    <li v-if="show_blog"><a href="/blog">BLOG</a></li>
+                    <li><a href="/contact">CONTACTO</a></li>
+                    <li class="showMovil"><a href="/login" id="menu_login"><i class="icon ti-user"></i> INGRESAR</a></li>
+                </ul>
+            </section>
+            <a href="/" class="logo">
+                <img src="/generic/images/logo.png" alt="Inout" class="logo1">
+                <img src="/generic/images/logo2.png" alt="Inout" class="logo2">
+            </a>            
+            <ul class="datesInfor">
+                <li>
+                    <a href="javascript:void(0)" class="clckSearch"><span class="icon ti-search"></span></a>
+                    <div class="searchSite">
+                        <form class="relative" action="/search" id="formGeneric" method="GET">
+                            <input name="word" type="text" placeholder="Buscar aquí..." id="searchGeneric">
+                            <button><i class="ti-search"></i></button>
+                        </form>
+                    </div>
+                </li>
+                <li><a href="/login" class="header_login_icon" title="Mi cuenta"><span class="icon ti-user"></span></a></li>
+                <li><a href="/cart" class="carrito"><span class="icon ti-bag"><b>0</b></span></a></li>
+            </ul>
+        </section>
+    </section>
+    <div class="clear"></div>
+
+    <a id="modalRefine" href="#modalAdress" data-effect="mfp-zoom-in" class="modales"></a>
+    <a href="#modalrate" data-effect="mfp-zoom-in" class="modales eventRating"></a>
+
+    <!--Modal direccion-->
+    <section id="modalAdress" class="modal_pop modal_small mfp-with-anim">
+        <div class="headModal">
+            <h3>{{title}} </h3>
+            <a title="Cerrar (Esc)" class="mfp-close ti-close close"></a>
+        </div>
+        <section class="cont_modal modalGeolocalizacoin">
+            <div v-if="is_product_section">
+                <div v-if="!show_customer_addresses" class="div_go_to_login_home black-text">
+                    <a :href="redirectLogin()">Inicia sesión para ver tus direcciones</a>
+                    <p>ó</p>
+                </div>
+                <div v-if="show_customer_addresses" class="div_customer_addresses black-text">
+                    <form class="formBB form-customer-select">
+                        <label for="costumer_addresses"></label>
+                        <select v-model="selected_address" class="costumer_addresses" v-on:change="changeCustomerAddress">
+                            <option value="default">Selecciona una dirección</option>
+                            <option v-for="address in costumer_addresses" v-bind:value="address">{{address.address}}, {{address.city}}</option>
+                        </select>
+                    </form>
+                    <p>ó</p>
+                    <button class="btnA" id="btn_show_form_address2" v-on:click="toogleAddressSection(true)">NUEVA DIRECCIÓN</button>
+                </div>
+            </div>
+            <div class="div-alertGeo">
+                <div class="alertGeo">
+                    <div class="loader"></div>
+                    Estamos localizando su dirección. Al terminar por favor verifique que sea correcta.
+                </div>
+            </div>
+            <h4 v-if="validate">Dirección de domicilio: <span>{{addressUrl}}</span></h4>
+            <article class="block" v-if="">
+                <form v-on:submit.prevent="createModalAddress()" class="formBB txt_center" id="form_add_address">
+                    <div v-if="!validate" :class="{hide: show_map}">
+                        <select name="city"  v-model="selectedCity" required>
+                            <option  value="">Seleccione una ciudad</option>
+                            <option  v-for="location in city" :value="location" >{{location}}</option>
+                        </select>
+                        <br><br>
+                        <select name="ruta" v-model="selected">
+                            <option value="Cll">Calle</option>
+                            <option value="Kra">Carrera</option>
+                            <option value="Trv">Transversal</option>
+                            <option value="Dig">Diagonal</option>
+                            <option value="Av">Avenida</option>
+                            <option value="Ak">Avenida Carrera</option>
+                            <option value="Ac">Avenida Calle</option>
+                            <option value="Cq">Circular</option>
+                            <option value="Mz">Manzana</option>
+                            <option value="Via">Vía</option>
+                        </select>
+                        <input v-model="street" type="text" name="calle" placeholder="100" maxlength="10" class="small2"
+                               required>
+                        <div class="symbol">#</div>
+                        <input v-model="number_one" type="text" name="primer_numero" placeholder="14" maxlength="10"
+                               class="small" required>
+                        <div class="symbol">-</div>
+                        <input v-model="number_two" type="text" name="segundo_numero" placeholder="63" maxlength="4"
+                               class="small" required>
+                        <input v-model="place" type="text" name="tipo_lugar"
+                               placeholder="Apartamento, interior, torre..."
+                               maxlength="40" class="large">
+                    </div>
+                    <section class="padding">
+                        <p v-if="msg_map" class="msg-map" :class="{hide: !show_map}">
+                            <span class="fa fa-warning"></span>&nbsp;{{msg_map}}
+                            <br>
+                            <a href="/restaurants" target="_blank">Ver cobertura</a>
+                        </p>
+                        <section class="cont-map clearfix">
+                            <div id="map-canvas" :class="{hide: !show_map}"></div>
+                        </section>
+                    </section>
+                    <button class="btnC btn-back" type="button" :class="{hide: !show_map}" v-on:click="goToForm()">Volver</button>
+                    <button class="btnA" type="submit">Confirmar dirección
+                    </button>
+                </form>
+
+                <div class="clear"></div>
+                <!-- <a href="/restaurants" class="link homeCober wow fadeInUp">VER ÁREA DE COBERTURA</a> -->
+            </article>
+
+        </section>
+    </section>
+    <!--Fin Modal direccion-->
+</header>
+@{version('header.js')}
+@{component('qualify')}

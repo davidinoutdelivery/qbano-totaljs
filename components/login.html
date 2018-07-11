@@ -1,0 +1,193 @@
+<section class="bg_login txt_center content_login">
+    <div class="titulo txt_center sin_padd sin_margin">
+        <h1>Ingresar</h1>
+    </div>
+    <article class="small-12 medium-7 large-6 inline">
+        <div class="panel">
+
+            <section class="formBB form_login_user">
+                <form id="login_user" class="form_login animated fadeIn" data-wow-delay="0.2s">
+                    <section class="social_login">
+                        <a href="javascript:void(0)" class="btn_login face">
+                            <span>Ingresar con Facebook</span>
+                        </a>
+                    </section>
+                    <div class="clear"></div>
+                    <section class="bg_login_Open p_t_10">
+                        <fieldset class="relative">
+                            <label>Correo electrónico</label>
+                            <input id="email_login" type="email" name="email" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" required>
+                        </fieldset>
+                        <a href="javascript:void(0)" class="link link_recovery block">¿Olvidaste tu contraseña?</a>
+                        <div class="line_form"></div>
+                        <div class="txt_center">
+                            <button type="submit" name="btnLogin" class="btnA block">INGRESAR</button>
+                        </div>
+                    </section>
+                    <a href="javascript:void(0)" class="link link_new_acount">No tienes una cuenta?
+                        <span> Registrate</span></a>
+                </form>
+            </section>
+
+        </div>
+    </article>
+    <div class="clear"></div>
+</section>
+
+<!--modal de registro con facebook -->
+<section class="bg_login txt_center content_register_facebook" style="display: none">
+    <div class="titulo txt_center sin_padd sin_margin">
+        <h1>Regístrarse</h1>
+    </div>
+    <article class="small-12 medium-7 large-6 inline">
+        <div class="panel">
+
+            <section class="formBB form_register">
+                <form id="register_facebook" class="form_register animated fadeIn" data-wow-delay="0.2s">
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <fieldset class="relative">
+                            <label>Nombre</label>
+                            <input id="name" type="text" name="name" placeholder="Nombre completo" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Correo electrónico</label>
+                            <input id="email" type="email" name="email" placeholder="Nombre@gmail.com" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Télefono</label>
+                            <input type="number" name="phone" placeholder="057 (1) +" required>
+                        </fieldset>
+                        <fieldset class="relative termBg">
+                            <input name="termn" type="checkbox" id="termnLogin">
+                            <label for="termnLogin">
+                                Aceptas los <a class="link_restrictions">terminos y condiciones</a>
+                            </label>
+                        </fieldset>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <button type="submit" name="btnLogin" class="btnA">REGISTRARSE</button>
+                        </div>
+                    </section>
+                </form>
+                <a href="javascript:void(0)" class="link close_register">Ya tienes una cuenta? Inicia Sesión</a>
+            </section>
+
+        </div>
+    </article>
+    <div class="clear"></div>
+</section>
+
+
+<!--modal de registro normal -->
+<section class="bg_login txt_center content_reister">
+    <div class="titulo txt_center sin_padd sin_margin">
+        <h1>Regístrarse</h1>
+    </div>
+    <article class="small-12 medium-7 large-6 inline">
+        <div class="panel">
+
+            <section class="formBB form_register">
+                <form id="register_manual" class="form_register animated fadeIn" data-wow-delay="0.2s">
+                    <section class="social_login">
+                        <a href="javascript:void(0)" class="btn_login face">
+                            <span>Ingresar con Facebook</span>
+                        </a>
+                    </section>
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <fieldset class="relative">
+                            <label>Nombre</label>
+                            <input type="text" name="name" placeholder="Nombre completo" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Correo electrónico</label>
+                            <input type="email" name="email" placeholder="Nombre@gmail.com" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Télefono</label>
+                            <input type="number" name="phone" placeholder="057 (1) +" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Contraseña</label>
+                            <input type="password" name="password" placeholder="********" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <label>Repetir Contraseña</label>
+                            <input type="password" name="password_two" placeholder="********" required>
+                        </fieldset>
+                        <fieldset class="relative">
+                            <div data-callback="capcha_filled()"  data-expired-callback="capcha_expired()"
+                                 class="g-recaptcha"  data-sitekey="6LciQCYUAAAAADDLh_IskpNNDZoXkzJM7vDucn_R"></div>
+                        </fieldset>
+                        <fieldset class="relative termBg">
+                            <input name="termn" type="checkbox" id="termnLogi">
+                            <label for="termnLogi">
+                                Aceptar los <a target="_blank" href="/terms">terminos y condiciones</a>
+                            </label>
+                        </fieldset>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <button type="submit" id="btnLoginManual" name="btnLoginManual" class="btnA">REGISTRARSE
+                            </button>
+                        </div>
+                    </section>
+                </form>
+                <a href="javascript:void(0)" class="link close_register">Ya tienes una cuenta? Inicia Sesión</a>
+            </section>
+
+        </div>
+    </article>
+    <div class="clear"></div>
+</section>
+
+
+<!--modal de recuperacion contraseña -->
+<section class="bg_login txt_center content_pass" id="recovery_password">
+    <div class="titulo txt_center sin_padd sin_margin">
+        <h1>RECUPERAR TU CONTRASEÑA</h1>
+    </div>
+    <article class="small-12 medium-7 large-6 inline">
+        <div class="panel">            
+            <section class="formBB form_pass">
+                <img src="/burgerking/images/img_pass.png" class="imgLogin animated bounceIn">
+                <form v-on:submit.prevent="onSubmit" class="animated fadeIn" data-wow-delay="0.2s">
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <fieldset class="relative">
+                            <label>Ingresa tu corredo electronico</label>
+                            <input v-model="email" type="email" name="email" required>
+                            <span>Tu correo no se encuentra registrado</span>
+                        </fieldset>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <button type="submit" class="btnA">RECUPERAR CONTRASEÑA
+                            </button>
+                        </div>
+                    </section>
+                </form>                
+            </section>
+
+            <section class="formBB form_ok_pass">
+                <img src="/burgerking/images/img_pass_recovery.png" class="imgLogin animated bounceIn">
+                <form class="animated fadeIn" data-wow-delay="0.2s">
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <p>Hemos enviado un correo a <span>{{email}}</span> para que puedas recuperar tu contraseña</p>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <a href="javascript:void(0)" class="btnA close_register">VOLVER A INGRESAR</a>
+                        </div>
+                    </section>
+                </form>                
+            </section>
+
+            <a href="javascript:void(0)" class="link link_new_acount">No tienes una cuenta? Regístrarte</a>
+        </div>
+    </article>
+    <div class="clear"></div>
+</section>
