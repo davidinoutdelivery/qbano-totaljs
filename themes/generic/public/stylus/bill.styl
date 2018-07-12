@@ -1,0 +1,338 @@
+/*------------------------------------*\
+    $FACTURA
+\*------------------------------------*/
+body
+  .bg_paneld_pedido
+    background backgroundColorGray
+    block()
+    relative()
+    border-radius 10px
+    &:after
+      clear()
+    &.m-mobile
+      +below(642px)
+        margin 0 0 25px
+    h2.sub
+      block()
+      box()
+      padding 10px
+      text-align center
+      margin 0
+      border-bottom 2px solid white
+      mayus()
+      fontb()
+      font(18px)
+      color primaryColorTitle
+      +below(642px)
+        font(17px)
+  //Modificador Checkout
+  .paneld_pedido 
+    padding 20px 22px
+    background transparent
+    border-bottom 2px solid white 
+    .large-8
+      text-align right
+    p
+      max-width 70%
+      text-overflow ellipsis
+      white-space nowrap
+      overflow hidden
+      margin 0
+      color primaryColorText
+      inline()
+      font(13.5px)
+      opacity .9
+      +below(642px)
+        block()        
+        max-width 100%
+    +below(642px)
+      padding 13px 15px 9px 15px
+    +below(330px)  
+      padding 14px 15px
+    textarea
+      width 100%
+      block()
+      border none
+      border-radius 6px
+      background white
+      box()
+      padding 5px
+      font(13.5px)
+      opacity .9
+      fontr()
+    //Dinamic Opciones
+    &.optionAdmin
+      background transparent
+      border 1px solid backgroundColorGray
+      .small
+        margin 2px 0
+        opacity .77
+        +below(642px)
+          margin 2px 0 0
+    > .title_fac 
+      +below(642px)
+        display -ms-flexbox
+        display flex
+        -ms-flex-flow row nowrap
+        flex-flow row nowrap
+        -ms-flex-align center
+        align-items center
+        -ms-flex-pack justify
+        justify-content space-between
+        -ms-flex 1
+        flex 1
+  //Historia Checkout
+    //Product
+  .listCart
+    block()
+    overflow-y auto
+    overflow-x hidden
+    height 400px
+    width 100%
+    margin 13px 0 0
+    relative()
+    &:after
+      clear()
+    +below(642px)
+      height auto
+      over()
+      relative()
+    li
+      block()
+      margin 0 0 7px
+      &:after
+        clear()
+      .img
+        background-size cover
+        background-repeat no-repeat
+        background-position center
+        background-color #e6e6e6
+        width 100%
+        height 87px
+        border-radius 10px
+        relative()
+        block()
+        over()      
+      .txt
+        padding 0 10px 0 0
+        h4
+          color primaryColorTitle
+          font(16px)
+          fontb()
+          block()
+        h5
+          color primaryColorTitle
+          fontl()
+          block()
+          line-height 22px
+        p
+          font(11px)
+          margin 0 0 10px
+          block()
+          line-height 15px
+      .catidad_real
+        .cantidad, 
+        input[type="text"], 
+        input[type="number"]
+          width 24px
+          height 26px
+          font(14px)
+          border-right 1px solid rgba(grayBorder, .75)
+          border-left 1px solid rgba(grayBorder, .75)
+        .mas, 
+        .restar
+          width 19px
+          height 26px
+          line-height 27px
+          font(8px)
+      .delete
+        right2()
+        color white
+        background #423f40
+        border-radius 8px
+        font(17px)
+        padding 0 5px
+        height 28px
+        line-height 28px
+        cursor pointer
+        i
+          line-height 28px          
+  //Total
+  .subCartTotal
+    relative()
+    width 100%
+    box()
+    padding 7px 25px 10px 0
+    block()
+    &:after
+      clear()
+    .total
+      block()
+      margin 0 0 10px
+      p
+        margin 0
+        block()
+        font(13px)
+        color primaryColorTitle
+        strong
+          font(14.5px)
+          fontb()
+    .carritoClic 
+      cursor pointer
+  
+
+.title_fac
+  text-align center
+  h1
+    color primaryColorTitle
+    font(16px)
+    fontb()
+    padding 5px 0
+    text-align left
+    span
+      color primaryColorTitle
+    +below(642px)
+      font(15px)
+      letter-spacing -.8px
+    +below(330px)
+      font(15px)
+  p
+    padding 0
+    color primaryColor
+    +below(642px)
+      margin 0 0 6px !important
+  .btnA
+    padding 8px 18px
+    margin 0 0 0 13px
+    letter-spacing .6px
+    font(13px)
+    inline()
+    height auto
+    line-height inherit
+    +below(642px)
+      padding 4px 10px
+      font(12px)
+      margin 0px
+    +below(370px)
+      font(11px)
+
+.bg_factura
+  box()
+  padding 25px 45px 
+  +below(642px)
+    padding 23px 14px
+  h3
+    font(26px)
+    fontb()
+    text-align center
+    color primaryColorTitle
+    margin 0 0 10px 0
+    +below(642px)
+      font(24px)
+  p
+    text-align center
+    color primaryColorText
+  
+  .head_factura
+    block()
+    width 100%
+    margin 40px 0 0 0
+    +below(642px)
+      margin 25px 0 0 0
+      text-align center
+    &.row
+      margin 36px 0 30px 0
+      border-top 1px dashed rgba(147,147,147,0.2)
+      box()
+      padding 21px 0
+      +below(642px)
+        margin 36px 0 44px 0
+    h4
+      color primaryColorText
+      font(22px)
+      fontb()
+      block()
+      text-align center
+      padding 5px 0
+      box()
+      +below(642px)
+        text-align center
+        font(19px)
+    h5
+      color primaryColorText
+      font(30px)
+      fontb()
+      block()
+      text-align center
+      +below(642px)
+        text-align center
+        font(25px)
+
+.list_fact
+  margin 20px 0
+  &:after     
+    clear both
+    content ''
+    block()
+  li:last-child
+    border-bottom 1px dashed rgba(147, 147, 147, 0.2)
+  li
+    border-top 1px dashed rgba(147, 147, 147, 0.2)
+    box()
+    padding 35px 50px
+    &:after     
+      clear both
+      content ''
+      block()
+    +below(642px)
+      padding 16px 0px
+    .nameProd
+      h6
+        font(18px)            
+    h6
+      color primaryColorText
+      font(18px)
+      fontb()
+      block()
+      width 100%
+      text-align left
+      overflow()
+      margin 0 0 20px 0
+      +below(642px)
+        font(18px)
+        margin 11px 0 2px 0
+    p
+      text-align left
+      block()
+      color primaryColorText
+      width 100%
+      font(16px)
+    .adition_list
+      > li
+        padding 10px 0
+
+.date_facture
+  margin 0 0 20px
+  text-align left
+  box()
+  padding 10px 50px
+  line-height 20px
+  &:after     
+    clear both
+    content ''
+    block()
+  +below(642px)
+    padding 10px 0px
+  span
+    fontb()
+    color white
+    font(16px)
+  h2
+    fontb()
+    color primaryColorText
+    mayus()
+    font(14px)
+  p
+    text-align left
+    margin 0
+    font(16px)

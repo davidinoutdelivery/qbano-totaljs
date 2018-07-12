@@ -1,0 +1,623 @@
+/*------------------------------------*\
+    $MI CUENTA
+\*------------------------------------*/
+.bg_user_section
+  box()
+  padding 10px 0 40px
+  block()
+  relative()
+  &:after
+    clear()
+  h1
+    color primaryColorTitle
+    fontb()
+    font(21px)
+    text-align center
+    block()
+    mayus()
+    relative()
+    margin 0px 0 25px 0
+    +below(642px)
+      font(18px)
+
+.user_profile
+  width 150px
+  height 150px
+  margin 9px auto 20px
+  border 6px solid  rgba(white, .4)
+  over()
+  trans(.4s)
+  border-radius 50%
+  block()
+  img
+    width 100%
+    min-height 100%
+    margin 0 auto
+    -webkit-transform-style inherit
+  &:before
+    width 3px
+    height 70px
+    background white
+    left 83%
+    content ''
+    absolute()
+    top 0
+    bottom 0
+    margin auto
+
+.icons_user
+  block()
+  box()
+  padding 0px
+  &:after
+    clear()
+  a
+    block()
+    trans(.4s)
+    &:hover
+      transform scale(1.04)    
+  i
+    inline()
+    width 95px
+    height 95px
+    border-radius 50%    
+    margin 0 10px
+    +before(642px)
+      width 75px
+      height 75px
+    &.card
+      background primaryColor url('../images/card_icon.png') center no-repeat
+    &.ubi
+      background primaryColor url('../images/market.png') center no-repeat
+  &:after
+    clear()
+  
+
+/*------------------------------------*\
+    $DIRECCIONES
+\*------------------------------------*/
+.all_address
+  &:after
+    clear()
+  article
+    block()
+    margin 0 0 10px
+    &:after
+      clear()
+    .checkSite
+      block()
+      relative()
+      .elimnar_ico
+        inline()
+        i
+          width 27px
+          height 27px
+          line-height 27px
+          font-size 18px
+          margin 0 11px 0 0
+          
+    label
+      block()
+      box()      
+      width 100%
+      height auto
+      padding 13px 0 13px 15px !important
+      &:after
+        none()
+      i
+        inline()
+        width auto
+        height 46px
+        padding 0
+        margin 0 10px 0 0px
+        relative()
+        +below(642px)
+          height 30px
+          bottom 0
+          top 0
+          margin 0 10px 0 0px
+          padding 0 2px
+        img
+          height 100%        
+      span.inline
+        +below(642px)
+          max-width 63%
+      h3
+        font(22px)
+        fontb()
+        color primaryColorTitle
+        +below(642px)
+          font(22px)
+      p
+        margin 0
+        color black
+        font(16px)
+        font-weight bold
+    [type="radio"]:not(:checked) + label, 
+    [type="radio"]:checked + label
+      height auto
+      line-height auto
+    [type="radio"]:checked + label:before
+      right 17px
+      left auto
+      +below(642px)
+        right 9px
+
+@media screen and (max-width: 624px)
+  .elimnar_ico
+    position initial !important
+
+.bg_new_address
+  width 100%
+  height 100%  
+  fixed()
+  left 0
+  background rgba(white, .98)  
+  text-align center
+  box()
+  padding 20px
+  overflow-x hidden
+  overflow-y auto
+  z-index 99999
+  top -100%
+  trans(.3s)
+  visibility hidden
+  opacity 0
+  /*transform scale(0)*/
+  +below(642px)
+    padding 20px 10px
+  &.open
+    /*transform scale(1)*/    
+    top 0px
+    visibility visible
+    opacity 1 
+  .close
+    width 37px
+    height 37px
+    margin 0 auto 14px
+    border-radius 50%
+    trans(.4s)
+    block()
+    relative()
+    background primaryColor
+    span
+      block()
+      absolute()
+      background none
+      top 16.8px
+      left 8px
+      right 8px
+      height 2px
+      border-radius 0px
+      +below(642px)
+        top 17.6px
+      &:before
+      &:after
+        absolute()
+        block()
+        left 0
+        width 100%
+        height 2px
+        border-radius 6px
+        background-color white
+        content ""
+        transition-duration 0.3s,0.3s
+        transition-delay 0.3s,0s;
+      &:before
+        transition-property top,-webkit-transform
+        transition-property top,transform
+        top 0
+        -webkit-transform rotate(45deg)
+        transform rotate(45deg)
+      &:after
+        transition-property bottom,-webkit-transform
+        transition-property bottom,transform
+        bottom 0
+        -webkit-transform rotate(-45deg)
+        transform rotate(-45deg)
+  h2
+    color primaryColorTitle
+    font(20px)
+    fontb()
+    mayus()
+    padding 12px 0
+    box()
+  
+  .ubicacion
+    width 100%     
+    box()
+    padding 11px 13px
+    margin 0 0 14px
+    .padding
+      padding-left 0.3375em
+      padding-right 0.3375em
+    .ico_ubicacion
+      max-width 430px
+      margin 25px auto 18px
+      relative()
+      block()    
+  
+  //New card
+  .panel_bor
+    background white
+    +below(642px)
+      padding 33px 12px
+  //Form
+  .formBB
+    label
+      color black
+      text-align left
+    .p_r_10,
+    .p_l_10
+      +below(642px)
+        padding 0   
+    input[type="text"],
+    input[type="password"],
+    input[type="date"],
+    input[type="datetime"],
+    input[type="datetime-local"],
+    input[type="month"],
+    input[type="week"],
+    input[type="email"],
+    input[type="number"],
+    input[type="search"],
+    input[type="tel"],
+    input[type="time"],
+    input[type="url"],
+    textarea
+      padding 0 10px 
+    select.medium
+      width 52%
+      vertical-align top
+      display inline-block
+      margin 0 11px 10px 0
+      padding 0px 35px 0px 10px
+      +below(642px)
+        width 34%
+      +below(375px)
+        width 32.9%
+      +below(360px)
+        width 31.2%
+      +below(320px)
+        width 100%
+    input.small
+      width 12%
+      text-align center
+      vertical-align top
+      display inline-block
+      +below(642px)
+        width 17%
+      +below(320px)
+        width 28.3%
+  //Form Adress
+  .addingAdress
+    text-align center
+    font(0px)
+    .symbol
+      background-color transparent
+      color black
+      vertical-align top
+      display inline-block
+      font(14px)
+      padding 0 6px
+      line-height 40px
+  //Form Cards
+  .infoCards
+    block()
+    &:after
+      clear()
+    fieldset.padding
+      +below(642px)
+        padding-left .4375em
+        padding-right .4375em
+    img
+      block()
+      width 48%
+      margin 10px auto    
+      +below(642px)
+        width 75%
+    p
+      font(11px)
+      line-height 16px
+      
+      
+.confir_address
+  border 1px dashed rgba(white, .4)
+  border-radius 10px
+  box()
+  padding 20px 59px 20px
+  margin 0 0 20px
+  &:after
+    clear()  
+  +below(642px)
+    padding 20px 20px 20px
+  .date_dir
+    box()
+    padding 0 0 15px 0
+    border 1px solid rgba(gray, .3)
+    border-radius 5px
+    block()    
+    box()
+    padding 10px
+    &:after
+      clear()
+    p
+      color black
+      fontr()
+      text-align left
+      font-weight bold
+      i
+        background primaryColor
+        width 26px
+        height 26px
+        line-height 26px
+        color white
+        border-radius 50%
+        text-align center
+        font(16px)
+        margin 0 5px 0 0
+  h4
+    block()
+    color white
+    font-weight bold
+    fontr()
+    text-align left
+    margin 0 0 5px
+    letter-spacing 1px
+    font(13px)
+    margin 20px 0 10px
+  .etiqSelects
+    block()
+    relative()
+    text-align center
+    margin 0 0 6px
+    &:after
+      clear()
+    li
+      display inline-block
+      vertical-align middle
+      margin 0 0 3px
+      a
+        block()
+        input[type=radio] 
+          visibility hidden
+          none()
+        label 
+          padding 0
+          margin 0
+          line-height normal
+          text-align center
+          height auto
+          block()
+          box()
+          fontr()
+          font(16px)
+          trans(.4s)
+          border-radius 0px
+          padding 12px 35px 11px
+          margin 0 4px 5px
+          background transparent
+          color primaryColor
+          font-weight bold
+          border 1px solid white
+          relative()
+          &:before
+            none()
+          &:after
+            none()
+          &:hover
+            transform scale(1.01)
+        input[type=radio]:checked + label 
+          background white
+          color primaryColor     
+          &:before
+            -webkit-transform rotate(4deg)
+            transform rotate(4deg)
+            background primaryColor
+  .btnb
+    margin 10px 0 0px
+  
+
+
+
+/*------------------------------------*\
+    $TARJETAS
+\*------------------------------------*/
+.all_card
+  article 
+    label 
+      color black
+      i
+        height 21px
+      h3
+        font(18px)
+        color black
+        +below(642px)
+          font(19px)
+        +below(330px)
+          font(14px)
+        span
+          color black
+          +below(642px)
+            block()
+
+.new_card_bg    
+  .panel_bor
+    background transparent
+    border 2px solid backgroundColorGray
+    h1
+      color primaryColor
+      fontb()
+      font(23px)
+      text-align center
+      block()
+      mayus()
+      relative()
+      margin 0px 0 20px 0
+      +below(642px)
+        font(18px)
+    .formBB 
+      label
+        text-align left
+        block()
+
+
+
+
+
+/*------------------------------------*\
+    $PEDIDOS
+\*------------------------------------*/
+.mask_ped
+  width 100%
+  height 100%
+  fixed()
+  opacity 0
+  visibility hidden
+  z-index -1
+  top 0
+  left 0
+  background rgba(0, 0, 0, .7)
+  trans(.4s)
+  &.open
+    opacity 1
+    visibility visible
+    z-index 7
+
+.list_pedidos
+  fixed()
+  width 365px
+  height 100%
+  trans(.5s)
+  top 0
+  right -400px
+  background rgba(white, .96)
+  opacity 0
+  visibility hidden
+  z-index -1
+  overflow-y auto
+  overflow-x hidden
+  &.open
+    right 0px
+    z-index 8  
+    opacity 1
+    visibility visible
+  .close
+    width 40px
+    height 40px
+    margin 26px auto 36px
+    border-radius 50%
+    trans(.4s)
+    block()
+    relative()
+    background primaryColor url('../images/close.png') center no-repeat
+    &:hover
+      -webkit-transform rotate(190deg)
+  .tittle
+    h1
+       font(26px)
+  ul
+    li
+      background white
+      box()
+      padding 15px 20px
+      &:after
+        clear()
+      h2
+        fontb()
+        color black
+        font(30px)
+        mayus()
+        i
+          inline()
+          margin 0 5px 0 0
+          width 30px
+          height 30px
+          fontb()
+          line-height 37px
+          text-align center
+          background primaryColor 
+          border-radius 50%
+          color white
+          font(16px)
+          font-style normal
+      .price_h
+        color primaryColor
+        fontb()
+        right2()
+        margin 1px 0 2px
+        font(27px)
+    .prod_added
+      block()
+      margin 0 0 10px
+      &:after
+        clear()
+      .item
+        block()
+        font(14px)
+        color #71645b
+        border-bottom 1px dashed rgba(black, .5)
+        block()
+        box()
+        padding 7px 0
+        i
+          color primaryColor
+          font(20px)
+          margin 0 3px 0 0
+          padding 0 9px
+    .dir
+      background #f9f8f8
+      border-radius 10px
+      block()
+      box()
+      relative()
+      padding 5px
+      margin 0 0 10px
+      &:after
+        clear()
+      i
+        absolute()
+        top 0
+        left 0
+        box()
+        padding 10px
+        img
+          height 35px
+      p
+        block()
+        box()
+        line-height 18px
+        padding 4px 0px 0px 47px
+        b
+          block()
+          color black
+
+
+
+/*-------------------Card Users-----------------------*/
+.card_profile
+  padding 24px 20px
+  trans(.4s)
+  background backgroundColorGray
+  +below(400px)
+    padding 19px 20px
+  &:after
+    clear()
+  h2
+    color primaryColorText
+    font(18px)
+    inline()
+    fontb()
+    left2()
+    mayus()
+    padding 0
+    +below(400px)
+      font(17px)
+      padding 2px 0
+  .link
+    font(14px)
+    height auto
+    padding 5px 0 2px
+    text-decoration none
+    +below(642px)
+      padding 5px 0 2px

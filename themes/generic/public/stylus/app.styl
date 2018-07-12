@@ -1,0 +1,114 @@
+/*-----------------------------------------------------------
+* Nombre del proyecto: Template V2.0
+* Nombre del archivo:  app.styl
+* Descripción: Style all site
+* Fecha de creación: 12 de Enero del 2018
+* Autor: william Villaba
+* Correo: willimavillalba13@gmail.com
+
+------------------------------------------------------------*/
+
+/*--------------------COMENTARIOS-----------------------------
+* Ancho: 1080px
+* Parallax: No
+* Responsivo: Si
+-------------------------------------------------------------*/
+
+/**
+ * CONTENIDO...........Lo está leyendo!!
+ * MAGNIFIC-POPUP......Estilos pop-ups
+ * FOUNDATION..........Estilos grilla
+ * RESET...............Establece los valores iniciales
+ * FONT-FACE...........Importamos fuentes de iconos y font-face
+ * NIB.................Mixins para stylus
+ * VARIABLES...........Colores que se van a utilizar en la página
+ * MIXINS..............Funciones globales que se van a utilizar en stylus
+ * CLASES GLOBALES.....Clases que se van a utilizar en el html
+ * POP-UPS.............Estilos para los pop-ups
+ * Body y Container....Estilos body y base de la página
+ * Loader..............Estilos loading de la página
+ * Header..............Estilos encabezado de la página
+ * Internas............Estilos internas
+ * Footer..............Estilos pie de página
+*/
+
+
+/*----------------------------------*\
+    $PLUGINS
+\*----------------------------------*/
+@import url("plugins.min.css")
+
+
+/*------------------------------------*\
+    $RESET
+\*------------------------------------*/
+@import 'core/reset.styl'
+
+
+
+/*----------------------------------*\
+    $FONT-ICONS
+\*----------------------------------*/
+@import 'core/fonts.styl'
+
+
+
+/*------------------------------------*\
+    $NIB & JEET
+\*------------------------------------*/
+@import "nib"
+@import 'jeet'
+
+
+
+/*------------------------------------*\
+    $VARIABLES AND COLORS
+\*------------------------------------*/
+@import 'core/colors.styl'
+vendor-prefixes = webkit o ms moz official
+
+
+
+/*----------------------------------*\
+    $MIXINS
+\*----------------------------------*/
+@import 'core/mixins.styl'
+
+
+
+/*----------------------------------*\
+    $CLASES GLOBALES
+\*----------------------------------*/
+@import 'core/global_classes.styl'
+
+
+
+/*------------------------------------*\
+    $VIEWS
+\*------------------------------------*/
+@import "header.styl"
+@import "home.styl"
+@import "login.styl"
+@import "profile.styl"
+@import "product.styl"
+@import "detail_products.styl"
+@import "cart.styl"
+@import "bill.styl"
+@import "pedido.styl"
+@import "confirmar_pedido.styl"
+@import "order_confirmation.styl"
+@import "cobertura.styl"
+@import "nosotros.styl"
+@import "contact.styl"
+@import "blog.styl"
+@import "pages.styl"
+@import "error.styl"
+@import "footer.styl"
+
+
+
+/*------------------------------------*\
+    $COMPLEMENTS
+\*------------------------------------*/
+@import "core/form_elements.styl"
+@import "core/complements.styl"

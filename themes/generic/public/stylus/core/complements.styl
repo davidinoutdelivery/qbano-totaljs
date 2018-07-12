@@ -1,0 +1,459 @@
+/*------------------------------------*\
+    $COMPLEMENTS
+\*------------------------------------*/
+  
+/*Tablas responsives*/
+table
+  width 100%
+  +below(642px)
+    width auto
+.table_responsive
+  width 100%
+  overflow-x auto
+  relative()
+  block()
+
+
+/*Alerta Carrito*/
+.alert_carrito
+  fixed()
+  top 55px
+  right 15px
+  z-index 99
+  box()
+  padding 10px 15px
+  background primaryColor
+  color primaryColor
+  fontb()
+  font(20px)
+  mayus()
+  border-radius 5px
+  transform translateX(370px)
+  trans(.4s)
+  &.open
+    transform translateX(0px)
+  i
+    margin 0 5px 0 0
+    border 2px solid primaryColor
+    border-radius 50%
+    vertical-align middle
+    width 25px
+    height 25px
+    line-height 25px
+    text-align center
+    font(15px)
+  +below(370px)
+    left 0
+    right 0
+    margin auto
+    font(14px)
+
+body
+  .dirModal
+    input[type="text"]
+      margin 0 0 5px
+    .modales
+      margin 0 0 25px 0
+      block()
+      text-align right
+      &:after
+        clear()
+
+.error
+  p
+    color #ff0000
+    font-size 16px
+    margin 10px 0 24px 0px
+
+
+
+
+/*-- MODAL --*/
+.modal_pop
+  relative()
+  background white
+  background-size 100% 100%
+  box()
+  padding 0px
+  width auto
+  max-width 610px
+  margin 12px auto
+  none()
+  opacity 0
+  border-radius 10px
+  .header_modal
+    block()
+    background #f7a200
+    box()
+    padding 22px 20px
+    text-align center
+    border-radius 10px 10px 0 0
+    &:after
+      clear()
+    .logo
+    h4
+      inline()
+    .logo
+      margin 0 33px 
+      img
+        height 60px
+    h4
+      color white
+      fontbs()
+      font(18px)
+      max-width 215px 
+      text-align left
+  .headModal
+    block()
+    text-align center
+    fontb()
+    font(18px)
+    mayus()
+    box()
+    // padding 16px 10px
+    color primaryColorTitle
+    // border-bottom 1px solid rgba(grayBorder, .2)
+    &:after
+      clear()
+    > h3
+      block()
+      box()
+      padding 16px 10px
+      border-bottom 1px solid rgba(grayBorder, .2)
+  .cont_modal
+    width 100%
+    min-height 10px
+    over()
+    block()
+    box()
+    padding 20px
+    &:after
+      clear()
+  .mfp-close
+  // font(24px)
+    opacity 1
+    width 32px
+    height 32px
+    line-height 32px
+    font(15px)
+    border-radius 100%
+    padding 0
+    absolute()
+    right -16px
+    top -19px
+    text-align center
+    color white
+    cursor pointer
+    block()
+    trans(.3s)
+    margin 4px
+    z-index 4
+    font-family 'themify'
+    background primaryColor
+    +below(642px)
+      top 6px
+      right 2px
+    &:hover,
+    &:focus
+      animation-name hvr-push
+      animation-duration .3s
+      animation-timing-function linear
+      animation-iteration-count 1
+
+.mfp-content
+  .modal_pop
+    opacity 1
+    display block
+
+.modal_large
+  max-width 880px
+
+.modal_medium
+  max-width 570px
+
+.modal_small
+  max-width 490px
+
+
+
+
+/*Alerts Site*/
+body
+//Style One
+  .ns-effect-slidetop
+    background green
+    &.ns-type-success
+      background successColor
+    &.ns-type-error
+      background errorColor
+    &.ns-type-warning
+      background warningColor
+    &.ns-type-notice
+      background noticeColor
+    .icon
+      font(1.5rem)
+      top 49%
+      left 15px
+    p
+      color white
+      fontr()
+      +below(642px)
+        font(1em)
+        text-align center
+    .ns-close
+      &::before,
+      &::after
+        background white
+      &:hover
+        &::before,
+        &::after
+          background white
+  .ns-box
+    &.alertError
+      background red
+    &.alertNice
+      background #46bf0f
+    a
+      color white
+//Style Two
+  .ns-effect-bouncyflip
+    background green
+    p
+      color white
+      fontr()
+    .icon
+      absolute()
+      top 0
+      bottom 0
+      height 42px
+      margin auto
+      left 0.4em
+      color white
+      font-size 2.5rem
+      opacity .8
+    .ns-close
+      absolute()
+      &::before,
+      &::after
+        background white
+      &:hover
+        &::before,
+        &::after
+          background white
+//Close
+  .ns-bar
+    .ns-close
+      +below(642px)
+        top 16px
+        right 4px
+
+
+
+
+/*Alert static*/
+.alertStatic
+  visibility hidden
+  transition visibility 0s linear 1s height 1s
+  height 0
+  .wrapper_l
+    max-width 1150px
+    p
+      margin 0
+body.alertBgStatic
+  header
+    box()
+    padding 60px 0 0
+    +below(642px)
+      padding 138px 0 0
+  .bg_slider
+    padding 60px 0 0
+    +below(642px)
+      padding 138px 0 0
+  .intern
+    padding 138px 0 60px
+    +below(642px)
+      padding 194px 0 60px
+  .alertStatic
+    width 100%
+    margin 0
+    background green
+    block()
+    fixed()
+    top 0
+    left 0
+    z-index 999999
+    visibility visible
+    -webkit-transition-delay 0s
+    transition-delay 0s
+    height auto
+    &:after
+      clear()
+    .txt
+      block()
+      text-align center
+      box()
+      &:after
+        clear()
+      +below(642px)
+        padding  0 29px 26px
+      p
+        margin 0 14px
+        color white
+        fontb2()
+        font(15px)
+        text-align center
+        inline()
+        box()
+        padding 20px 0
+        letter-spacing .6px
+      .btn
+        border 2px solid white
+        box()
+        padding 6px 13px
+        border-radius 3px
+        background transparent
+        trans(.4s)
+        text-align center
+        color white
+        fontr()
+        font(14px)
+        inline()
+        &:hover
+          background rgba(white, .07)
+    a.closeAlert
+      absolute()
+      right 0
+      height 100%
+      top 0
+      flex()
+      padding 0 3px
+      color white
+      +below(642px)
+        height 30px
+        padding 0 6px
+      svg
+        block()
+        height 12px
+        width 12px
+  #create_address
+    padding 255px 0 50px
+    +below(642px)
+      padding 190px 0 50px
+  .modal_pop
+    #create_address
+      padding 20px 0 20px
+      +below(642px)
+        padding 20px 0 20px
+
+
+
+/*Page Error*/
+.alertPage
+  block()
+  margin 0 auto
+  max-width 100%
+  text-align center
+  box()
+  padding 20px
+  border 1px dashed primaryColorTitle
+  border-radius 5px
+  margin 18px auto 11px
+  &:after
+    clear()
+  +below(642px)
+    width 98%
+  i
+    font(46px)
+    color primaryColorTitle
+  h2
+    block()
+    margin 10px 0 0
+    fontr()
+    font(16px)
+    color primaryColorTitle
+  a
+    color primaryColor
+    &.btnA
+      color white
+
+
+
+/*---Calendar Datepicker---*/
+body
+  /*Picker*/
+  table tr td, 
+  table tr th
+    font(13px)
+  .picker__weekday
+    font(.8rem)
+  .picker__select--month, 
+  .picker__select--year
+      -webkit-appearance menulist
+      -moz-appearance menulist
+      -webkit-appearance menulist
+      -moz-appearance menulist
+      appearance menulist
+      border 1px solid #dedede
+  .picker__date-display
+    background primaryColor
+  .picker__weekday-display
+    background #e16b17
+  .picker__nav--prev:hover, 
+  .picker__nav--next:hover
+    color primaryColor
+  .picker--focused .picker__day--highlighted
+    background primaryColor
+  .picker--focused .picker__day--highlighted
+    background primaryColor
+  .picker__day--selected, 
+  .picker__day--selected:hover, 
+  .picker--focused .picker__day--selected
+    background primaryColor
+  .picker__day--disabled, 
+  .picker__day--disabled:hover, 
+  .picker--focused .picker__day--disabled
+    padding .76rem 0
+  .picker__day--outfocus:hover
+    color white
+  /*Timer*/
+  .picker__list-item--selected, 
+  .picker__list-item--selected:hover, 
+  .picker--focused .picker__list-item--selected
+    background primaryColor
+    border-color primaryColor
+  .picker__list-item:hover
+    background primaryColor
+    border-color primaryColor
+    color white
+  .picker--focused .picker__list-item--highlighted, 
+  .picker__list-item--highlighted:hover, 
+  .picker__list-item:hover
+    background primaryColor
+    border-color primaryColor
+    color white
+  .picker__wrap
+    margin 30px auto
+    
+
+
+
+/*--------------Buttons disables and load -------------*/
+.disable-btn,
+.disable-btn *
+  cursor wait !important
+.spin-load-img
+  margin-bottom -21px !important
+  display inherit !important
+.spin-load-select
+  display: inline-block !important;
+  position: absolute !important;
+  top: 20px !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -10px !important;
+.img-opacity-middle
+  opacity 0.5 !important
+.img-opacity-high
+  opacity 0.8 !important
+.element-opacity-middle :not(.spin-load)
+  opacity 0.7 !important

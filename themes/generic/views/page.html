@@ -1,0 +1,47 @@
+@{json(model.configuration, 'configuration')}
+<section class="content_all intern intern_page" id="content_dynamic_page">
+
+    @{component('header_qbano')}
+
+    @{if model.page_data.showGallery === true}
+        @{if model.page_data.gallery.length > 0}
+            <section class="bg_slider">
+                <!--Slider-->
+                <ul class="carrusel_slider sliderHome owl-carousel owl-theme">
+                    @{foreach img_gallery in model.page_data.gallery}
+                    <li class="item">
+                        <div class="imgslide" style="background-image: url('@{img_gallery.url}')"></div>
+                        <img src="@{img_gallery.url}" alt="@{model.page_data.name}"/>
+                    </li>
+                    @{end}
+                </ul>
+                <!--Fin Slider-->
+            </section>
+        @{fi}
+    @{fi}
+
+    <section class="wrapper_m  animated fadeIn">
+        @{section('content')}
+    </section>
+</section>
+<style>
+    #content_dynamic_page .wrapper_m.detailBlog {
+        margin-top: 65px;
+        margin-bottom: 65px;
+    }
+</style>
+<script>
+    setTimeout(function () {
+        $('.sliderHome').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            items: 1,
+            animateOut: 'fadeOut',
+            autoplay: true,
+            autoplayTimeout: 5000,
+            smartSpeed: 450
+        });
+    }, 70);
+</script>
+@{component('footer_qbano')}

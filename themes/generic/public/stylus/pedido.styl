@@ -1,0 +1,341 @@
+/*------------------------------------*\
+    $PEDIDO
+\*------------------------------------*/
+.list_pedidos_fijos
+  relative()
+  block()
+  trans(.5s)
+  padding 0px
+  box()
+  &:after
+    clear()
+  +below(642px)
+    padding 0 10px
+  ul
+    li:first-child
+      border-top 1px solid backgroundColorGray
+    li
+      box()
+      padding 20px 0px      
+      border-bottom 1px solid backgroundColorGray
+      text-align left
+      relative()
+      color black
+      &:after
+        clear()
+      +below(642px)
+        padding 15px 0px
+      h2
+        margin 0 0 5px
+        color primaryColorTitle
+        font(18px)
+        fontb()
+        mayus()
+        +below(642px)
+          font(17px)
+      p
+        b
+          block()
+      .link
+        font(13px)
+        color rgba(black, .6)
+      i
+        absolute()
+        right 0
+        top 0 
+        bottom 0
+        margin auto
+        color black
+        height 20px
+        font(20px)
+
+
+
+/*Datos Checkout*/
+.bg_total
+  background transparent
+  border-top none
+  relative()
+  box()
+  padding 0px
+  block()
+  &:after
+    clear()  
+  .total
+    block()
+    color primaryColorText
+    block()
+    box()
+    padding 0 0
+    margin 10px 0
+    &:after
+      clear()  
+    article:nth-child(2)
+      border none
+    article
+      block()
+      box()
+      padding 0px
+      &:after
+        clear()    
+      div        
+        left2() 
+        font(16px)
+        fontr()
+        box() 
+        mayus()     
+        padding 3px 4px
+        &.col1
+          width 70%
+          text-align left
+          line-height 21px
+          fontb()
+        &.col2
+          width 30%
+          line-height 26px
+          text-align right
+      b
+        block()
+        font(17px)        
+        margin 0 0 7px
+      strong
+        fontb()
+        block()
+        relative()
+        font(25px)
+        color primaryColorText
+        +below(642px)
+          font(16px)
+        &.all
+          color primaryColorText
+        &.min
+          font(17px)
+      &.domic
+        div
+          fontr()
+          &.col1
+            text-transform inherit
+            font(17px)
+          &.col2
+            strong.min
+              fontr()
+              font(17px)
+    .totalall
+      background primaryColorText
+      box()
+      padding 2px 8px
+      margin 10px 0 0
+      block()
+      div
+        font(26px)
+        fontb()
+        box()
+        color white
+        padding 6px 4px
+      div.col1
+        color white
+        line-height inherit
+        +below(642px)
+          width 50%
+        b
+          margin 0
+          letter-spacing 1px
+      div.col2
+        color white
+        line-height inherit
+        +below(642px)
+          width 50%
+        strong.all
+          color white
+          font(17px)
+    //Light style
+    &.list_light
+      article 
+        padding 0
+        .clear
+          block()
+          padding 0
+          margin 0
+        > a.openDetail
+          color primaryColorText
+          block()
+          box()
+          padding 2px 0
+          &:after
+            clear()
+          &.open
+            div.col1
+              h2
+                i:before
+                  content "\f0d8"
+        strong
+          font(15px)
+          fontr()
+          font-weight bold
+          i
+            inline()
+            margin-right 4px
+            margin-top -3px
+            trans(.3s)
+        div
+          font(11px)
+          text-transform capitalize
+        div.col1
+          fontr()
+        div.col2
+          font-weight bold
+          font(15px)
+          line-height 21px
+        b
+          fontr()
+          font(14px)
+          letter-spacing 1px
+          font-weight 100
+        //Adicionals
+        .bgAditionals
+          none()
+          background #f1f1f1
+          margin 0 0 10px
+          &:after
+            clear()
+          .columns
+            box()
+            padding 11px 13px 
+          .adition_list
+            h3
+              mayus()
+              font(12px)
+              block()
+              fontr()
+              font-weight bold
+              margin 0 0 4px
+      .totalall
+        background transparent
+        border-top 1px solid black
+        box()
+        padding 8px 0 0px 0        
+        div
+          font(14px)
+          fontr()
+          color primaryColorText
+          &.col1
+            color primaryColorText
+            b
+              font-weight 100
+          &.col2
+            font-weight bold
+            padding 3px 4px
+            strong.all
+              font-weight bold
+              color primaryColorText
+              font(15px)
+              fontr()
+        //Cupon
+        &.cupon
+          border-top 1px solid graybor
+  .bg_blan
+    background white
+    padding 0  42px !important
+         
+body
+  .comment
+    block()
+    margin 5px 0 13px
+    background white
+    box()
+    padding 5px 0
+    textarea
+      border none
+      box()
+      padding 12px
+      block()
+      fontr()
+      font(14px)
+      width 100%
+      height 110px
+      color primaryColor
+      border 1px solid black
+      transition all 0.2s ease-out
+      -webkit-appearance none
+      border-radius 0px
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder 
+      color rgba(black, .55)
+          
+    input:-moz-placeholder,
+    textarea:-moz-placeholder 
+      color rgba(black, .55)
+          
+    input::-moz-placeholder,
+    textarea::-moz-placeholder 
+      color rgba(black, .55)
+          
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder 
+      color rgba(black, .55)
+
+
+/*--------------Calificacion---------------*/
+.calfication
+  block()
+  box()
+  padding 22px 0 0
+  margin 0px 
+  relative()
+  &:after
+    clear()
+  span
+    font(43px)
+    cursor pointer 
+    color #888   
+    trans(.3s)
+    &:hover
+      &:before
+      &:after
+        transform translateY(-6px)
+        color primaryColor
+    &.active,
+    &.hover
+      &:before
+        content "\f005"
+      &:before
+      &:after
+        transform scale(1.04)
+        color primaryColor
+        font(50px)
+    &:before
+    &:after
+      trans(.3s)
+      font(45px)
+      margin 0 6px 5px   
+      
+body
+  #modalrate
+    p.name
+      font-weight bold
+    .formBB
+      margin 20px 0 0
+      textarea
+        border 1px solid black
+        &:hover
+        &:focus
+          box-sadow none
+    
+
+
+
+
+/*--------------Etiquetas---------------*/
+.etiq_estado
+  .btnA,
+  .btnC
+    font(13px)
+    padding 0px 18px
+    line-height 39px
+    height 39px
+    b
+      margin 0 0 0 5px
+      inline()
+    &:hover
+      animation-name inherit
+      

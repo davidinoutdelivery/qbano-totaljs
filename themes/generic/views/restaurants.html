@@ -1,0 +1,59 @@
+<!--Content_all-->
+<section class="content_all intern">
+    @{component('header_qbano')}
+    <!-- Mapa Destinos -->
+    <section class="wrapper_l padding">
+        <div class="titulo padd_header_int">
+            <h1>ZONA DE COBERTURA</h1>
+        </div>
+        <span id="google_maps"></span>
+
+        <!-- Mapa Destinos -->
+        <section class="map_h clearbox">
+            <!--Maps-->
+            <div class="bg_map">
+                <div class="searchMap formBB">
+                    <div class="relative">
+                        <input id="address" type="text" placeholder="Escribe tu ciudad">
+                        <button type="submit"><i class="fa fa-map-marker"></i></button>
+                    </div>
+                </div>
+                <div id="map"></div>
+            </div>
+            <!--Fin Maps-->
+        </section>
+        <!--Fin Mapa Destinos -->
+
+        <section class="wrapper_m bg_restaurant wow fadeIn">
+            <div class="txt_center p_b_30 block" v-if="status">
+                <h1>RESULTADOS PARA {{city}}</h1>
+                <p>{{result}} resultados encontrados</p>
+            </div>
+            <div class="txt_center p_b_30 block" v-else>
+                <h1>UBICA NUESTROS RESTAURANTES</h1>
+            </div>
+            <ul class="list_restaurant">
+                <li class="small-12 medium-6 large-6 columns padding" v-for="point in pointsale"
+                    href="javascript:void(0)"
+                    v-on:click="marker(point.marker)">
+                    <div class="panel_rest">
+                        <div class="num">{{point.label}}</div>
+                        <div class="txt">
+                            <h2>{{point.name}}</h2>
+                            <p>{{point.city}}</p>
+                            <p>{{point.address}}</p>
+                            <p>Teléfono: {{point.phone}}</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <div class="clear"></div>
+
+    </section>
+
+
+</section>
+@{component('footer_qbano')}
+@{version('restaurants.js')}

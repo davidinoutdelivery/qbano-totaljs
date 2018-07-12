@@ -1,0 +1,123 @@
+/*------------------------------------*\
+    $FOOTER
+\*------------------------------------*/
+footer
+  relative()
+  width 100%
+  margin 0
+  box()
+  block()
+  padding 30px 0 23px
+  box()
+  text-align center
+  background backgroundColorGray url('../images/bg_footer.jpg') center no-repeat
+  background-size cover
+  &:after
+    clear()
+  .prod1F 
+    width 485px
+    height 580px
+    background url('../images/bg_prod1.png') center no-repeat
+    background-size 100% 100%
+    absolute()
+    right -5px
+    bottom -5px
+    +below(1500px)
+      right -180px
+    +below(800px)
+      right -120px
+      width 275px
+      height 325px
+    +below(642px)
+      none()
+  .prod2F 
+    width 445px
+    height 290px
+    background url('../images/bg_prod2.png') center no-repeat
+    background-size 100% 100%
+    absolute()
+    left -5px
+    bottom -5px
+    +below(1500px)
+      left -165px
+    +below(800px)
+      left -280px
+      width 445px
+      height 245px
+    +below(642px)
+      none()
+  p
+    color colorTextFooter
+    font(15px)
+    trans(.4s) 
+    fontr()
+    margin 0 0 10px    
+    strong
+      fontb()
+    a
+      color colorTextFooter
+      trans(.4s) 
+      minus()
+      &:hover
+        sub()
+        color colorTextFooter
+  .redes
+    block()
+    relative()
+    text-align center
+    &:after
+      clear()
+    +below(642px)
+      margin 0 0 46px
+    &:before
+      width 51px
+      height 1px
+      background colorTextFooter
+      content ''
+      absolute()
+      left 0
+      right 0
+      margin auto
+      bottom -20px
+      +below(642px)
+        bottom -25px
+    h4
+      color colorTextFooter
+      font(16px)
+      trans(.4s) 
+      fontr()
+      block()
+      margin 0 0 20px
+    a
+      inline()
+      width 34px
+      height 34px
+      line-height 34px
+      border-radius 5px
+      background colorTextFooter
+      color #f3e8e0
+      font(20px)
+      text-align center
+      margin 0 10px
+      trans(.4s)
+      cursor pointer      
+      +below(642px)
+        line-height 38px 
+        font(16px)
+      &:hover
+        transform translateY(-3px)
+      
+.credi
+  block()
+  relative()
+  margin 0px
+  block()
+  padding 15px 0
+  background grisbg
+  text-align center
+  &:after
+    clear()
+  p
+    margin 0
+    font(13px)
+    

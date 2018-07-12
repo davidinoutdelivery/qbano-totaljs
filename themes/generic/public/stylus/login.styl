@@ -1,0 +1,167 @@
+/*------------------------------------*\
+    $LOGIN
+\*------------------------------------*/
+.bg_login_user
+  .wrapper_m
+    max-width 900px
+
+.bg_login
+  padding 25px 15px 50px
+  box()
+  &:after
+    clear()
+  .panel
+    /*background #eaeaea*/
+    block()
+    box()
+    padding 13px
+    &:after
+      clear()
+    +below(642px)
+      padding 12px 10px
+    .formBB
+      .termBg
+        text-align center
+        label
+          inline()
+          +below(380px)
+            font(12px)
+      .btnA
+        background redColor
+        font(16px)
+      label
+        text-align left
+        block()
+        a
+          sub()
+  .logo
+    block()
+    img
+      margin 10px auto 35px
+      block()
+      height 150px
+  h2
+  h1
+    color black
+    fontb()
+    font(24px)
+    text-align center
+    block()
+    mayus()
+    relative()
+    margin 25px 0 25px 0
+  .line
+    border-left 1px solid rgba(gray, .25)
+    +below(642px)
+      border-left none
+  .p_r_50,
+  .p_l_50
+    +below(642px)
+      padding 0
+  .link
+    color primaryColorText
+    text-align center
+    block()
+    font(14px)
+    margin 26px 0 20px
+    text-decoration none
+    trans(.3s)
+    span
+      fontb()
+    &.link_recovery
+      color primaryColorText
+      margin 3px 0 20px
+      text-align center
+    &:hover
+      sub()
+    
+.social_login
+  block()
+  width 100%
+  &:after
+    clear()
+  .btn_login
+    padding 0px 20px 0px 20px
+    background-color #003fb2
+    border none
+    border-radius 500px
+    color white
+    mayus()
+    fontb()
+    font(16px)
+    block()
+    relative()
+    margin 0 0 13px
+    trans(.3s)
+    height 43px
+    line-height 44px
+    +below(642px)
+      line-height 46px
+      padding 0px 15px 0px 15px
+      font(15px)
+  //Plug Facebook
+  iframe
+    width 100% !important
+    
+
+//Captcha
+body 
+  .g-recaptcha
+    > div
+      margin 8px auto
+  #rc-imageselect, 
+  .g-recaptcha 
+    +below(375px)
+      transform scale(.99)
+      -webkit-transform scale(.99)
+      transform-origin 0 0
+      -webkit-transform-origin 0 0
+    +below(360px)
+      transform scale(.94)
+      -webkit-transform scale(.94)
+    +below(320px)
+      transform scale(.82)
+      -webkit-transform scale(.82)
+
+
+      
+
+/*------Recuperar Contraseña-----------------*/
+.content_pass
+  .imgLogin
+    width 65px
+    height 65px
+    line-height 65px
+    border-radius 50%
+    background primaryColor
+    color white
+    text-align center
+    block()
+    font(35px)
+    margin 0 auto 10px
+    
+//Pass Recovery
+.form_ok_pass
+  none()
+  text-align center
+  p
+    font-weight bold
+    block()
+    margin 0 0 30px
+    span
+      color black
+      sub()
+
+.form_pass  
+  fieldset.relative
+    span
+      none()
+      color red
+      margin -6px 0 8px
+      text-align center
+      font(13px)
+    &.error
+      input
+        border 2px solid red
+      span
+        block()

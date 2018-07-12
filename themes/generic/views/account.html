@@ -1,0 +1,52 @@
+<!--Content_all-->
+<section class="content_all intern" >
+    @{component('header_qbano')}
+    <!--Cont Login-->
+    <section class="wrapper_m" id="account_app">
+        <div class="titulo padd_header_int">
+            <div class="wrapper_l">
+                <h1>MI CUENTA</h1>
+                <h4 v-if="user_data">
+                    ({{user_data.email}})
+                </h4>
+            </div>
+        </div>
+        <div class="bg_user_section txt_center">
+            <article class="small-12 medium-6 large-6 inline m_b_20">
+                <a href="/profile">
+                    <section class="panel_bor card_profile m_b_20">
+                      <h2>Mi perfil</h2>
+                      <span class="link right"><i class="ti-angle-right"></i></span>
+                    </section>
+                </a>
+                <a :href="address">
+                    <section class="panel_bor card_profile m_b_20">
+                      <h2>Mis direcciones</h2>
+                      <span class="link right"><i class="ti-angle-right"></i></span>
+                    </section>
+                </a>
+              <!--  <a href="mis_tarjetas.php">
+                    <section class="panel_bor card_profile m_b_20">
+                      <h2>Mis tarjetas</h2>
+                      <span class="link right"><i class="ti-angle-right"></i></span>
+                    </section>
+                </a>-->
+                <a :href="orders">
+                    <section class="panel_bor card_profile m_b_20">
+                      <h2>Mis pedidos</h2>
+                      <span class="link right"><i class="ti-angle-right"></i></span>
+                    </section>
+                </a>
+                <div class="centerBtn txt_center">
+                    <a v-on:click.prevent="logout()" href="#" class="btnC" id="btn_logout">Cerrar Sesión</a>
+                    <div class="clear"></div>
+                    <!--<a href="/home" class="link p_t_30 block">Eliminar cuenta</a>-->
+                </div>
+            </article>
+            <div class="clear"></div>
+        </div>
+    </section>
+    <!--Fin Cont Login-->
+</section>
+@{component('footer_qbano')}
+@{version('account.js')}

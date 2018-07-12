@@ -1,0 +1,119 @@
+<!--Content_all-->
+<section class="content_all intern">
+
+    @{component('header_qbano')}
+
+    <div class="titulo padd_header_int">
+        <div class="wrapper_l padding">
+            <h1>Ingresar</h1>
+        </div>
+    </div>
+
+    <!--Cont Login-->
+    <section class="wrapper_m p_t_20 p_b_10" id="login">
+        <section class="bg_login padding txt_center">
+            <article class="small-12 medium-12 large-6 inline">
+                <div class="logo">
+                    <img src="generic/images/logo.png">
+                </div>
+                <div class="panel">
+                    <section class="formBB form_login_user" id="form_login_user">
+                        <form v-on:submit.prevent="loginEmail" class="form_login">
+                            <section class="social_login">
+                                <a href="javascript:void(0)" v-on:click="facebook" class="btn_login face" id="btn_facebook">
+                                    <span>Ingresar con Facebook</span>
+                                </a>
+                            </section>
+                            <div class="clear"></div>
+                            <section class="bg_login_Open p_t_10">
+                                <fieldset class="relative">
+                                    <label>Correo electrónico</label>
+                                    <input v-model="email" type="email" name="Login[email]">
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Contraseña</label>
+                                    <input v-model="password" type="password" name="Login[password]">
+                                </fieldset>
+                                <a href="#recovery_password" class="link link_recovery block modales"
+                                   data-effect="mfp-zoom-in">¿Olvidaste tu contraseña?</a>
+                                <div class="line_form"></div>
+                                <div class="txt_center">
+                                    <button type="submit" name="btnLogin" class="btnA block">INGRESAR</button>
+                                </div>
+                            </section>
+                            <a  v-on:click="redirect" href="javascript:void(0)" class="link link_new_acount">No tienes una cuenta?
+                                <span> Registrate</span></a>
+                        </form>
+                    </section>
+
+                </div>
+            </article>
+            <div class="clear"></div>
+        </section>
+        <div class="clear"></div>
+    </section>
+    <!--Fin Cont Login-->
+
+</section>
+<!--Fin Content_all-->
+
+<!--modal de recuperacion contraseña -->
+<section id="recovery_password" class="modal_pop modal_small mfp-with-anim content_pass">
+    <div class="headModal">
+        <!-- <h3>Olvide mi contraseña</h3> -->
+        <a title="Close (Esc)" class="mfp-close ti-close"></a>
+    </div>
+
+    <section class="cont_modal">
+        <div class="panel">
+            <section class="formBB form_pass" id="form_pass">
+                <i class="ti-lock imgLogin animated bounceIn"></i>
+                <form v-on:submit.prevent="onSubmit" class="animated fadeIn" data-wow-delay="0.2s">
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <fieldset class="relative">
+                            <label class="block txt_center">Ingresa tu correo electronico</label>
+                            <input v-model="email" type="email" name="email" required>
+                            <span style="display: none">Tu correo no se encuentra registrado</span>
+                        </fieldset>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <button type="submit" class="btnA">RECUPERAR CONTRASEÑA
+                            </button>
+                        </div>
+                    </section>
+                </form>
+            </section>
+
+            <section class="formBB form_ok_pass">
+                <i class="ti-check imgLogin animated bounceIn"></i>
+                <form class="animated fadeIn" data-wow-delay="0.2s">
+                    <div class="clear"></div>
+                    <section class="bg_register_Open p_t_10">
+                        <p>Hemos enviado un correo a <span>{{email}}</span> para que puedas recuperar tu contraseña</p>
+                        <div class="clear"></div>
+                        <div class="txt_center m_t_10">
+                            <a href="javascript:void(0)" class="btnA close_register">VOLVER A INGRESAR</a>
+                        </div>
+                    </section>
+                </form>
+            </section>
+
+        </div>
+    </section>
+    <div class="clear"></div>
+</section>
+<!--modal de recuperacion contraseña -->
+
+@{component('footer_qbano')}
+<script>
+    $(document).ready(function () {
+        /** Analytics **/
+        var params = {};
+        params[Properties.CONTENT_NAME] = "login";
+        Analytics.track(EVENTS.VIEW_CONTENT, params);
+        /** **/
+    });
+</script>
+@{version('register.js')}
+@{version('login.js')}

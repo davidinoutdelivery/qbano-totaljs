@@ -1,0 +1,674 @@
+/*------------------------------------*\
+    $GLOBAL CLASS
+\*------------------------------------*/
+html,
+body
+  &.open
+    overflow hidden
+    
+body
+  .hide
+    display none !important
+  .block
+    block()
+
+.inline
+  display inline-block
+  vertical-align middle
+
+.inline-block
+  display inline-block !important
+
+.space
+  width 100%
+  block()
+  relative()
+  height 35px
+  &:after,
+  &:before
+    clear both
+    content ''
+    block()
+
+body .txt_center
+  text-align center
+
+body .txt_left
+  text-align left
+
+body .txt_right
+  text-align right
+
+body .txt_uppercase
+  text-transform uppercase
+
+.left
+  float left
+
+.right
+  float right
+
+.clear
+  clear both
+
+.btnA
+  box()
+  padding 0px 30px
+  text-align center
+  display inline-block
+  color colorTextButtonPrimary
+  font(15px)
+  fontr()
+  background primaryColor
+  border none
+  trans(.4s)
+  height 42px
+  line-height 42px
+  border-radius 500px
+  &:hover,
+  &:focus
+    animation-name hvr-push
+    animation-duration .3s
+    animation-timing-function linear
+    animation-iteration-count 1  
+  > i
+    margin 0 5px 0 0
+    inline()
+  &.block
+    block()
+    width 100%
+  &.border
+    background transparent
+    border 2px solid primaryColor
+    color primaryColor
+    line-height 39px
+    padding 0px 30px
+  &.size2
+    font(16px)
+  +below(642px)
+    padding 0px 20px
+    height 42px
+    line-height 44px
+    
+
+.btnC
+  box()
+  padding 0px 30px
+  text-align center
+  display inline-block
+  color colorTextButtonSecundary
+  font(15px)
+  fontr()
+  background secudaryColor
+  border none
+  trans(.4s)
+  height 42px
+  line-height 42px
+  border-radius 500px
+  &:hover,
+  &:focus
+    animation-name hvr-push
+    animation-duration .3s
+    animation-timing-function linear
+    animation-iteration-count 1
+  &.block
+    block()
+    width 100%
+  &.border
+    background transparent
+    border 1px solid secudaryColor
+    color secudaryColor
+    padding 0px 30px
+  +below(642px)
+    padding 0px 20px
+    height 42px
+    line-height 44px
+
+
+body
+  a,
+  a.btnA,
+  a.btnC
+    &.available
+      background #a3a3a3
+      -webkit-filter grayscale(85%) 
+      filter rayscale(85%)
+      opacity .5
+      &:hover
+        cursor default
+        animation-name inherit
+
+
+.linea2
+  width 100%
+  block()
+  height 2px
+  background url('../images/linea.png') center no-repeat
+  margin 35px 0 50px
+  box()
+  padding 0 15px
+  &:after
+  &:before
+    clear both
+
+.lineap
+  width 100%
+  block()
+  relative()
+  border-bottom 1px solid rgba(142, 142, 142, 0.2)
+  margin 10px 0
+  box()
+  &:after
+  &:before
+    clear both
+    content ''
+    block()
+  &.primaryColor
+    border-bottom 2px dashed primaryColor
+
+
+.relative
+  position relative
+
+body .sin_margin
+  margin-top 0px !important
+  margin-bottom 0px !important
+  margin-right 0px !important
+  margin-left 0px !important
+
+body .sin_padd
+  padding-top 0px !important
+  padding-bottom 0px !important
+  padding-right 0px !important
+  padding-left 0px !important
+
+.padding
+  padding-left 0.9375em
+  padding-right 0.9375em
+
+.paddInt
+  padding 0.9375em
+
+.padd_all
+  padding 1.9375em 2.5375em
+
+.box
+  box()
+
+.wrapper_l
+  width 96%
+  max-width 1150px
+  centrar()
+  box()
+  relative()
+  // padding 0 0.9375em
+  +below(642px)
+    width 92%
+    padding 0
+  &:after
+  &:before
+    clear()
+    
+
+.wrapper_l2
+  width 96%
+  max-width 1000px
+  centrar()
+  box()
+  relative()
+  +below(642px)
+    width 93%
+  &:after
+  &:before
+    clear()
+    
+
+.wrapper_m
+  width 96%
+  max-width 888px
+  centrar()
+  box()
+  relative()
+  +below(642px)
+    width 93%
+  &:after
+  &:before
+    clear()
+
+
+.wrapper_m2
+  width 96%
+  max-width 700px
+  centrar()
+  box()
+  relative()
+  +below(642px)
+    width 93%
+  &:after
+  &:before
+    clear()
+
+.wrapper_s
+  width 96%
+  max-width 610px
+  centrar()
+  box()
+  relative()
+  // padding 0 0.9375em
+  +below(642px)
+    width 93%
+  &:after
+  &:before
+    clear()
+
+.wrapper_sl_2
+  width 100%
+  max-width 630px
+  centrar()
+  box()
+  relative()
+  +below(642px)
+    width 96%
+
+.wrapper_sl
+  width 100%
+  max-width 580px
+  centrar()
+  box()
+  relative()
+  +below(642px)
+    width 96%
+  &.cat
+    max-width 486px  
+
+
+.content_all
+  relative()
+  block()
+  over()
+  min-height 100%
+  box()
+  padding 0 0 50px
+  &:after
+  &:before
+    clear()
+
+.padd_home
+  block()
+  padding 463px 0 0px
+  &:after
+    clear()  
+  +below(900px)  
+    padding 345px 0 0
+  +below(642px)
+    padding 399px 0 0
+    
+.intern
+  padding 80px 0 60px
+  &:after
+    clear()
+  +below(800px)
+    padding 65px 0 25px
+
+
+.padd_header_int
+  padding 4px 22px 14px
+  box()
+  .carIcons
+    margin 0 0 0px 0
+    .caja
+      relative()
+      left auto
+      right auto
+      margin 0 auto
+  +below(540px)
+    padding 10px 0 0 0
+  
+
+.user
+  over()
+  border 2px solid grayBorder
+  block()
+  margin 10px auto
+  -webkit-border-radius 50%
+  border-radius 50%
+  width 110px
+  height 110px
+  img
+    width 100%
+    min-height 110px
+    background backgroundColorGray
+    background-size cover
+
+.mask
+  width 100%
+  height 100%
+  absolute()
+  trans(.2s)
+  left 0
+  top 0
+  background rgba(black, .75)
+  z-index 2
+
+
+.link
+  font(14px)
+  fontr()
+  color black
+  trans(.3s)
+  sub()
+  block()
+  &:hover
+    text-decoration none
+
+.centerBtn
+  text-align center
+  a, button
+    vertical-align top
+    display inline-block
+    zoom 1
+    margin 0 10px 10px
+  &.m_grid
+    margin 0 -8px
+  &.txt_right
+    +below(642px)
+      text-align center
+
+
+.bg_panel
+  background white
+  box()
+  width 100%
+  margin 0 0 20px 0
+  block()
+  trans(.3s)
+  border-radius 5px
+  &:after
+    clear both
+
+.bg_panelInt
+  background rgba(white, .8)
+  box()
+  width 100%
+  margin 0 0 20px 0
+  block()
+  trans(.3s)
+  box()
+  padding 0 0 15px 0
+  &:after
+    clear both  
+    
+.panel_bor
+  padding 33px 28px 
+  background rgba(white, .94)
+  box()
+  over()
+  width 100%
+  border-radius 0px
+  block()
+  trans(.3s)
+  relative()
+  // box-shadow  0px 4px 6px 0px rgba(50, 50, 50, 0.3)
+  &:after
+    clear()  
+  &.bor_top
+    background rgba(white, .7)
+    relative()
+    border-radius 0px
+    overflow inherit
+    padding 0
+    /*border-bottom 8px solid primaryColor*/
+  &.border_modal
+    border 1px solid backgroundColorGray
+    padding 15px 40px
+    +below(642px)
+      padding 18px 16px
+  +below(642px)
+    padding 26px 21px
+
+body
+  .bgblack
+    background white
+    &:after
+      clear()
+  .backgroundColorGray
+    background #f3f3f3
+    &:after
+      clear()
+
+.titulo
+  trans(.3s)
+  margin 35px 0 20px 0
+  text-align center
+  h1
+    font(27px)
+    line-height 45px
+    trans(.3s)
+    fontbs()
+    relative()
+    box()
+    color primaryColor
+    padding 0px
+    text-align center
+    block()
+    +below(642px)
+      font(25px)
+      line-height inherit
+  h2
+    font(27px)
+    trans(.3s)
+    fontbs()
+    relative()
+    box()
+    color primaryColor
+    padding 40px 0 0
+    span
+      color primaryColorTitle
+    +below(642px)
+      font(25px)
+  &.searchResut
+    h1
+      i
+        font(22px)
+        inline()
+        margin -6px 5px 0 0
+      strong
+        sub()
+
+
+
+.title-short
+  block()
+  relative()
+  margin 0 0 20px
+  &.title-mobile
+    +below(642px)
+      margin 20px 0 20px
+  h2
+    font(25px)
+    trans(.3s)
+    fontbs()
+    relative()
+    box()
+    color primaryColor
+    padding 0px
+    text-align left
+    inline()
+    text-transform capitalize
+    +below(642px)
+      font(23px)
+      line-height inherit
+    > a
+      cursor pointer
+  > a
+    right2()
+    color primaryColor
+    fontl()
+    box()
+    padding 4px 0
+    font(15px)
+    cursor pointer  
+    trans(.3s)
+    sub()
+    &:hover
+      sub()
+    +below(642px)
+      font(14px)
+      padding 5px 0
+    
+
+
+
+.subtitle
+  width 100%
+  // min-height 36px
+  margin 0 auto
+  block()
+  relative()
+  background rgba(bgcart, .95)
+  border-bottom 2px solid rgba(white, .13)
+  margin 0 0 25px 0
+  &:after
+    clear()
+  h6
+    color white
+    fontb()
+    font(20px)
+    text-align center
+    box()
+    padding 5px 0
+    relative()
+    .car_close
+      absolute()
+      block()
+      color white
+      border 2px solid primaryColor
+      background primaryColor
+      border-radius 50%
+      width 30px
+      height 30px
+      line-height 27px
+      right 8px
+      top 14px
+      &:hover,
+      &:focus
+        transform rotate(360deg)
+        animation-name hvr-push
+        animation-duration .3s
+        animation-timing-function linear
+        animation-iteration-count 1
+      +below(642px)
+        none()
+  .centerBtn
+    a
+      margin 4px 10px 6px
+
+
+body 
+  .bg_gris
+    background backgroundColorGray
+  
+
+
+
+
+
+
+/*=========================== BODY ===============================*/
+html
+  overflow-x hidden
+  min-height 100%
+  background white
+  background-size cover
+  block()
+  &:after
+    clear()
+  &.over
+    over()
+body
+  fontr()
+  font(14px)
+  padding 0
+  right 0  
+  overflow hidden
+  &:after
+    clear()
+  &.overh,
+  &.over
+    over()
+
+h1,
+h2
+  fontb()
+
+p
+  font(14px)
+  fontr()
+  trans(.3s)
+  color primaryColorText
+  margin 0 0 7px 0
+
+
+
+
+/*=========================== LOADER ==================================*/
+.preload
+  background primaryColor url('../images/logo.svg') center bottom 30px no-repeat
+  background-size auto 45px
+  bottom 0
+  height 100%
+  left 0
+  fixed()
+  right 0
+  top 0
+  width 100%
+  z-index 99999999
+  trans(.2s)
+  .spinner 
+    absolute()
+    top calc(50% - 20px)
+    left calc(50% - 20px)
+  #box
+    width 50px
+    height 50px
+    trans(.4s)
+    background white url('../images/qbano_loader.png') center no-repeat
+    background-size auto 75%
+    animation animate .5s linear infinite
+    absolute()
+    top 0
+    left 0
+    border-radius 3px
+  #shadow   
+    width 50px
+    height 5px
+    background black
+    opacity 0.1
+    absolute()
+    top 59px
+    left 0
+    border-radius 50%
+    animation shadow .5s linear infinite
+
+@keyframes loader
+  0% 
+    left -100px 
+  100% 
+    left 110%
+
+@keyframes animate
+  17% 
+    border-bottom-right-radius 3px
+  25% 
+    transform translateY(9px) rotate(22.5deg)
+  50%
+    transform translateY(18px) scale(1,.9) rotate(45deg) 
+    border-bottom-right-radius 40px
+  75% 
+    transform translateY(9px) rotate(67.5deg)
+  100% 
+    transform translateY(0) rotate(90deg)
+  
+@keyframes shadow 
+  50% 
+    transform scale(1.2,1)

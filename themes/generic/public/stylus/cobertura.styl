@@ -1,0 +1,159 @@
+/*------------------------------------*\
+    $COBERTURA
+\*------------------------------------*/
+body 
+  .map_h
+    block()
+    relative()
+    background white
+    box()
+    padding 0
+    .bg_map
+      relative()
+      //Search
+      .searchMap
+        absolute()
+        z-index 4
+        top 30px
+        right 5%
+        box()
+        trans(.4s)
+        +below(642px)
+          top 96%
+          width 89%
+          left 0
+          right 0
+          margin auto
+        input
+          margin 0
+          padding 9px 4px 9px 13px
+          min-width 290px
+          width 100%
+          +below(350px)
+            min-width 100%
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder
+          color rgba(black, .55)
+        input:-moz-placeholder,
+        textarea:-moz-placeholder
+          color rgba(black, .55)
+        input::-moz-placeholder,
+        textarea::-moz-placeholder
+          color rgba(black, .55)
+        input:-ms-input-placeholder,
+        textarea:-ms-input-placeholder
+          color rgba(black, .55)
+        button
+          absolute()
+          right 0
+          z-index 2
+          top 0
+          right 0
+          background primaryColor
+          color white
+          font(20px)
+          text-align center
+          border none
+          width 38px
+          height 42px
+          padding 6px 0 5px
+          i
+            color white
+    #map
+      width 100%
+      height 60vh
+      relative()
+      +below(642px)
+        height 65vh
+      .labelsMap
+        fontb()
+        font(14px)
+        color primaryColor 
+      .gm-style
+        > div
+          > div
+            > div
+              > div                                
+                > div
+                  > div
+                    > div
+                      margin-top -12px !important
+                      // height 87px !important
+                      fontb()                  
+        .gm-style-iw        
+          > div
+            fontr()
+            > div
+              fontr()
+              margin-top 0px !important
+
+
+//Detalle List
+.bg_restaurant
+  block()
+  box()
+  padding 40px 0 
+  relative()
+  &:after
+    clear()
+  +below(642px)
+    padding 50px 0 30px 0
+  h1
+    fontb()
+    font(39px)
+    color primaryColorTitle
+    letter-spacing 1px
+    +below(642px)
+      font(32px)
+      line-height 38px
+      margin 0 0 9px
+    +below(320px)
+      font(25px)
+  .txt_center
+    p
+      font(14px)
+      margin 0 0 10px
+      
+.list_restaurant
+  block()
+  &:after
+    clear()
+  li
+    .panel_rest
+      block()
+      relative()
+      box()
+      padding 0px 0 0 48px
+      margin 0 0 30px
+      &:after
+        clear()
+      .num
+        width 36px
+        height 49px
+        background url('../images/market.png') center no-repeat
+        background-size 100% 100%
+        absolute()
+        fontb()
+        color primaryColorText
+        font(16px)
+        line-height 35px
+        text-align center
+        left 0
+        top 0
+      h2
+        fontb()
+        mayus()
+        color primaryColorTitle
+        font(16px)
+        block()
+        font-weight bold
+        padding 0 0 10px
+      p
+        block()
+        margin 0 0 3px
+        color primaryColorText
+        span
+          color primaryColorText
+          block()
+          margin 0 0 7px
+          sub()

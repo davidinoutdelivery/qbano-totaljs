@@ -1,0 +1,823 @@
+/*------------------------------------*\
+    $HEADER
+\*------------------------------------*/
+.dateH
+  width 100%
+  min-height 64px
+  background transparent
+  relative()
+  z-index 5
+  text-align center
+  &::after
+    clear()
+  +below(642px)
+    height auto
+    min-height 59px
+    box-shadow 0 2px 6px 0 rgba(0,0,0,0.07)
+  .wrapper_la
+    +below(800px)
+      width 98%
+  .address-active
+    left2()
+    margin 30px 10px 10px 60px
+    color white
+    sub()
+    trans(.4s)
+    font(13px)
+    cursor pointer
+    &:hover
+      sub()
+    i
+      margin -1px 3px 0 0
+      display inline-block
+      vertical-align middle
+      width 15px
+      height 21px
+      img
+        width 100%
+    +below(800px)
+      none()
+  .logo
+    height auto
+    width 105px
+    absolute()
+    trans(.3s)
+    top 16px
+    left 0
+    right 0
+    margin auto
+    +below(800px)
+      left 59px
+      width 65px
+      right auto
+    +below(642px)
+      top 14px
+      left 40px
+      width 65px
+      right inherit
+    img
+      width 100%
+    .logo1
+      none()      
+  
+  .datesInfor
+    text-align center
+    display inline-block
+    right2()
+    box()
+    padding 0
+    +below(642px)
+      padding 0
+    .fa-star
+      margin-top 12px
+    i
+      margin-top 6px
+    .user_name_head
+      text-align left
+      inline()
+      &:after
+        clear()
+      .inline
+        line-height 16px
+        padding 0 0 0 7px
+      h3
+        color white
+        margin 0
+        fontb()
+        font(16px)
+      strong
+        color primaryColor
+        margin 0
+        fontb 
+        font(12px)        
+        box()    
+      // li:nth-child(2)
+      //   +below(320px)
+      //     none()      
+    li
+      display inline-block
+      relative()
+      a
+        display inline-block
+        color black
+        fontr()
+        font(13px)
+        box()
+        line-height 30px
+        padding 22px 5px
+        trans(.3s)
+        cursor pointer
+        +below(800px)
+          padding 11px 2px
+        &:hover
+          color black
+          span
+            // transform rotateY(360deg)
+        &.bg_cart_h
+          fixed()
+          bottom 20px
+          right 24px
+          padding 0
+          +below(642px)
+            right 13px
+            bottom 13px
+          .relative
+            &:before
+              background primaryColor
+              border-radius 50%
+              content ""
+              opacity .6
+              absolute()
+              width 50px
+              height 50px
+              left -1px
+              right 0
+              top 0
+              bottom 0
+              margin auto
+              z-index 3
+              -webkit-animation efectCart 2s infinite
+          .icon
+            &.cart
+              relative()
+              z-index 3              
+              width 45px
+              height 45px    
+              border-radius 50%
+              border 3px solid #f4a09a    
+              b
+                top -3px
+                right -3px   
+        .icon
+          width 37px
+          height 37px
+          line-height 35px
+          display inline-block
+          vertical-align middle
+          border-radius 0%
+          border none
+          color black
+          margin 0 2px
+          font(19px)
+          trans(.8s)
+          cursor pointer
+          transform rotateY(0deg)
+          &.not
+            background url('../images/icons/alert.png') center no-repeat
+            background-size 68%
+            +below(642px)
+              none()
+          &.user
+            background url('../images/icons/user-top.svg') center no-repeat
+            background-size 60%
+          &.cart
+            background url('../images/icons/cart-top.svg') center no-repeat
+            background-size 74%            
+          b
+            absolute()
+            font-size 13px
+            color white
+            background red
+            line-height 0
+            width 17px
+            height 17px
+            border-radius 50%
+            top -3px
+            right -2px
+            line-height 17px
+          i
+            color white
+      &:hover
+        ul
+          opacity 1
+          transform scale(1)
+          pointer-events auto
+          block()
+      ul
+        absolute()
+        top 100%
+        right 0
+        transform-origin top right
+        block()
+        opacity 0
+        transform scale(.8)
+        transition all 250ms cubic-bezier(.24,.22,.015,1.56)
+        backface-visibility hidden
+        pointer-events none
+        z-index 1000
+        min-width 170px
+        background rgba(backgroundColorGray,0.9)
+        padding 0
+        .relative
+          block()
+          padding 0 0 10px
+          &:after
+            clear()
+          &::before
+            content ''
+            width 100%
+            height 10px
+            absolute()
+            background url('../images/pattern_h.png') center left repeat-x
+            top 99.7%
+            left 0
+        li:first-child
+          padding 5px 0 0 0
+        li:last-child
+          border none
+        li
+          block()
+          border-bottom 1px solid rgba(51, 51, 51, 0.3)
+          &:after
+            none()
+          a
+            block()
+            color rgba(white, .85)
+            fontr()
+            font(13px)
+            padding 10px 14px
+            line-height 1.5
+            trans(.3s)
+            i
+              margin 0 4px 0 0
+              trans(.3s)
+            &:hover
+              color white
+              i
+                color white
+      b
+        width 11px
+        height 11px
+        color crema
+        display inline-block
+        vertical-align top
+        line-height 38px
+      //Search Site
+      .searchSite
+        background rgba(black, .3)
+        border-radius 500px
+        // absolute()
+        // top 18px
+        // right 5px
+        trans(.3s)
+        // width 0px
+        // opacity 0
+        // z-index -1
+        // visibility hidden
+        width 220px
+        opacity 1
+        z-index 2
+        visibility visible
+        margin-right 10px
+        &:after
+          clear()
+        +below(642px)
+          top 9px
+          none()
+        &.open
+          width 220px
+          opacity 1
+          z-index 2
+          visibility visible
+          +below(420px)
+            width 190px
+        input
+          background none
+          border none
+          height 40px
+          padding 0 19px
+          box()
+          color white
+          fontr()
+          width 100%
+          font(13px)
+        input::-webkit-input-placeholder,
+        textarea::-webkit-input-placeholder
+          color rgba(white, .55)
+        input:-moz-placeholder,
+        textarea:-moz-placeholder
+          color rgba(white, .55)
+        input::-moz-placeholder,
+        textarea::-moz-placeholder
+          color rgba(white, .55)
+        input:-ms-input-placeholder,
+        textarea:-ms-input-placeholder
+          color rgba(white, .55)
+        button
+          width 32px
+          height 32px
+          line-height 33px
+          border-radius 50%
+          border none
+          background transparent
+          color white
+          margin 4px
+          font(15px)
+          trans(1.2s)
+          cursor pointer
+          absolute()
+          z-index 1
+          top 0
+          right 0
+    li:last-child
+      ul
+        min-width 280px
+
+
+header
+  width 100%
+  left 0
+  height auto
+  trans(.4s)
+  z-index 7
+  top 0
+  fixed()
+  block()
+  box()
+  background url('../images/bg_header.jpg') center top no-repeat
+  background-size cover
+  &.hideh
+    hide()
+  
+    
+//Fixed Header
+.bgColor
+  left 0
+  width 100%
+  fixed()
+  .logo
+    top 10px
+    width 90px
+    +below(642px)
+      width 67px
+      top 13px
+  .address-active
+    margin 22px 10px 10px 60px
+  .dateH 
+    .datesInfor 
+      .searchSite
+        top 10px
+      .user_name_head 
+        h3
+          color black
+  .main-menu__hamburger
+    top 12px
+  .dateH 
+    box-shadow 0 2px 6px 0 rgba(0,0,0,0.07)
+    .ubicacion 
+      padding 11px 13px
+    .datesInfor 
+      li 
+        a
+          padding 12px 5px
+          +below(642px)
+            padding 11px 2px
+          &.bg_cart_h
+            padding 0
+  .navInternas,
+  .btnsh,
+  .btnshop,
+  .bg_head
+    none()
+    
+.fixed_nav  
+  top -400px
+    
+
+
+/*Nav Responsive*/
+.burger
+  absolute()
+  right 0
+  top 0
+  cursor pointer
+  padding  0 3px
+  z-index 94
+  box()
+  ul
+    width 26px
+    margin 17px 0
+    li
+      +below(925px)
+        block()
+        height 3px
+        width 100%
+        background white
+        margin 3px 0
+        border-radius 10px
+        trans(.5s)
+        relative()
+  &.open
+    ul
+      margin 16px 0
+      li
+        background primaryColor
+        &:nth-child(1)
+          transform rotate(45deg)
+          top 10px
+        &:nth-child(2)
+          opacity 0
+        &:nth-child(3)
+          transform rotate(-45deg)
+          top -2px
+
+body
+  .showMovil
+    none()
+    +below(320px)
+      block()
+
+
+/*Nav dos*/
+.main-menu__hamburger
+  block()
+  absolute()
+  z-index 7
+  top 22px
+  left 0px
+  over()
+  margin 0
+  padding 0
+  width 40px
+  height 37px
+  border-radius 0%
+  font-size 0
+  text-indent -9999px
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  cursor pointer
+  trans(.3s)
+  box()
+  +below(900px)
+    left 6px
+    top 12px
+  +below(642px)
+    width 34px
+    height 34px
+    left -5px
+  span
+    display block
+    absolute()
+    background white
+    top 16.8px
+    left 8px
+    right 8px
+    height 2px
+    border-radius 0px
+    +below(642px)
+      top 16.4px
+    &:before
+    &:after
+      position absolute
+      display block
+      left 0
+      width 100%
+      height 2px
+      border-radius 0
+      background-color white
+      content ""
+      transition-duration 0.3s,0.3s
+      transition-delay 0.3s,0s;
+    &:before
+      top -7px
+      transition-property top,-webkit-transform
+      transition-property top,transform
+    &:after
+      bottom -7px
+      transition-property bottom,-webkit-transform
+      transition-property bottom,transform
+  &.open
+    span
+      background none
+      &:before
+      &:after
+        transition-delay 0s,0.3s        
+      &:before
+        top 0
+        -webkit-transform rotate(45deg)
+        transform rotate(45deg)
+        background-color primaryColor
+      &:after
+        bottom 0
+        -webkit-transform rotate(-45deg)
+        transform rotate(-45deg)
+        background-color primaryColor
+
+.nav_section
+  fixed()
+  z-index 6
+  height 100%
+  width 100%
+  background white
+  left 0
+  top 0
+  trans(.3s)
+  opacity 0
+  visibility hidden
+  transform  scale(1.5)  
+  box()
+  -ms-display flex
+  display flex
+  align-items center
+  justify-content center 
+  text-align center
+  overflow-y auto
+  overflow-x hidden
+  &:after
+    clear()
+  +below(642px)
+    padding 33px 0 13px
+    block()
+  &.open
+    opacity 1
+    visibility visible
+    transform scale(1)
+  ul.nav
+    // height 100%
+    // overflow-y auto
+    block()
+    box()
+    padding 0 0 0px 0
+  li:nth-of-type(even)
+    a
+      border-right none
+  li
+    block()
+    trans(.3s)
+    text-align center
+    &.showMovil
+      none()
+      +below(320px)
+        block()
+    a
+      color primaryColorText
+      text-align center
+      mayus()
+      block()
+      font(20px)
+      fontb()
+      relative()
+      box()
+      padding 13px 20px
+      trans(.5s)
+      cursor pointer
+      &:hover,
+      &.activo
+        sub()
+      +below(642px)
+        font(18px)
+        padding 17px 12px
+      > i
+        width 21px
+        height 21px
+        line-height 21px
+        text-align center
+        font(11px)
+        border-radius 50%
+        background primaryColor
+        color white
+        display inline-block
+        vertical-align top
+        margin 0px 5px 0 0
+        &:before
+          margin 0 0 0 -2px   
+    
+
+//Redes Fixed
+.redes_f
+  position fixed
+  right 0
+  top 40%
+  z-index 99
+  &:after
+    clear()
+  +below(642px)
+    none()
+  li
+    block()
+    &:after
+      clear()
+    a
+      color white
+      font(18px)
+      text-align center
+      width 35px
+      height 35px
+      line-height 35px
+      block()
+      box()      
+      right 0
+      padding 0
+      trans(.4s)
+    .facebook
+      background #3b5998
+    .twitter
+      background #55acee
+    .google
+      background #dd4b39
+      
+
+
+//Effect
+@-webkit-keyframes efectCart 
+  0% 
+    transform scale(0)
+    opacity .6
+  30% 
+    transform scale(1)
+    opacity .6
+  100% 
+    transform scale(2)
+    opacity 0
+
+@keyframes efectCart 
+  0% 
+    transform scale(0)
+    opacity .6
+  30% 
+    transform scale(1)
+    opacity .6
+  100% 
+    transform scale(2)
+    opacity 0
+
+
+
+
+
+/*------------------------------------*\
+    $CARRITO VIEW
+\*------------------------------------*/
+.maskCart
+  width 100%
+  height 100%
+  z-index 8
+  fixed()
+  background-color rgba(backgroundColorBlack, .75)
+  top 0
+  left 0
+  trans(.4s)
+  opacity 0
+  visibility hidden
+  &.open
+    visibility visible
+    opacity 1
+
+.cartView
+  fixed()
+  trans(.4s)
+  z-index 9
+  right 0
+  width 100%
+  max-width 380px
+  height 100vh
+  top 0
+  background backgroundColorGray url('../images/bg_cart.jpg') top center no-repeat
+  background-size cover
+  box()
+  padding 0 25px 130px 0
+  transform translateX(400px)  
+  &:after
+    clear()
+  &.open
+    transform translateX(0px)
+  .header-view
+    block()
+    text-align center
+    relative()
+    margin 5px 0 10px
+    &:after
+      clear()
+    .close
+      absolute()
+      left 0
+      height 100%
+      top 0
+      font(15px)
+      text-align center
+      line-height 44px
+      padding 0 12px
+      color primaryColorTitle
+      opacity 1 !important
+    h3
+      color primaryColorTitle
+      fontbs()
+      font(20px)
+      block()
+      box()
+      padding 10px 0
+  //Product
+  .listCart
+    block()
+    overflow-y auto
+    overflow-x hidden
+    height 80vh
+    width 100%
+    &:after
+      clear()
+    +below(1400px)
+      height 70vh
+    li
+      block()
+      margin 0 0 20px
+      &:after
+        clear()
+      .img
+        background-size cover
+        background-repeat no-repeat
+        background-position center
+        width 100%
+        height 103px
+        border-radius 10px
+        relative()
+        block()
+        over()      
+      .txt
+        padding 0 10px 0 0
+        h4
+          color primaryColorTitle
+          font(16px)
+          fontb()
+          block()
+        h5
+          color primaryColorTitle
+          fontl()
+          block()
+          line-height 22px
+        p
+          font(12px)
+          margin 0 0 10px
+          block()
+          line-height 15px
+      .catidad_real
+        .cantidad, 
+        input[type="text"], 
+        input[type="number"]
+          width 24px
+          height 26px
+          font(14px)
+          border-right 1px solid primaryColor
+          border-left 1px solid primaryColor
+          border-top 1px solid primaryColor 
+          border-bottom 1px solid primaryColor 
+        .mas, 
+        .restar
+          width 19px
+          height 26px
+          line-height 27px
+          font(8px)
+          border-top 1px solid primaryColor
+          border-bottom 1px solid primaryColor
+        .mas
+          border-right 1px solid primaryColor
+          border-radius 0 500px 500px 0
+        .restar
+          border-left 1px solid primaryColor
+          border-radius 500px 0 0 500px
+      .delete
+        right2()
+        color #423f40
+        background white
+        border-radius 8px
+        font(17px)
+        padding 0 5px
+        height 28px
+        line-height 28px
+        cursor pointer
+        i
+          line-height 28px          
+  //Total
+  .subCartTotal
+    fixed()
+    width 100%
+    max-width 380px
+    bottom 0
+    right 0
+    width 100%
+    box()
+    padding 7px 25px 10px 0
+    &:after
+      clear()
+    .total
+      block()
+      margin 0 0 10px
+      p
+        margin 0
+        block()
+        font(13px)
+        color primaryColorTitle
+        strong
+          font(14.5px)
+          fontb()
+    .carritoClic 
+      cursor pointer
+  //Alert
+  .alertPage
+    margin 0 0 10px 30px
+    opacity .7
+    h2
+      font(14px)
+
+.cursorPointer
+  cursor: pointer

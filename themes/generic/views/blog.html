@@ -1,0 +1,36 @@
+<!--Content_all-->
+<section class="content_all intern">
+    @{component('header_qbano')}
+    @{json(model.page_data, 'modelBlog')}
+    <section class="wrapper_l" id="blog">
+        <div class="titulo padd_header_int">
+            <h1>Blog Inout</h1>
+            <div class="intro block p_t_20">
+                <!--<p>Un forma de desaprender el mal comer</p>-->
+            </div>
+        </div>
+
+        <div class="clear"></div>
+
+        <ul class="listArticle grid">
+            <div class="grid-sizer"></div>
+            <li class="grid-item" v-for="blog in blogs">
+                <a :href="urlBlog(blog)">
+                    <div class="panel">
+                        <img v-if="blog.image" :src="blog.image.url">
+                        <div class="txt">
+                            <div class="block">
+                                <h2>{{blog.title}}</h2>
+                                <p>{{blog.descriptionShort}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+</section>
+<!--Fin Content_all-->
+@{component('footer_qbano')}
+@{import('blog.js')}

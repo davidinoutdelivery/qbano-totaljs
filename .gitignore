@@ -24,8 +24,6 @@ logs/*
 .sonar/
 package-lock.json
 coverage/
-themes/generic/public/*
-themes/generic/views/*
 config-release
 *.jscsrc
 *.jshintrc

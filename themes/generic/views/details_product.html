@@ -1,0 +1,99 @@
+<!--Content_all-->
+<section class="content_all intern">
+    @{component('header_qbano')}
+    @{json(model.detail, 'modelProduct')}
+    <section class="wrapper_l">
+        <section id="products">
+            <div v-if="Object.keys(detailProduct).length > 0">
+                <section class="block bgDetailURL">
+                        <section class="bg_detalle" :class="{available: !detailProduct.isAvailable}">
+                            <div class="small-12 medium-6 large-6 columns padding">
+                                <section class="bg_panel portada sin_margin">
+                                    <div class="imgbg">
+                                        <div class="mask">
+                                            <div class="relative">
+                                                <i class="ti-info-alt"></i>
+                                                <h5>Producto no disponible</h5>
+                                            </div>
+                                        </div>
+                                        <img :src="getImage(detailProduct)" alt="Image product">
+                                    </div>
+                                    <div class="tituloDest">
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="small-12 medium-6 large-6 columns padding">
+                                <section class="bg_panelInt">
+                                    <div class="wrapper_m">
+                                        <div class="row">
+                                            <h1>{{detailProduct.name}}</h1>
+                                            <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}</h2>
+                                        </div>
+                                        <div class="lineap"></div>
+                                        <div class="row paddselectproduct">
+                                            <h3>Detalle</h3>
+                                            <div class="lineap"></div>
+                                            <div class="txt_detail">
+                                                <p v-html="detailProduct.description"></p>
+                                            </div>
+                                        </div>
+                                        <div class="lineap"></div>
+                                        <!-- MODIFICADORES  -->
+                                        <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['@rid']"
+                                                v-if="detailProduct.modifiers.length > 0">
+                                                
+                                            <h3>{{modifier.name}}</h3>
+                                            <span>{{modifier.selectUnique? 'Max 1 ': (modifier.maxSelect? 'Max '+modifier.maxSelect+' ':'')}}</span>
+                                            <span>{{modifier.required? ' Requerido': ''}}</span>
+                                            <div class="lineap"></div>
+                                            <article class="small-12 medium-12 large-12 columns block" v-for="item in modifier.modifierItems" :key="item['@rid']"
+                                                        v-if="item">
+                                                <label class="numberSmall">
+                                                    <div class="large-8 medium-8 small-8 columns">
+                                                        <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                                    </div>
+                                                    <div class="large-4 medium-4 small-4 columns checkMod">
+                                                        <input class="checkbox" 
+                                                        :checked="purchase['modifiers'][modifier['@rid']][item['@rid']]['checked']" 
+                                                        :value="purchase['modifiers'][modifier['@rid']][item['@rid']]['checked']" 
+                                                        :id="'modifiers.'+modifier['@rid']+'.'+item['@rid']" 
+                                                        :name="'modifiers.'+modifier['@rid']+'.'+item['@rid']" 
+                                                        type="checkbox" 
+                                                        @click="selectModifier(modifier['@rid'], item['@rid'], $event)">
+                                                        <label :for="'modifiers.'+modifier['@rid']+'.'+item['@rid']">
+                                                        </label>-
+                                                    </div>
+                                                    <div class="clear"></div>
+                                                </label>
+                                            </article>
+                                        </div>
+        
+                                        <div class="lineap"></div>
+        
+                                        <section class="row actions_detail">
+                                            <div class="catidad_real">
+                                                <a class="restar" @click="decrement()"><i class="fa fa-minus" aria-hidden="true"></i></a>
+                                                <input type="text" name="cant" :value="purchase.amount" size="3" class="cantidad" disabled>
+                                                <a class="mas" @click="increment()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                            </div>
+                                            <a href="javascript:void(0)" class="btnA"  @click="addtocart($event)" :class="{available: !detailProduct.isAvailable}">{{send?'Agregar al Carrito ':'Agregando...'}}</a>
+                                        </section>
+        
+                                        <div class="clear"></div>
+                                    </div>
+                                </section>
+                            </div>
+                        </section>
+        
+                        <div class="clear"></div>
+                    </section>
+            </div>
+            <div v-else>
+                NO se encuentra el producto
+            </div>
+            
+        </section>
+    </section>
+</section>
+@{component('footer_qbano')}
+@{import('products.js')}

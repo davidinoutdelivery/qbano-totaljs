@@ -1,0 +1,29 @@
+@{json(model.recovery, 'modelRecovery')}
+<section class="content_all intern" >
+    @{component('header_qbano')}
+    <section  class="wrapper_l txt_center">
+            <div class="titulo black">
+                <h1>RECUPERAR TU CONTRASEÑA</h1>
+            </div>
+            <article class="small-12 medium-6 large-5 inline p_t_30 p_b_30" id ="change_password">
+                <div class="panel">
+                    <form  v-on:submit.prevent="onSubmit" class="formBB padding">
+                        <fieldset class="txt_left">
+                            <label>Escribe la nueva contraseña</label>
+                            <input v-model="password" type="password" name="name" placeholder="" required>
+                        </fieldset>
+                        <fieldset class="txt_left">
+                            <label>Verifica la contraseña</label>
+                            <input v-model="password_two" type="password" name="name" placeholder="" required>
+                        </fieldset>
+                        <fieldset>
+                            <button type="submit" class="btnA">CAMBIAR CONTRASEÑA</button>
+                        </fieldset>
+                    </form>
+                </div>
+            </article>
+
+    </section>
+</section>
+@{component('footer_qbano')}
+@{version('recovery.js')}

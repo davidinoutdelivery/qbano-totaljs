@@ -1,0 +1,360 @@
+@{component('header_qbano')}
+@{json(model, 'modelpoint')}
+<!--Content_all-->
+<section class="content_all intern checkout" id="checkout">
+
+    <!--Cont Confirmation-->
+    <section class="wrapper_l2 p_t_40 p_b_40" v-if="!status">
+
+        <div class="small-12 medium-8 large-8 columns padding">
+            <div class="bg_paneld_pedido m-mobile">
+                <h2 class="sub">INFORMACIÓN PARA EL CHECK OUT</h2>
+
+                <section class="panel_bor paneld_pedido">
+                    <div class="subtittle title_fac txt_left">
+                        <div class="small-4 medium-4 large-4 columns">
+                            <h1>Dirección de entrega</h1>                            
+                        </div>
+                        <div class="small-8 medium-8 large-8 columns">
+                            <p v-if="address.address">{{address.address + ' - ' + address.description + ' - ' +
+                                address.city}}</p>
+                            <a href="javascript:void(0)" class="btnA new_dir" >Cambiar</a>
+                        </div>
+                    </div>
+                </section>
+                <section class="panel_bor paneld_pedido">
+                    <div class="subtittle title_fac txt_left">
+                        <div class="small-4 medium-4 large-4 columns">
+                            <h1>Metodo de pago</h1>                            
+                        </div>
+                        <div class="small-8 medium-8 large-8 columns">
+                            <p id="payment_method">{{payment.name}}</p>
+                            <a href="javascript:void(0)" class="btnA card_confir">Cambiar</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel_bor paneld_pedido">
+                    <div class="subtittle title_fac txt_left">
+                        <div class="small-4 medium-4 large-4 columns">
+                            <!-- <h1>Código promocional</h1> -->
+                            <h1>Cupón</h1>                            
+                        </div>
+                        <div class="small-8 medium-8 large-8 columns">
+                            <p> {{coupon.name}}</p>
+                            <a v-if="coupon.value" href="javascript:void(0)" class="btnA" v-on:click="deleteCoupon()">Vaciar</a>
+                            <a href="javascript:void(0)" class="btnA promocode cupon_clic">Agregar</a>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel_bor paneld_pedido" v-if="typeService && typeService.code == '3'">
+                    <div class="subtittle title_fac txt_left">
+                        <div class="small-4 medium-4 large-4 columns">
+                            <h1>Entrega</h1>
+                        </div>
+                        <div class="small-8 medium-8 large-8 columns">
+                            <p>{{delivery}}</p>
+                            <a href="javascript:void(0)" class="btnA date_clic">Cambiar</a>
+                        </div>
+                    </div>
+                </section>
+                <section class="panel_bor paneld_pedido">
+                    <div class="subtittle title_fac txt_left">
+                        <div class="small-4 medium-4 large-4 columns">
+                            <h1>Comentarios</h1>
+                        </div>
+                        <div class="small-8 medium-8 large-8 columns">
+                            <textarea v-model = "model.comment" name="" id="" cols="30" rows="10"></textarea>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+        <div class="small-12 medium-4 large-4 columns padding">
+            <div class="bg_paneld_pedido">
+                <h2 class="sub">RESUMEN DEL PEDIDO</h2>
+                <ul class="listCart row padding">
+                    <li class="row" v-for="item in cart.items">   
+                        <div class="columns large-3 medium-3 small-3">                            
+                            <a href="#">  
+                                <div class="img" :style="getUrl(item, true)"></div>  
+                            </a>
+                        </div>
+                        <div class="columns large-9 medium-9 small-9 padding">
+                            <a href="#">
+                                <div class="txt">
+                                    <h4>{{item.product}}</h4>
+                                    <h5> {{currencyFormat(item.priceUnit)}} x {{item.amount}}</h5>
+                                    <p v-html="item.description"></p>
+                                </div>
+                            </a>
+                        </div>                
+                    </li>
+                </ul>
+                <section class="subCartTotal">
+                    <div class="total row padding">
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p>Subtotal</p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p>{{currencyFormat(cart.totalItems)}}</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p>Costo del domicilio</p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p>{{currencyFormat(cart.costService)}}</p>
+                            </span>
+                        </div>
+                        <div class="row" v-if="cart.couponDetails" >
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p>Descuento cupón</p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p>-{{currencyFormat(cart.couponDetails.discount)}}</p>
+                            </span>
+                        </div>
+                        <div class="row">
+                            <span class="large-6 medium-6 small-6 columns">
+                                <p><strong>TOTAL</strong></p>
+                            </span>
+                            <span class="large-6 medium-6 small-6 columns txt_right">
+                                <p><strong>{{currencyFormat(cart.total)}}</strong></p>
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+            <div class="clear"></div>
+        <div class="centerBtn block txt_right p_t_10">
+            <a href="javascript:void(0)" v-on:click="comeback()" class="btnC">Regresar</a>
+            <a href="javascript:void(0)" v-on:click="updateCart()" class="btnA">{{send?'Confirmar pedido':'Confirmando...'}}</a>
+        </div>
+    </section> 
+    <section v-else class="p_t_40 p_b_40">
+        <section class="txt_center" v-if="status">
+                <div class="titulo">
+                    <h1>Hmmm, No se puede visualizar el checkout.</h1>
+                </div>
+                <div class="alertPage">
+                    <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
+                    <h2>Usted probablemente quiera</h2>
+                </div>
+                <a href="/home" data-effect="mfp-move-horizontal" class="btnA">Ver productos</a>
+            </section>
+    </section>  
+
+    <!--Fin Cont Confirmation-->
+
+
+
+</section>
+<!--Fin Content_all-->
+
+ <!--Modal Método de pago-->
+ <section class="bg_new_address modal_ckeckout card_confir_m">
+        <div class="wrapper_sl" id="payment">
+            <a href="javascript:void(0)" class="close"><span></span></a>
+            <section class="panel_bor border_modal m_b_30">
+                <h2 class="m_b_10">Método de pago seleccionado</h2>
+                <div class="txt_left">
+                    <div class="block chec_modal" v-for="method in paymentMethods">
+                        <input :value="method['rid']" type="radio" name="cards"
+                                :id="method['rid']" :checked="selectPayment['rid']=== method['rid']" >
+                        <label for="cards" v-on:click="paymentChoice(method)" >
+                            {{method.name}}
+                        </label>
+                    </div>
+                </div>
+
+                <div class="centerBtn p_t_30" v-if="selectPayment.code == 3">
+                    <a href="javascript:void(0)" class="btnA new_card_m_clic">Agregar nueva tarjeta</a>
+                </div>
+            </section>
+
+
+            <div class="panel_bor border_modal" v-if="selectPayment.code == 1">
+                <section class="formBB p_t_20">
+                    <form v-on:submit.prevent="changePrice" class="animated fadeIn" data-wow-delay="0.2s">
+                        <h2>Voy a pagar con ?</h2>
+                        <div class="small-12 medium-12 large-12 columns">
+                            <!--<input  v-model="value_back" type="number" placeholder="Valor" required>-->
+                            <current-format-input v-model="pricePaid"></current-format-input>
+                        </div>
+                        <div class="centerBtn m_t_10 p_b_10">
+                            <button type="submit" name="btnLogin" class="btnA">Confirmar</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+
+            <section class="panel_bor border_modal m_b_30 new_card_modal" v-if="selectPayment.code == 3">
+                <h2>Nueva tarjeta</h2>
+                <div class="clear"></div>
+                <section class="formBB p_t_20">
+                    <form class="animated fadeIn" data-wow-delay="0.2s" action="" method="">
+                        <div class="small-12 medium-12 large-8 columns p_r_10">
+                            <label>Número de la tarjeta</label>
+                            <input type="number">
+                        </div>
+                        <div class="small-12 medium-12 large-4 columns p_l_10">
+                            <label>CVV</label>
+                            <input type="number">
+                        </div>
+                        <div>
+                            <label>Expiración (MM/AAAA)</label>
+                            <input type="date">
+                        </div>
+                        <div>
+                            <label>Nombre (como aparece en la Tarjeta)</label>
+                            <input type="text">
+                        </div>
+                        <div class="centerBtn m_t_10 p_b_10">
+                            <a href="javascript:void(0)" class="btnC done_card">Cancelar</a>
+                            <button type="submit" name="btnLogin" class="btnA">Confirmar</button>
+                        </div>
+                    </form>
+                </section>
+            </section>
+        </div>
+</section>
+<!--Fin Modal Método de pago-->
+
+
+<!--Modal Address-->
+<section class="bg_new_address modal_ckeckout m_addres">
+    <div class="wrapper_sl checkout">
+        <a href="javascript:void(0)" class="close"><span></span></a>
+        <section class="panel_bor border_modal m_b_30" id="addresses">
+            <h2 class="m_b_10">Dirección de entrega</h2>
+            <div class="txt_left m_b_30">
+                <div class="block chec_modal" v-for="add of addresses">
+                    <input type="radio" name="address" :value="add['@rid']" :id="add['@rid']" :checked="isSelected(add)">
+                    <label for="address" v-on:click="changeAddress(add)">
+                        {{add.address}} {{add.description}} {{add.city}} {{add['@rid'] === address['@rid']}} {{add['@rid']}}
+                    </label>
+                </div>
+            </div>
+            <button type="button" class="btnA" @click="OpenModalAddress()" >Agregar</button>
+        </section>
+    </div>
+</section>
+<!--Fin Modal Address-->
+
+<!--Modal Date envio-->
+<section class="bg_new_address  modal_date">
+    <div class="wrapper_sl" id="modal_delivery">
+        <a href="javascript:void(0)" id="close" class="close"><span></span></a>
+        <section class="panel_bor border_modal m_b_30">
+            <h2 class="m_b_10">Fecha de entrega</h2>
+            <h3>Seleccione un día de entrega</h3>
+            <div class="large-12 medium-12 small-12 columns paddColumn formBB p_t_20 m_b_20">
+                <div class="large-7 medium-7 small-12 columns padding">    
+                    <!-- <label for="bday">Fecha de entrega: </label> -->
+                    <input type="text" id="bday" name="bday" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="large border-left datepicker" placeholder="Fecha de entrega">
+                </div>
+                <div class="large-5 medium-5 small-12 columns padding">
+                    <!-- <label for="startTime">Hora: </label> -->
+                    <input type="text" id="startTime" name="startTime" class="large border-right timepicker" placeholder="Hora">
+                </div>        
+            </div>
+
+            <!-- 
+            <section class="days_select p_t_20">
+                <div class="checkDay" v-for="(date, i) in dates">
+                    <input type="radio" name="daysSelect" :id="'day__'+i"
+                           :checked="date.date == dateSelected" v-on:change="selectDate(date)">
+                    <label :for="'day__'+i">
+                        <span v-if="i == 0">Hoy</span>
+                        <span v-else=>{{days[date.date.getDay()]}}</span>
+                        <h3>{{date.date.toJSON().slice(8, 10)}}</h3>
+                        <div class="clear"></div>
+                    </label>
+                </div>
+            </section>
+
+            <div class="clear"></div>
+
+            <h3>Plazo de entrega deseado</h3>
+            <section class="check_pririty p_t_10">
+                <div>
+                    <article class="small-12 medium-12 large-12 columns" v-if="hours[0].length == 0" >
+                        <p>No hay horarios disponibles para este día.</p>
+                    </article>
+                </div>
+                <div class="clear"></div>
+
+                <div class="checkBtn" v-if="hours[0].length > 0">
+                    <input type="radio" name="allbtncheck" id="btncheck1" @click="enable = false" checked="checked">
+                    <label for="btncheck1">
+                        Tan pronto como sea
+                    </label>
+                </div>
+                <div class="checkBtn" v-if="hours[0].length > 0">
+                    <input type="radio" name="allbtncheck" id="btncheck2" @click="enable = true">
+                    <label for="btncheck2">
+                        Escoger otro horario
+                    </label>
+                </div>
+            </section>
+            <section class="check_pririty padd_h" v-if="enable">
+                <article class="small-12 medium-6 large-6 columns">
+                    <div class="checkBtn large" v-for="(hour, i) in hours[0]">
+                        <input type="radio" name="allhours" :id="'hour_'+i" v-on:change="selectHour(hour)">
+                        <label :for="'hour_'+i">
+                            {{hour}}
+                        </label>
+                    </div>
+                </article>
+                <article class="small-12 medium-6 large-6 columns">
+                    <div class="checkBtn large" v-for="(hour, i) in hours[1]">
+                        <input type="radio" name="allhours" :id="'hour2_'+i" v-on:change="selectHour(hour)">
+                        <label :for="'hour2_'+i">
+                            {{hour}}
+                        </label>
+                    </div>
+                </article>
+            </section> -->
+
+            <div class="centerBtn">
+                <a href="javascript:void(0)" class="btnA" @click="setSchedule()">Guardar</a>
+            </div>
+        </section>
+    </div>
+</section>
+<!--Fin Modal Date envio-->
+
+<!--Modal Cupon-->
+<a href="#modalCupon" data-effect="mfp-move-horizontal" class="popup_txt modalCoupon"></a>
+
+<!--Modal Cupon-->
+<section class="bg_new_address modal_ckeckout modal_cupon">
+    <div class="wrapper_sl">
+        <a href="javascript:void(0)" class="close"><span></span></a>
+        <section class="panel_bor border_modal m_b_30">
+            <h2 class="m_b_10">¿TIENES UN CUPÓN?</h2>
+            <form class="formBB block p_t_20" v-on:submit.prevent="setup" id="form_confirm_coupon">
+                <label>Redímelo aquí</label>
+                <input v-model="code" type="text">
+                <div class="centerBtn">
+                    <button type="submit" class="btnA">Confirmar</button>
+                </div>
+            </form>
+        </section>
+    </div>
+</section>
+<!--Fin Modal Cupon-->
+
+<div id="picker-inout"></div>
+<div id="timer-inout"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js"></script>
+@{component('footer_qbano')}
+@{version('checkout.js')}

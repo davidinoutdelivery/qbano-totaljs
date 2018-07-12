@@ -1,0 +1,65 @@
+<section class="content_all intern">
+
+    @{component('header_qbano')}
+    @{json(model.orders, 'modelorders')}
+
+    <!--Cont Login-->
+    <section class="wrapper_m p_b_60" id="section_orders">
+
+        <div class="titulo padd_header_int">
+            <h1>Mis Pedidos</h1>
+        </div>
+
+        <section class="row block txt_center">
+            <article class="small-12 medium-12 large-6 inline">
+
+                <section class="panel_bor bor_top">
+                    <section class="list_pedidos_fijos">
+                        <ul v-if="model.length > 0">
+                            <li v-for="order in model">
+                                <div class="txt">
+                                    <a :href="bill(order['@rid'])" target="_blank">
+                                        <div class="large-10 medium-10 small-10 columns sin_padd">
+                                            <span class="date">{{formatDate(order.createdAt)}}</span>
+                                            <h2 class="price_h">{{currencyFormat(order.total)}}</h2>
+                                            <p>{{order.userAddress.address}}<b>{{order.userAddress.city}}</b></p>
+                                            <span class="link">{{order.stateCurrent.name}}</span>
+                                        </div>
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul v-else="" style="text-align: center ">
+                            <div class="alertPage">
+                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                <h2>No cuenta con pedidos actualmente.</h2>
+                            </div>
+                        </ul>
+                    </section>
+                </section>
+
+            </article>
+            <div class="clear"></div>
+        </section>
+
+        <div class="txt_center p_t_20">
+            <a href="/account" class="link p_t_5 p_b_5 m_t_20 block">Volver</a>
+        </div>
+        <div class="clear"></div>
+    </section>
+    <!--Fin Cont Login-->
+
+</section>
+<style>
+    #section_orders .list_pedidos_fijos .price_h {
+        margin-top: 4px;
+    }
+    #section_orders .list_pedidos_fijos a .date {
+        display: block;
+        color: #1f1f1f;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js?v=@{F.config.version}"></script>
+@{component('footer_qbano')}
+@{version('account.orders.js')}

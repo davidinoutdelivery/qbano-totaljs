@@ -1,0 +1,66 @@
+/*------------------------------------*\
+    VISTA CONFIRMACION PEDIDO
+\*------------------------------------*/
+body 
+	.modal_ckeckout
+		h2
+			font(21px)
+			+below(642px)
+				font(20px)
+		h3
+			margin 0 0 10px
+			block()
+		.chec_modal
+			padding 5px 0		
+		[type=radio]:checked+label, [type=radio]:not(:checked)+label
+			font(.9rem)
+		[type=radio]+label:after, [type=radio]+label:before
+			margin 3px 2px 3px 3px
+		[type=radio]+label:after, [type=radio]+label:before
+			width 14px
+			height 14px
+		.panel_bor 
+			.formweb 
+				label
+					color #363636	
+					padding 0    			
+				input
+					margin 0 0 16px
+				.p_r_10,
+				.p_l_10
+					+below(642px)
+						padding 0
+			.ubicacion 
+				+below(642px)
+					padding 8px 0px
+				.ico_ubicacion	
+					margin 10px auto 18px
+		button.btnb
+			border none
+
+.new_card_modal
+	none()
+	
+
+/*-------------------Date Select----------------------*/
+.days_select
+	text-align center
+	font(0)
+	block()
+	margin 0 0 35px
+	&:after
+		clear()
+
+.check_pririty
+	text-align center
+	font(0)
+	block()	
+	margin 0 0 35px
+	&:after
+		clear()
+	&.padd_h
+		box()
+		padding 0 11px
+		+below(642px)
+			padding 0
+		

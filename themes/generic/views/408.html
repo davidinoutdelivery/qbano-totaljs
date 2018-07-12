@@ -1,0 +1,26 @@
+<section class="content_all sin_padd">
+    @{component('header_qbano')}
+    <section class="bgPageError" style="background: #1f1f1f url('/generic/images/error-bg.jpg') center center / cover no-repeat;">
+        <section class="wrapper_m">
+            <section class="txt_center">                
+                <div class="alertPage">
+                    <div class="titulo">
+                        <h1><span>408</span>¡Tiempo de espera superado!</h1>
+                    </div>
+                    <h2>Tu navegador no pudo enviar una solicitud en el tiempo permitido por el servidor.</h2>
+                </div>
+                <!-- <div class="centerBtn">
+                    <a href="javascript:void(0)" onClick="location.reload()" data-effect="mfp-move-horizontal" class="btnA sin_margin">Reintentar</a>
+                </div> -->
+            </section>
+        </section>
+    </section>
+</section>
+@{component('footer_qbano')}
+<script>
+    $(window).load( function () {
+        setTimeout( function (){
+            window.location.reload(true);
+        }, 1000);
+    });
+</script>

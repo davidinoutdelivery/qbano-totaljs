@@ -6,7 +6,11 @@
 
 const options = {};
 
+options.ip = '0.0.0.0';
+options.port = parseInt(process.argv[2]);
+// options.config = { name: 'Total.js' };
+// options.sleep = 3000;
 
-require('total.js').http('release');
-//require('total.js').cluster.http(2, 'release', options);
+require('total.js').http('release', options);
+// require('total.js').cluster.http(5, 'release', options);
 

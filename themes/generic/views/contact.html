@@ -1,0 +1,46 @@
+<!--Content_all-->
+<section class="content_all intern">
+    @{component('header_qbano')}
+    <section class="wrapper_l padding">
+        <div class="titulo padding p_b_20">
+            <h1>CONTÁCTENOS</h1>
+        </div>
+
+        <section class="bg_panelInt marco_login_register">
+            <section class="p_b_30 txt_center">
+                <form v-on:submit.prevent="sendEmail" id="form_contact" class="formBB">
+                    <fieldset class="fila">
+                        <label class="block txt_left">Nombre*</label>
+                        <input v-model="name" type="text" name="name" placeholder="" required>
+                    </fieldset>
+                    <fieldset class="fila">
+                        <label class="block txt_left">Correo eléctronico*</label>
+                        <input v-model="email"  type="email" name="email" placeholder="" required>
+                    </fieldset>
+                    <fieldset class="fila">
+                        <label class="block txt_left">Asunto*</label>
+                        <input v-model="subject" type="text" name="subject" placeholder="" required>
+                    </fieldset>
+                    <fieldset class="fila">
+                        <label class="block txt_left">Comentario*</label>
+                        <textarea v-model="comments"  name="comments" cols="30" rows="10" required></textarea>
+                    </fieldset>
+                    <div class="txt_center m_t_10">
+                        <button type="submit" name="btnLogin" data-effect="mfp-move-from-top" class="btnA">
+                            ENVIAR
+                        </button>
+                    </div>
+                </form>
+                <div class="clear"></div>
+            </section>
+
+            <div class="clear"></div>
+        </section>
+
+        <div class="clear"></div>
+    </section>
+
+</section>
+<!--Fin Content_all-->
+@{component('footer_qbano')}
+@{version('contact.js')}

@@ -1,0 +1,60 @@
+<!--Content_all-->
+@{json(model.address, 'modelAddress')}
+<section class="content_all intern">
+    @{component('header_qbano')}
+
+    <!--Cont Mi cuenta-->
+    <section class="wrapper_sl_2" id="account_address">
+        <div class="titulo padd_header_int">
+            <h1>MIS DIRECCIONES</h1>
+        </div>
+        <section class="block">
+            <article class="small-12 medium-12 large-12 m_b_10" v-if="addresses.length > 0">
+                <section class="formBB panel_bor">
+                    <section class="all_address">
+                        <article v-for="(address, index) in addresses" :key="address.description" v-if="address">
+                            <div class="checkSite">
+                                <input type="radio" name="formaPagos" :id="address['@rid']" :value="address['@rid']" :checked="isSelected(address)">
+                                <label for="dir1" v-on:click="selectAddress(address, $event)">
+                                    <div class="elimnar_ico">
+                                        <a href="javascript:void(0)" v-on:click="removeAddress(index, $event)"
+                                           class="top_tip closebtnM"
+                                           :id="address['@rid']" data-tips="Eliminar">
+                                            <i class="fa fa-trash-o"></i>
+                                        </a>
+                                    </div>
+                                    <span class="inline">
+                                        <h3>{{address.description}}</h3>
+                                        <p>{{address.address}}, {{address.city}}</p>
+                                    </span>
+                                    <span class="clear"></span>
+                                </label>
+
+
+                            </div>
+                        </article>
+                    </section>
+
+                </section>
+            </article>
+            <article v-else="" style="text-align: center ">
+                <div class="alertPage">
+                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                    <h2>No cuenta con direcciones actualmente.</h2>
+                </div>
+            </article>
+            <div class="txt_center p_t_20">
+                <a href="javascript:void(0)" class="btnA new_dir" v-on:click="addNewLocation()">Agregar dirección</a>
+                <div class="clear"></div>
+                <a href="/account" class="link p_t_5 p_b_5 m_t_20 block">Volver</a>
+            </div>
+            <div class="clear"></div>
+        </section>
+
+        <div class="clear"></div>
+    </section>
+    <!--Fin Cont Mi cuenta-->
+
+</section>
+@{component('footer_qbano')}
+@{version('account.address.js')}

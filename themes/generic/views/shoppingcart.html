@@ -1,0 +1,221 @@
+<!--Content_all-->
+<section class="content_all intern">
+
+    @{component('header_qbano')}
+    @{json(model.cart, 'modelcart')}
+    <section id="carrito" class="wrapper_m">
+
+        <div class="titulo">
+            <h1>TU CARRITO</h1>
+        </div>
+        <section class="bg_panelInt" v-if="isCart()">
+            <section class="bg_detalle listCarrito sin_margin">
+
+                <div class="list_adding_cart">
+                    <ul>
+                        <li v-for="(item, index) of model.items.cartItems"  :key="item['@rid']" class="itemsaddCart" v-if="!isEmptyString(item.product)">
+                            <div class="small-2 medium-1 large-1 columns">
+                                <div class="inline">
+                                    <img v-if="item.image" :src="item.image.url" alt="item.image.name">
+                                </div>
+                            </div>
+                            <div class="small-10 medium-5 large-5 columns">
+                                <div class="inline txtPdo">
+                                    <h3> {{item.product}}</h3>
+                                    <section class="product">
+                                        <div class="ading-tag">
+                                            {{item.product}} {{currencyFormat(item.priceUnit)}}
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                            <div class="small-6 medium-3 large-3 columns">
+                                <a v-show="hasDetails(item)" href="javascript:void(0)" class="slowDetails"><i
+                                        class="fa fa-caret-down" aria-hidden="true"></i> Mostrar Detalle</a>
+                                <div class="catidad_real">
+                                    <a class="restar" v-on:click.prevent="updateItem(item['@rid'], {amount:item.amount-1}, index)"><i class="fa fa-minus"
+                                                                                               aria-hidden="true"></i></a>
+                                    <input disabled v-model="item.amount" v-on:input="model.total" type="text"
+                                           name="cant" :value="item.amount" size="4" class="cantidad" id="cantidad">
+                                    <a class="mas" v-on:click.prevent="updateItem(item['@rid'], {amount:item.amount+1}, index)"><i class="fa fa-plus"
+                                                                                            aria-hidden="true"></i></a>
+                                </div>
+                            </div>
+                            <div class="small-4 medium-3 large-3 columns txt_right">
+                                <h4>{{currencyFormat(item.price)}}
+                                <div class="elimnar_ico">
+                                    <a title="Eliminar Producto" v-on:click.prevent="deleteItemCart(index, $event)" class="top_tip" data-tips="Eliminar">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="clear"></div>
+
+                            <section class="bgAditionals">
+                                <div class="large-4 medium-4 small-12 columns" v-if="item.cartItemModifiers.length > 0">
+                                    <section class="adition_list">
+                                        <!--modifier-->
+                                        <h3> Adiciones y/o Incluidos</h3>
+                                        <div v-for="modifier in item.cartItemModifiers" class="ading-tag">
+                                            + {{modifier.modifier}}:
+                                            {{modifier.modifierItem}} ({{modifier.priceUnit?
+                                            currencyFormat(modifier.priceUnit):"Incluido"}})
+                                        </div>
+                                    </section>
+                                </div>
+                                <div class="large-4 medium-4 small-12 columns"
+                                     v-for="modifierg in item.cartItemModifierGroups">
+                                    <section class="adition_list">
+                                        <!--modifierGrupo-->
+                                        <h3>{{modifierg.group.name}}</h3>
+
+                                        <div v-for="modifi in modifierg.modifiers" class="ading-tag">
+                                            + {{modifi.modifier.name}}:{{modifi.modifierItem.name}} {{modifi.price?
+                                            "("+currencyFormat(modifi.price)+")":""}}
+                                        </div>
+                                    </section>
+                                </div>
+
+                                <div class="bgAditionals" v-for="coupon in item.productsCoupons">
+                                    <!--cupones-->
+                                    <section class="adition_list">
+                                        <h3>{{coupon.product.name}}</h3>
+                                        <section class="adition_list" v-if="coupon.modifiers.length > 0">
+                                            <!--modifier-->
+                                            <h3> Adiciones y/o Incluidos</h3>
+                                            <div v-for="modifier in coupon.modifiers" class="ading-tag">
+                                                + {{modifier.modifier.name}}:
+                                                {{modifier.modifierItem.name}} ({{modifier.price?
+                                                currencyFormat(modifier.price):"Incluido"}})
+                                            </div>
+                                        </section>
+                                        <section v-for="modifierg in coupon.modifiersGroups">
+                                            <div class="large-4 medium-4 small-12 columns" >
+                                                <section class="adition_list">
+                                                    <!--modifierGrupo-->
+                                                    <h3>{{modifierg.group.name}}</h3>
+                                                    <div v-for="modifi in modifierg.modifiers" class="ading-tag">
+                                                        + {{modifi.modifier.name}}:{{modifi.modifierItem.name}} {{modifi.price?
+                                                        "("+currencyFormat(modifi.price)+")":""}}
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </section>
+                                    </section>
+                                </div>
+                            </section>
+                            <div class="clear"></div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="clear"></div>
+
+                <section class="panel_bor bor_top m_b_20">
+                    <section class="bg_total">
+                        <section class="total">
+                            <article>
+                                <div class="col1">
+                                    <b>Sub total</b>
+                                </div>
+                                <div class="col2">
+                                    <strong>{{currencyFormat(model.items.total)}}</strong>
+                                </div>
+                            </article>
+                            <article class="domic">
+                                <div class="col1">
+                                    Costo de domicilio
+                                </div>
+                                <div class="col2">
+                                    <strong class="min">{{currencyFormat(calc.deliverycost)}}</strong>
+                                </div>
+                            </article>
+
+                            <article class="coupon domic" v-if="model.costCoupon">
+                                <div class="col1">
+                                    Descuento cupón
+                                </div>
+                                <div class="col2">
+                                    <!-- <strong class="min">{{currencyFormat(model.costCoupon)}}</strong> -->
+                                </div>
+                            </article>
+
+                            <article class="totalall">
+                                <div class="col1">
+                                    <b>TOTAL</b>
+                                </div>
+                                <div class="col2">
+                                    <strong class="all">{{currencyFormat(total)}}</strong> 
+                                </div>
+                            </article>
+
+                            <div class="clear"></div>
+                        </section>
+                    </section>
+                </section>
+
+                <div class="clear"></div>
+
+                <div class="centerBtn paddselectproduct">
+                    <a href="javascript:void(0)" class="btnC" v-on:click.prevent="clear()" id="btn_empty_cart">VACIAR CARRITO</a>
+                    <a href="javascript:void(0)"  v-on:click.prevent="updatecart()" data-effect="mfp-move-horizontal"
+                       class="btnA" id="btn_go_to_checkout">CONTINUAR AL CHECKOUT</a>
+                </div>
+
+            </section>
+        </section>
+        <section v-else style="text-align: center ">
+            <div class="alertPage">
+                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                <h2>No hay productos agregados.</h2>
+            </div>
+            <br><br>
+            <a href="/" data-effect="mfp-move-horizontal"
+               class="btnA">Ver productos</a>
+        </section>
+
+        <div class="clear"></div>
+    </section>
+
+
+    <a style="display: none" href="#modalPromo" data-effect="mfp-zoom-in" class="btnA modales"></a>
+    <!--Modal Promo-->
+
+    <section id="modalPromo" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <h3>AÑADE LO QUE MAS TE GUSTA</h3>
+            <a title="Close (Esc)" class="mfp-close ti-close"></a>
+        </div>
+        <section class="cont_modal modalPromo">
+            <!-- <h1>AÑADE LO QUE MAS TE GUSTA</h1> -->
+            <p>Disfruta tu domicilio con los acompañantes ideales para acompañar tus platos favoritos</p>
+            <div class="wrapper_m2 block" v-if="status">
+                <div class="larger-6 medium-6 small-12 columns padding" v-for="product in products">
+                    <div class="check_modal c6">
+                        <input type="radio" name="maspromo" :id="product.id">
+                        <label :for="product.id" class="collection-label">
+                            <div class="img">
+                                <span class=""></span>
+                                <img v-if="product.image" :src="product.image.url" alt="{{product.image.name}}"  >
+                                <img v-else src="@{routeImage('no_found.png')}" alt="sin imagen">
+                            </div>
+                            <div class="tittle">
+                                <h2>{{product.name}}</h2>
+                                <h2 class="price">{{currencyFormat(product.priceDefault)}}</h2>
+                                <a href="javascript:void(0)" class="cart_ico uploadCart" v-on:click="selectedProduct(product, $event)"><span class="fa fa-shopping-cart"></span></a>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <a href="/checkout" class="closebtnM">FINALIZAR PEDIDO</a>
+            <div class="clear"></div>
+        </section>
+    </section>
+    <!--Fin Modal Promo-->
+</section>
+<!--Fin Content_all-->
+
+@{component('footer_qbano')}
+@{version('collections.js')}
+@{version('shoppingcart.js')}

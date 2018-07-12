@@ -1,0 +1,346 @@
+/*------------------------------------*\
+    $BLOCG
+\*------------------------------------*/
+.blogFeature
+  block()
+  &:after
+    clear()
+  .columFets
+    box()
+    padding 17px 17px 20px
+    &:after
+      clear()
+  .panel
+    background backgroundColorGray
+    trans(.4s)
+    block()
+    margin 0
+    &:hover
+      box-shadow 0 2px 3px 0 rgba(0,0,0,0.07)
+      .txt
+        i
+          right 27px
+    .img
+      width 100%
+      height 100px
+      background-size cover
+      background-repeat no-repeat
+      background-position center
+      none()
+    img
+      width 100%
+      block()
+    .txt
+      block()
+      padding 20px 30px
+      relative()
+      &:after
+        clear()
+      h2
+        fontb()
+        block()
+        color black
+        font(20px)
+        margin 0 0 5px
+      p
+        block()
+        margin 0
+      i
+        background white
+        border-radius 5px 
+        color black
+        text-align center
+        width 30px
+        height 35px
+        line-height 35px
+        absolute()
+        font(20px)
+        top 0
+        bottom 0
+        margin auto
+        right 30px
+        trans(.3s)
+  //Panel Destacados
+  .infoBlogbg
+    box()
+    padding 26px 30px
+    &:after
+      clear()
+  h1
+    font(33px)
+    line-height 35px
+    width 80%
+    margin 15px 0 20px
+    block()
+  h2
+    font(23px)
+    margin 0 0 10px
+    block()
+  hr
+    margin 34px 0
+    block()
+    opacity .5
+  .list
+    block()
+    &:after
+      clear()
+    li
+      block()
+      margin 0 0 18px
+      p
+        margin 0
+        block()
+        font(16px)
+        letter-spacing .6px
+        line-height 23px
+  /*Buscador*/
+  .bg_search
+    block()
+    relative()
+    box()
+    padding 0px
+    &:after
+      clear()
+    form
+      width 100%
+      fieldset
+        width 100%
+        block()
+        input
+          width 100%
+          text-align left
+          font(17px)
+          border-radius 500px
+          margin 0
+  /*Redes share*/
+  .redes_searsh
+    trans(.4s)
+    margin 16px 0 25px
+    a
+      width 38px
+      height 38px
+      line-height 38px
+      border-radius 50%
+      text-align center
+      inline()
+      relative()
+      color white
+      margin 0 4px
+      font(19px)
+      box()
+      trans(.4s)
+      &.face
+        background rgb(81, 116, 194)
+      &.twittr
+        background rgb(22, 156, 226)
+      &.instagram
+        background #f09433
+        background -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)
+        background -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)
+        background linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)
+      &:hover
+        transform translateY(-3px)
+      &:before
+        background-color black
+        left 0
+        margin-left -19px
+        width 59px
+      &:after
+        border-top 5px solid hsla(black,.9)
+        
+
+
+/*Lista Articles*/
+.listArticle
+  block()
+  &:after
+    clear()
+  .grid-item  
+    left2()
+    box()
+    padding 17px 17px 20px
+  .grid-sizer,
+  .grid-item  
+    width 33.3%
+    +below(642px)
+      width 100%
+    &.large
+      width 66.6%
+      +below(642px)
+        width 100%
+  li
+    &:after
+      clear()
+    .panel
+      background backgroundColorGray
+      trans(.4s)
+      block()
+      margin 0
+      &:hover
+        box-shadow 0 2px 3px 0 rgba(0,0,0,0.07)
+        .txt
+          i
+            right 27px
+    .img
+      width 100%
+      height 100px
+      background-size cover
+      background-repeat no-repeat
+      background-position center
+      none()
+    img
+      width 100%
+      block()
+    .txt
+      block()
+      padding 20px 30px
+      relative()
+      &:after
+        clear()
+      h2
+        fontb()
+        block()
+        color black
+        font(20px)
+        margin 0 0 5px
+      p
+        block()
+        margin 0
+      i
+        background white
+        border-radius 5px 
+        color black
+        text-align center
+        width 30px
+        height 35px
+        line-height 35px
+        absolute()
+        font(20px)
+        top 0
+        bottom 0
+        margin auto
+        right 30px
+        trans(.3s)
+        
+
+
+
+
+//DETAIL
+body 
+  .detailBlog
+    &:after
+      clear()
+    //Slider
+    .sliderBlog
+      relative()
+      min-height auto
+      li
+        min-height auto
+      .owl-nav
+        .owl-prev,
+        .owl-next
+          color white
+          font(30px)
+          absolute()
+          height 40px
+          line-height 40px
+          background transparent
+          top 0
+          bottom 0
+          margin auto
+          z-index 3
+        .owl-prev
+          left 20px
+          +below(642px)
+            left 5px
+        .owl-next
+          right 20px  
+          +below(642px)
+            right 5px
+      .owl-dots
+        absolute()
+        z-index 3
+        bottom 20px
+        width 100%
+        text-align center
+        +below(642px)
+          bottom 8px
+        .owl-dot 
+          span
+            width 35px
+            height 4px
+            background rgba(white, .6)
+          &.active
+            span
+              background white
+    //Info Article
+    h2
+      font(30px)  
+      fontb()
+      color primaryColor
+      letter-spacing -.02em
+      margin 0 0 10px
+      block()
+      +below(642px)
+        font(26px)
+    p
+      line-height 25px
+      margin 0 0 20px
+      color black
+    img
+      width 100%
+    .txt
+      block()
+      box()
+      padding 55px 95px
+      &:after
+        clear()
+      +below(642px)
+        padding 35px 36px
+    //Image text
+    .imageColumnText
+      block()
+      &:after
+        clear()
+      .txt
+        +below(800px)
+          padding 25px 67px
+        +below(642px)
+          padding 25px 36px
+    //Image
+    .imageColumn
+      block()
+      padding 20px 0
+      &:after
+        clear()
+      .columns
+        box()
+        padding 0 20px
+        +below(642px)
+          padding 0 14px 20px
+    //Video
+    .videoBlog
+      block()    
+      over()
+      relative()
+      &:after
+        clear()
+      .mask
+        flex()
+        i
+          font(45px)
+          color white
+          margin 0px auto
+          inline()
+          trans(.4s)
+          -webkit-animation scaleslide 2s infinite
+          width 65px
+          height 65px
+          line-height 65px
+          background rgba(black, .6)
+          text-align center
+          border-radius 50%
+      img
+        width 100%
+        

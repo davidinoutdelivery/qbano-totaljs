@@ -1,0 +1,46 @@
+<section class="content_all sin_padd" id="content_dynamic_page">
+
+    @{component('header_qbano')}
+
+    @{if model.page_data.image}
+    <section class="wrapper_m detailBlog animated fadeIn">
+
+        <div class="titulo padd_header_int">
+            <h1>@{model.page_data.title}</h1>
+        </div>
+        <!--Slider-->
+        <ul class="carrusel_slider sliderHome owl-carousel owl-theme">
+            <li class="item">
+                <div class="imgslide" style="background-image: url('@{model.page_data.image.url}')"></div>
+                <img src="@{model.page_data.image.url}" alt=""/>
+            </li>
+        </ul>
+        <!--Fin Slider-->
+    </section>
+    @{fi}
+
+    <section class="wrapper_m detailBlog animated fadeIn">
+        @{section('content')}
+    </section>
+</section>
+<style>
+    #content_dynamic_page .wrapper_m.detailBlog {
+        margin-top: 65px;
+        margin-bottom: 65px;
+    }
+</style>
+<script>
+    setTimeout(function () {
+        $('.sliderHome').owlCarousel({
+            loop: true,
+            margin: 0,
+            nav: false,
+            items: 1,
+            animateOut: 'fadeOut',
+            autoplay: true,
+            autoplayTimeout: 5000,
+            smartSpeed: 450
+        });
+    }, 70);
+</script>
+@{component('footer_qbano')}

@@ -1,0 +1,74 @@
+.map
+	position fixed
+	left 0
+	right 0
+	top 0
+	bottom 0
+	z-index 999
+	.mark
+		position fixed
+		left 0
+		right 0
+		top 0
+		bottom 0
+		background rgba(black, .7)
+	.contMap
+		position fixed
+		left 10%
+		right 10%
+		top 5%
+		.headerMap
+			background #363636
+			padding 10px 5px
+			color white
+			text-transform uppercase
+			text-align center
+			position relative
+			fontb()
+			.close
+				position absolute
+				right: 8px
+				top: 2px
+				font(25px)
+				padding 2px
+				background none
+				color white
+				border none
+.btn_mapa
+	absolute()
+	z-index 8
+	right 0
+	left 0
+	margin auto
+	top 95%
+	display inline-block
+	max-width 281px
+
+.my-location-button
+	position absolute
+	right 10px
+	z-index 9
+	background white
+	padding 4px
+	bottom 83px
+	box-shadow rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px
+	border-radius 2px
+	img
+		opacity 0.6
+	&:hover
+		img
+			opacity 0.8
+
+.form-error
+	animation shake 0.5s
+	border-color red !important
+
+@keyframes shake
+	10%, 90%
+		transform translate3d(-2px, 0, 0)
+	20%, 80%
+		transform translate3d(3px, 0, 0)
+	30%, 50%, 70%
+		transform translate3d(-5px, 0, 0)
+	40%, 60%
+		transform translate3d(5px, 0, 0)

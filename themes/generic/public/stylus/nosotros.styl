@@ -1,0 +1,169 @@
+/*------------------------------------*\
+    $NOSOTROS
+\*------------------------------------*/
+.imgbg_nosotros,
+.imgAll
+  width 100%
+  &:after
+    clear()
+  img
+    width 100%
+   
+.detailGeneral
+	a
+		color primaryColor
+		fontb()
+  
+
+//All Contents
+.viewContent
+  block()
+  padding 30px 0 0px
+  &:after
+    clear()
+  h1
+    font(40px)  
+    fontb()
+    color primaryColor
+    letter-spacing -.02em
+    block()
+    +below(642px)
+      font(36px)
+    +below(320px)
+      font(27px)
+  h2
+    font(30px)  
+    fontb()
+    color primaryColor
+    letter-spacing -.02em
+    margin 0 0 30px
+    block()
+    +below(642px)
+      font(26px)
+  .centerBtn
+    margin 35px 0
+    block()
+    &:after
+    &:before
+      clear()
+  p
+    line-height 25px
+    margin 0 0 20px
+    color black
+  //Contet Marco
+  .contetMult
+    block()
+    margin 10px auto 120px
+    &:after
+      clear()
+    &.large
+      max-width 1150px
+      width 96%
+    &.medium
+      max-width 800px
+      width 96%
+    &.small
+      max-width 600px
+      width 96%
+    //Text
+    .txt_l
+      padding 30px 0 0
+      block()
+      width 90%
+      text-align right
+      &:after
+        clear()      
+      +below(642px)
+        width 97%
+        margin 0 auto 30px
+        float none
+        block()
+    .img_l
+      block()
+      img
+        left2()
+        +below(642px)
+          width 100%
+    .txt_r
+      block()
+      padding 30px 0 0
+      width 90%
+      right2()
+      text-align left
+      &:after
+        clear() 
+      +below(642px)
+        width 97%
+        margin 0 auto
+        float none
+        block() 
+      .btnA
+        right2()
+    .img_r
+      block()
+      img
+        right2()
+        +below(642px)
+          width 100%
+    //Background Option
+    &.bgOption
+      background-position center
+      background-size cover
+      background-repeat no-repeat
+      box()
+      padding 50px 0 40px
+      block()
+      &:after
+        clear()
+      h2
+        margin 0 0 20px
+      .centerBtn
+        margin 30px 0 0
+    //Background Image Option
+    &.bgOptionImg
+      background-position center
+      background-size cover
+      background-repeat no-repeat
+      box()
+      padding 50px 0 40px
+      block()
+      height 100vh
+      over()
+      &:after
+        clear()
+      +below(642px)
+        height auto
+      h2
+        margin 0 0 20px
+      .centerBtn
+        margin 30px 0 0
+      img
+        width 80%
+        margin 40px auto 0px
+        block()
+      //Video
+      &.video
+        flex()
+        +below(642px)
+          min-height 100vh
+        .wrapper_l          
+          h2,
+          p,
+          i,
+          .play
+            color white
+          i
+            font(50px)
+            margin 0px auto
+            inline()
+            trans(.4s)
+            -webkit-animation scaleslide 2s infinite
+            width 60px
+            height 60px
+            line-height 60px
+            border 2px solid white
+            text-align center
+            border-radius 50%
+          .centerBtn
+              margin 30px 0
+      

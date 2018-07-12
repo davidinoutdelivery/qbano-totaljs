@@ -1,0 +1,51 @@
+<section class="content_all intern">
+    @{component('header_qbano')}
+    <!--Cont Login-->
+    <section class="wrapper_sl p_b_60">
+
+        <div class="titulo padd_header_int">
+            <h1>Mi Perfil</h1>
+        </div>
+
+        <section class="bg_user_section">
+            <article class="small-12 medium-12 large-12">
+                <div class="panel_bor bg_gris">
+                    <h1>Información de mi cuenta</h1>
+                    <section class="formBB">
+                        <form v-on:submit.prevent="onSubmit" id="form_update_profile">
+                            <fieldset>
+                                <label>Nombre completo</label>
+                                <input v-model="name" type="text" name="name" placeholder="Nombre completo">
+                            </fieldset>
+                            <fieldset class="relative">
+                                <label>Documento</label>
+                                <input v-model="identification" type="number" name="identification" placeholder="Cédula (Opcional)">
+                            </fieldset>
+                            <fieldset>
+                                <label>Correo eléctronico*</label>
+                                <input v-model="email" type="email" name="email" placeholder="Nombre@gmail.com" disabled>
+                            </fieldset>
+                            <fieldset>
+                                <label>Teléfono</label>
+                                <input v-model="phone" type="tel" name="phone" placeholder="057 (1) +">
+                            </fieldset>
+                            <fieldset class="txt_center m_t_10 txt_center">
+                                <button type="submit" name="btnLogin" class="btnA inline">Guardar</button>
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+
+                <div class="txt_center p_t_20">
+                    <a href="/account" class="link p_t_5 p_b_5 m_t_10 block">Volver</a>
+                </div>
+            </article>
+            <div class="clear"></div>
+        </section>
+
+        <div class="clear"></div>
+    </section>
+    <!--Fin Cont Login-->
+</section>
+@{component('footer_qbano')}
+@{version('account.profile.js')}

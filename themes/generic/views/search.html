@@ -1,0 +1,46 @@
+<!--Content_all-->
+@{json(model.search, 'modelSearch')}
+<section class="content_all intern">
+    @{component('header_qbano')}
+
+    <section id="search">
+            <section class="wrapper_l">
+
+                    <div class="titulo searchResut p_t_20 p_b_30">
+                        <h1><i class="ti-search"></i> RESULTADOS DE: <strong> {{word}}</strong></h1>
+                    </div>
+        
+                    <section class="row bg_destacados">
+                        <ul class="destacados" v-if= "data.length > 0">
+                            <li class="small-12 medium-6 large-4 grid-item" v-for="result in data">
+                                <div class="bg_panel">
+                                        <a @click="detail(result)">
+                                            <div class="imgbg">
+                                                <img :src="getUrlImage(result)" alt="sin imagen">
+                                            </div>
+                                            <div class="tituloDest">
+                                                <h2><span class="txt_center block">{{result.name}}</span></h2>
+                                            </div>
+                                            </a>
+                                    <p>{{type(result)}}</p>
+                                    <a @click="detail(result)" class="btnA border">Ver mas</a>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="alertPage" v-else>
+                            <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
+                            <h2>No se encontraron resultados para tu búsqueda...</h2>
+                            <div class="txt_center p_t_20 p_b_30">
+                                <a href="/" data-effect="mfp-move-horizontal" class="btnA">Ver productos</a>
+                            </div>
+                        </div>
+                    </section>
+                    <!--Fin Products-->
+                    <div class="clear"></div>
+                </section>
+    </section>
+</section>
+<!--Fin Content_all-->
+
+@{component('footer_qbano')}
+@{version('search.js')}

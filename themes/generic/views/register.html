@@ -1,0 +1,135 @@
+<!--Content_all-->
+<section class="content_all intern">
+
+    @{component('header_qbano')}
+
+    <div class="titulo padd_header_int">
+        <div class="wrapper_l padding">
+            <h1>Registrarse</h1>
+        </div>
+    </div>
+
+    <!--Cont Login-->
+    <section class="wrapper_m p_t_20 p_b_10">
+        <section class="bg_login padding txt_center">
+            <article class="small-12 medium-12 large-6 inline">
+                <div class="panel" id="register">
+
+                    <div class="logo">
+                        <img src="generic/images/logo.png">
+                    </div>
+
+                    <section class="formBB form_register" v-if="!facebook">
+                        <form v-on:submit.prevent="onSubmit" class="form_register">
+                            <section class="social_login">
+                                <a href="javascript:void(0)" v-on:click="facebookRegister" class="btn_login face" id="btn_facebook">
+                                    <span>Ingresar con Facebook</span>
+                                </a>
+                            </section>
+                            <div class="clear"></div>
+                            <section class="bg_register_Open p_t_10">
+                                <fieldset class="relative">
+                                    <label>Nombre</label>
+                                    <input v-model="name" type="text" name="name" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Documento</label>
+                                    <input v-model="identification" type="number" name="identification" placeholder="Cédula (Opcional)">
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Correo electrónico</label>
+                                    <input v-model="email" type="email" name="email" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Numero telefónico</label>
+                                    <input v-model="phone" type="number" name="email" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Contraseña</label>
+                                    <input v-model="password_one" type="password" name="password" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Confirmar Contraseña</label>
+                                    <input v-model="password_two" type="password" name="password_two" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <div data-callback="capcha_filled"  data-expired-callback="capcha_expired"
+                                         class="g-recaptcha"  data-sitekey="6LciQCYUAAAAADDLh_IskpNNDZoXkzJM7vDucn_R"></div>
+                                </fieldset>
+                                <fieldset class="relative termBg">
+                                    <input v-model="term" name="term" type="checkbox" id="termnLogi">
+                                    <label for="termnLogi">
+                                        Aceptar los <a target="_blank" href="/terms">terminos y condiciones</a>
+                                    </label>
+                                </fieldset>
+                                <div class="line_form"></div>
+                                <div class="txt_center m_t_10">
+                                    <button type="submit" name="btnLogin" class="btnA">REGISTRARSE</button>
+                                </div>
+                            </section>
+                        </form>
+                        <a href="/login" class="link"><i class="fa fa-long-arrow-left"></i> Volver a
+                            iniciar sesión</a>
+                    </section>
+
+                    <section class="formBB form_register" v-else="">
+                        <form v-on:submit.prevent="onSubmit" class="form_register" >
+                            <div class="clear"></div>
+                            <section class="bg_register_Open p_t_10">
+                                <fieldset class="relative">
+                                    <label>Nombre</label>
+                                    <input v-model="name" type="text" name="name" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Documento</label>
+                                    <input v-model="identification" type="number" name="identification" placeholder="Cédula (Opcional)">
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Correo electrónico</label>
+                                    <input v-model="email" type="email" name="email" required>
+                                </fieldset>
+                                <fieldset class="relative">
+                                    <label>Numero telefónico</label>
+                                    <input v-model="phone" type="number" name="email" required>
+                                </fieldset>
+                                <fieldset class="relative termBg">
+                                    <input v-model="term" name="term" type="checkbox" id="termnLogi">
+                                    <label for="termnLogi">
+                                        Aceptar los <a target="_blank" href="/terms">terminos y condiciones</a>
+                                    </label>
+                                </fieldset>
+                                <div class="line_form"></div>
+                                <div class="txt_center m_t_10">
+                                    <button type="submit" name="btnLogin" class="btnA">REGISTRARSE</button>
+                                </div>
+                            </section>
+                        </form>
+                        <a href="/login" class="link"><i class="fa fa-long-arrow-left"></i> Volver a
+                            iniciar sesión</a>
+                    </section>
+                </div>
+            </article>
+            <div class="clear"></div>
+        </section>
+
+        <div class="clear"></div>
+    </section>
+    <!--Fin Cont Login-->
+
+</section>
+<!--Fin Content_all-->
+
+
+@{component('footer_qbano')}
+<script async defer src="https://www.google.com/recaptcha/api.js?hl=es"></script>
+<script>
+    $(document).ready(function () {
+        /** Analytics **/
+        var params = {};
+        params[Properties.CONTENT_NAME] = "register";
+        Analytics.track(EVENTS.VIEW_CONTENT, params);
+        /** **/
+    });
+</script>
+@{version('login.js')}
+@{version('register.js')}

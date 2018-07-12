@@ -1,0 +1,452 @@
+/*------------------------------------*\
+    $DETALLE PRODUCTOS
+\*------------------------------------*/
+.bg_detalle
+  relative()
+  margin 0px 0
+  .bg_panel
+    relative()
+    .imgbg
+      height auto
+      width 100%
+      over()
+      relative()
+      block()
+      margin 0
+      background-repeat no-repeat
+      background-position center
+      background-size cover
+      border-radius 10px
+      img
+        height auto
+        max-width 100%
+        max-height 450px
+        block()
+        box()
+        padding 0px 0
+        margin 0 auto
+      .mask
+        none()
+
+    .tituloDest
+      none()
+
+  .bg_panelInt
+    relative()
+    margin 0 
+    padding 0
+    &:after
+      clear()
+    .txt_left
+      +below(642px)
+        text-align center !important
+    .lineap
+      margin 5px 0
+    h1,
+    h2
+      color primaryColor
+      fontb()
+      font(23px)
+      width 100%
+      over()
+      text-align left     
+      margin 0 0 8px 
+      +below(642px)
+        font(30px)
+        text-align center
+      &.price
+        color primaryColorTitle
+        fontb()
+        font(20px)
+        padding 0
+        &.antes
+          font(14px)
+          color primaryColorText
+          text-decoration line-through
+        +below(642px)
+          text-align center
+          font(27px)
+          margin 0 0 5px
+          block()      
+    h3
+      color primaryColorText
+      fontb()
+      font(18px)
+      text-align center
+      mayus()
+      padding 0px 0 7px 0
+      block()
+      +below(642px)
+        margin 0 0 5px
+        padding 7px 0 7px
+        font(18px)
+      +below(330px)
+        font(14px)        
+      &.valor
+        font(26px)
+        +below(642px)
+          font(25px)
+    .selectCantidad
+      .checkOpenW:last-child
+        margin 0
+      .checkOpenW
+        left2()
+        margin 0 25px 0 0
+    .selectSalsas
+      label
+        fontr()
+        font(19px)
+        color primaryColorText
+  
+  //Producto no disponible
+  &.available
+    relative()
+    &:before
+      absolute()
+      width 100%
+      height 100%
+      top 0
+      left 0
+      content ''
+      z-index 3
+    .imgbg
+      .mask
+        transform scale(1)
+        opacity 1
+        visibility visible
+        text-align center
+        background transparent
+        block()
+        flex()
+        h5
+          fontb()
+          color primarytext
+          block()
+          opacity .6
+          font(22px)
+        i
+          opacity .6
+          font(48px)
+          color primarytext
+          margin 0 auto 5px
+          block()
+      .img,
+      img
+        -webkit-filter blur(5px) //grayscale(75%) 
+        filter blur(5px) //grayscale(75%)
+        opacity .3
+    .bg_panelInt
+      opacity .3
+
+
+  .paddselectproduct
+    box()
+    padding 0px 0 17px 0
+    block()
+    &:after
+      clear()
+    .padding
+      +below(642px)
+        padding 0
+
+.txt_detail
+  block()
+  padding 0
+  &:after
+    clear()
+  p
+    font(14px)
+    color primaryColorText
+    text-align justify
+    margin 13px 0 0
+
+
+
+//Aditionals
+.paddselectproduct
+  block()
+  over()
+  relative()
+  padding 20px 0
+  &:after
+    clear()
+  h3
+    color primaryColorTitle
+    font(24px)
+    fontb()
+    block()
+    margin 5px 0 3px
+  .block
+    margin 0 0 5px
+    box()
+    background transparent
+    padding 0
+  label
+    block()
+    padding 6px 0px 6px 29px
+    font(16px)
+    fontr()
+    color primaryColorText    
+    +below(340px)
+      height auto
+    span
+      block()
+      fontr()
+      font-weight bold
+      color primaryColorText
+      font(16px)
+      margin 0
+      box()
+      padding 2px 0px
+      background transparent
+      +below(642px)
+        padding 6px 0px 6px 8px
+      +below(320px)
+        padding 0
+        font(14px)
+    //Checbox Select
+    .checkMod
+      label
+        inline()
+        right2()
+        padding 0px 0px 0px 31px
+      [type=checkbox]+label:before, 
+      [type=checkbox]:not(.filled-in)+label:after
+        top 0px
+      [type=checkbox]:checked+label:before
+        top -2px
+        left -2px
+    //Control cantidad
+    &.numberSmall
+      padding 6px 0
+    //   b
+    //     block()
+    //     padding 3px 0
+    //     text-align left
+    //     font(14px)
+    //   span
+    //     padding 0
+    //     margin 3px 0
+    //     +below(642px)
+    //       margin 6px 0
+    //     .catidad_real
+    //       margin 0  
+    //       .restar,
+    //       .mas
+    //         width 22px
+    //         height 30px
+    //         line-height 31px            
+    //         font(10px)            
+    //         +below(642px)
+    //           height 27px
+    //           line-height 28px
+    //       .cantidad
+    //         height 30px            
+    //         width 29px            
+    //         font-size 14px
+    //         +below(642px)
+    //           height 27px
+    //           line-height 28px
+              
+  
+
+
+//Switch Detail
+body
+  label.nameOption
+    padding 16px 0
+  .switchDetail    
+    inline()
+    margin 10px auto
+    trans(.3s)
+    background-color backgroundColorGray
+    border-radius 500px
+    border 5px solid backgroundColorGray
+    right2()
+    &:after
+      clear()
+    label
+      font-size 0px !important
+      padding 0 !important
+      min-width 25px 
+      &:before
+      &:after
+        none()
+    a
+      background-color primaryColor
+  
+
+
+//Cantidad
+.catidad_real
+  text-align center
+  relative()
+  box()
+  margin 0 0 20px 0
+  display inline-block
+  vertical-align top
+  font(0)
+  .cantidad,
+  input[type="text"],
+  input[type="number"]
+    text-align center
+    background transparent
+    width 30px
+    height 36px
+    font(18px)
+    -webkit-appearance none
+    color primaryColorTitle
+    margin 0
+    display inline-block
+    border none
+    border-top 1px solid grayBorder
+    border-bottom 1px solid grayBorder
+    border-left 1px solid grayBorder
+    border-right 1px solid grayBorder
+    vertical-align top
+    border-radius 0
+  .mas,
+  .restar
+    display inline-block
+    vertical-align top
+    cursor  pointer
+    width  28px
+    height  36px
+    line-height 36px
+    color grayBorder
+    font(13px)
+    trans(.4s)
+    margin 0
+    border-top 1px solid grayBorder
+    border-bottom 1px solid grayBorder
+    &:hover
+      color grayBorder
+  .restar
+    border-radius 7px 0 0 7px
+    border-left 1px solid grayBorder
+  .mas
+    border-right 1px solid grayBorder
+    border-radius 0 7px 7px 0
+  //Small
+  &.small
+    .mas,
+    .restar
+      width 28px
+      height 33px
+      line-height 33px
+      font(11px)
+      +below(642px)
+        line-height 35px
+    .cantidad
+      width 34px
+      height 33px
+      font(15px)
+
+
+
+//MODIFICADORES
+.bg_acodeon
+  .modificador_btn
+    background primaryColor
+    color white
+    block()
+    fontr()
+    margin 0 0 8px
+    box()
+    padding 10px 10px
+    font(18px)
+    +below(440px)
+      font(14px)
+    &:after
+      clear()
+    i
+      font(22px)
+      vertical-align middle
+      margin 0 0 0 7px
+      +below(420px)
+        right2()
+        margin 4px 0 0 6px
+    span
+      right2()
+      font-weight bold
+      +below(420px)
+        float none
+        block()
+        margin 5px 0 0
+  .cont_modif
+    none()
+    &:after
+      clear()
+    h5
+      color primaryColorText
+      background white
+      box()
+      block()
+      padding 8px 10px
+      border-left 2px solid primaryColor
+      margin 0 0 10px
+      +below(440px)
+        font(15px)
+    .block
+      margin 0 0 10px 30px
+      
+
+//Shop Actions
+.actions_detail
+  padding 20px 0 0
+  +below(320px)
+    text-align center
+  .btnA
+    padding 0 25px
+    right2()
+    width auto
+    relative()
+    height 38px
+    line-height 38px
+    border-radius 8px
+    +below(642px)
+      font(13px)
+      line-height 40px
+    span
+      +below(642px)
+        none()
+  .catidad_real
+    +below(320px)
+      margin 0 auto 12px
+      inline()
+    .cantidad
+      +below(642px)
+        line-height 39px
+    .restar
+    .mas
+      +below(642px)
+        line-height 38px
+  
+
+
+
+/*------------- Detalle fijo URL --------------------*/
+body
+  .bgDetailURL
+    block()
+    box()
+    padding 55px 0
+    &:after
+      clear()
+    .bg_detalle 
+      .bg_panelInt 
+        .wrapper_m
+          padding 0
+        h1.price, 
+        h2.price
+          block()
+          text-align left
+          margin 4px 0 15px
+          font(28px)
+          +below(642px)            
+            text-align center
+      .bg_panel 
+        .imgbg
+          +below(642px)
+            margin 0 0 20px 
+            block()

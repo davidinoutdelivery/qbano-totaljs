@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        @{repository.title = model.title ? model.title : 'Tienda online'}
+        <title>@{repository.title}</title>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=no"/>
+        <meta name="google-site-verification" content=""/>
+        <meta name="copyright" content=""/>
+        <meta name="date" content="2017"/>
+        <meta name="author" content=""/>
+        <meta name="robots" content="All"/>
+        <meta name="fragment" content=""/>
+        <meta name="theme-color" content="#e14339"/>
+        <title>Heineken - Colombia</title>
+        <link rel="shortcut icon" type="image/x-icon" href="/generic/images/favicon.ico"/>
+        <link rel="author" type="text/plain" href="humans.txt"/>
+        <link rel="manifest" href="/generic/manifest.json">
+        <!--Style's-->
+        @{version('app.css')}
+        @{section('meta')}
+        <!-- Apple Touch Icons -->
+        <link rel="apple-touch-icon" href="generic/images/icons/apple-touch-icon.png"/>
+        <link rel="apple-touch-icon" sizes="72x72" href="generic/images/icons/apple-touch-icon-72x72.png"/>
+        <link rel="apple-touch-icon" sizes="114x114" href="generic/images/icons/apple-touch-icon-114x114.png"/>
+        <link rel="apple-touch-icon" sizes="144x144" href="generic/images/icons/apple-touch-icon-144x144.png"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js?v=@{F.config.version}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js?v=@{F.config.version}"></script>
+        <script src="https://cdn.ravenjs.com/3.17.0/raven.min.js?v=@{F.config.version}" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+
+        <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+        <script>
+            var OneSignal = window.OneSignal || [];
+            OneSignal.push(function () {
+                OneSignal.init({
+                    appId: "84bd9c01-1163-48d2-bf4b-3d82d373df68",
+                    autoRegister: true,
+                    httpPermissionRequest: {
+                        enable: true
+                    },
+                    notifyButton: {
+                        enable: true,
+                    },
+                });
+
+                OneSignal.getUserId(function (userId) {
+                    console.log("OneSignal User ID:", userId);
+                    if (userId) {
+                        // TODO: Make request to save OneSignal userId in Data Base
+                    }
+                    // (Output) OneSignal User ID: 270a35cd-4dda-4b3f-b04e-41d7463a2316
+                });
+
+            });
+        </script>
+
+    </head>
+    <body>
+        @{body}
+    </body>
+</html>
