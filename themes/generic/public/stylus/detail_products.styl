@@ -44,19 +44,19 @@
       margin 5px 0
     h1,
     h2
-      color primaryColor
+      color primaryColorTitle
       fontb()
-      font(23px)
+      font(24px)
+      mayus()
       width 100%
       over()
-      text-align left     
-      margin 0 0 8px 
+      text-align left      
       +below(642px)
         font(30px)
         text-align center
       &.price
         color primaryColorTitle
-        fontb()
+        fontl()
         font(20px)
         padding 0
         &.antes
@@ -301,8 +301,6 @@ body
     border none
     border-top 1px solid grayBorder
     border-bottom 1px solid grayBorder
-    border-left 1px solid grayBorder
-    border-right 1px solid grayBorder
     vertical-align top
     border-radius 0
   .mas,
@@ -322,11 +320,11 @@ body
     &:hover
       color grayBorder
   .restar
-    border-radius 7px 0 0 7px
+    border-radius 500px 0 0 500px
     border-left 1px solid grayBorder
   .mas
     border-right 1px solid grayBorder
-    border-radius 0 7px 7px 0
+    border-radius 0 500px 500px 0
   //Small
   &.small
     .mas,
@@ -397,13 +395,11 @@ body
   +below(320px)
     text-align center
   .btnA
-    padding 0 25px
-    right2()
-    width auto
+    padding 0px 16px
+    block()
     relative()
     height 38px
     line-height 38px
-    border-radius 8px
     +below(642px)
       font(13px)
       line-height 40px

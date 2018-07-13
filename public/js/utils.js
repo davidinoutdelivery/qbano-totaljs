@@ -23,9 +23,9 @@ var getListCssClasses = function () {
     for (var sSheet = 0; sSheet < sSheetList.length; sSheet++)
     {
         var ruleList = document.styleSheets[sSheet].cssRules;
-        for (var rule = 0; rule < ruleList.length; rule ++)
+        for (var rule = 0; rule < ruleList.length; rule++)
         {
-            allRules.push( ruleList[rule].selectorText );
+            allRules.push(ruleList[rule].selectorText);
         }
     }
     return allRules;
@@ -41,7 +41,7 @@ var classCssOk = function (name_class) {
     // var rules = document.styleSheets[0].rules || document.styleSheets[0].cssRules;
     var rules = getListCssClasses();
     console.log("rules.length: ", rules.length);
-    for (var i=0; i < rules.length; i++) {
+    for (var i = 0; i < rules.length; i++) {
         var rule = rules[i];
         if (typeof rules[i] !== 'undefined' && rules[i].indexOf(name_class) >= 0) {
             console.log("rules[i]: ", rules[i]);
@@ -52,7 +52,7 @@ var classCssOk = function (name_class) {
 };
 
 
-(function($){
+(function ($) {
     /**
      * Se encarga de sobreponer un estado de carga a botones ('a', 'button')
      * @param dict
@@ -65,13 +65,13 @@ var classCssOk = function (name_class) {
      *      }
      * @returns {jQuery}
      */
-    $.fn.startLoading = function(dict) {
+    $.fn.startLoading = function (dict) {
 
         // Se valida qué tipo de elemento es
         var element = $(this);
         var type_element = element.prop("tagName");
 
-        if (type_element === "A" || type_element === "BUTTON"){
+        if (type_element === "A" || type_element === "BUTTON") {
             // Se valida si hay datos de configuración
             var msg = "Cargando...";
             var animate_class = "spin-load";
@@ -103,8 +103,7 @@ var classCssOk = function (name_class) {
                 element.attr("data-oldhtml", old_html);
             }
             element.html("<div class='" + animate_class + "' style='position: relative !important;'></div>" + msg);
-        }
-        else {
+        } else {
             var position = "position: relative !important;";
             var element_height = (element.height() / 2) * (-1);
             var element_width = (element.width() / 2) - 10;
@@ -118,12 +117,10 @@ var classCssOk = function (name_class) {
             if (type_element === "IMG") {
                 element.addClass("img-opacity-middle");
                 element.after("<div class='spin-load spin-load-img' style='top: " + element_height + "px !important; left: " + element_width + "px !important; " + position + "'></div>");
-            }
-            else if (type_element === "SELECT") {
+            } else if (type_element === "SELECT") {
                 element.addClass("img-opacity-high");
                 element.after("<div class='spin-load spin-load-select'></div>");
-            }
-            else {
+            } else {
                 element.addClass("element-opacity-middle");
                 element.append("<div class='spin-load spin-load-img' style='top: " + element_height + "px !important; left: " + element_width + "px !important; " + position + "'></div>");
             }
@@ -133,7 +130,7 @@ var classCssOk = function (name_class) {
     /**
      * Se encarga de quitar el estado de carga de un elemento
      */
-    $.fn.stopLoading = function() {
+    $.fn.stopLoading = function () {
 
         // Se valida qué tipo de elemento es
         var element = $(this);
@@ -141,21 +138,18 @@ var classCssOk = function (name_class) {
 
         element.removeClass("disable-btn img-opacity-middle element-opacity-middle img-opacity-high");
         element.prop("disabled", false);
-        if (type_element === "A" || type_element === "BUTTON"){
+        if (type_element === "A" || type_element === "BUTTON") {
             var data_oldhtml = element.data("oldhtml");
 
             if (data_oldhtml) {
                 element.html(data_oldhtml);
-            }
-            else {
+            } else {
                 element.html("");
             }
-        }
-        else {
+        } else {
             if (type_element === "IMG" || type_element === "SELECT") {
                 element.parent().find(".spin-load").remove();
-            }
-            else {
+            } else {
                 element.find(".spin-load").remove();
             }
         }
@@ -177,7 +171,7 @@ function setLocalStorage(key, value) {
             } catch (e) {
                 console.log("error ", e);
                 Storage.prototype._setItem = Storage.prototype.setItem;
-                Storage.prototype.setItem = function() {};
+                Storage.prototype.setItem = function () {};
             }
         }
     }
@@ -193,9 +187,9 @@ function getLocalStorage(key) {
             return localStorage.getItem(key);
         } catch (e) {
             console.log("Your web browser does not support storing settings locally. In Safari, " +
-                "the most common cause of this is using Private Browsing Mode", e);
+                    "the most common cause of this is using Private Browsing Mode", e);
             Storage.prototype._getItem = Storage.prototype.getItem;
-            Storage.prototype.getItem = function() {};
+            Storage.prototype.getItem = function () {};
         }
     }
 }
@@ -260,7 +254,8 @@ function getFormData($form) {
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
-    if (parts.length === 2) return parts.pop().split(";").shift();
+    if (parts.length === 2)
+        return parts.pop().split(";").shift();
 }
 
 /**
@@ -337,7 +332,7 @@ function changeHref(id, fields, url = null) {
         }
     } else if (id && fields) {
         $(id).attr("href", fields);
-    }
+}
 }
 
 /**
@@ -353,7 +348,8 @@ function getMessage(message, type) {
         return JSON.parse(value.slice(0, value.length - 1));
     }
     return value.slice(0, value.length - 1);
-};
+}
+;
 
 /**
  * Serializa todos los campos de un formulario en un array, cada campo es {nombre, valor}.
@@ -366,12 +362,13 @@ function serializedAll(formName) {
             .filter(function (idx) {
                 return $(this).prop('checked') === false;
             }),
-        function (idx, el) {
-            // attach matched element names to the formData with a chosen value.
-            formData.push({ name: $(el).attr('name'), value: 'off' });
-        });
+            function (idx, el) {
+                // attach matched element names to the formData with a chosen value.
+                formData.push({name: $(el).attr('name'), value: 'off'});
+            });
     return formData;
-};
+}
+;
 
 /**
  * Serializa todos los campos de un formulario como un objeto.
@@ -410,7 +407,8 @@ function serializeObject(formData) {
         }
     }
     return o;
-};
+}
+;
 
 /**
  * le da formato de moneda en pesos a un valor
@@ -423,7 +421,8 @@ function currencyFormat(value) {
     } else {
         return "$ 0";
     }
-};
+}
+;
 
 /**
  * devuelve una promesa con el resultado del api llamado
@@ -435,7 +434,7 @@ function currencyFormat(value) {
 function apiAjax(apiName, type, params) {
 
     var timeout = 0;
-    if (typeof params !== "undefined" && typeof params.timeout !== "undefined" && $.isNumeric(params.timeout)){
+    if (typeof params !== "undefined" && typeof params.timeout !== "undefined" && $.isNumeric(params.timeout)) {
         timeout = params.timeout;
     }
 
@@ -449,17 +448,18 @@ function apiAjax(apiName, type, params) {
                 dataType: 'json',
                 timeout: timeout
             })
-                .then(data => {
-                    resolve(data);
-                })
-                .fail(error => {
-                    reject(error);
-                });
+                    .then(data => {
+                        resolve(data);
+                    })
+                    .fail(error => {
+                        reject(error);
+                    });
         } else {
             reject("Invalid parameters");
         }
     });
-};
+}
+;
 
 /**
  * Guarda los datos de un producto visualizado para el analitycs
@@ -484,7 +484,8 @@ function trackProduct(product, type) {
         Analytics.track(EVENTS.DETAILS_PRODUCT, params);
         /** **/
     }
-};
+}
+;
 
 /**
  * Guarda los datos de un producto agregado en el carrito para el analitycs
@@ -526,7 +527,7 @@ function isLogged() {
         return false;
     } else {
         if (!user.user || (user.user.objectId !== parseUser.id)) {
-            Parse.User.logOut().then(function() {
+            Parse.User.logOut().then(function () {
                 localStorage.clear();
                 deleteAllCookies();
                 Analytics.track(EVENTS.LOGOUT, {});
@@ -554,9 +555,9 @@ function hasNotification() {
 /**
  * Función que causa un retardo
  */
-var delay = (function() {
+var delay = (function () {
     var timer = 0;
-    return function(callback, ms) {
+    return function (callback, ms) {
         clearTimeout(timer);
         timer = setTimeout(callback, ms);
     };
@@ -573,10 +574,9 @@ function redirect(pathName, parameter = null) {
     if (!parameter) {
         let pointSale = jsonParse(getLocalStorage(nameStorage.pointSale));
         if (pointSale) {
-            path = path+'?pointSale='+ pointSale.slug;
+            path = path + '?pointSale=' + pointSale.slug;
         }
-    }
-    else {
+    } else {
         if (parameter !== null && typeof parameter === 'object') {
             let query = "?";
             for (let param in parameter) {
@@ -598,7 +598,7 @@ function cartCount(value) {
 
     if (parseInt(value) > 0) {
         if (cartId) {
-            setLocalStorage(nameStorage.cartCount, value+'');
+            setLocalStorage(nameStorage.cartCount, value + '');
             $("li a.carrito b").text(value);
             $("li a.carrito").attr("href", "/cart?id=" + cartId);
         } else {
@@ -618,7 +618,7 @@ function cartCount(value) {
  */
 function getUrlVars() {
     var vars = {};
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
         vars[key] = value;
     });
     return vars;
@@ -628,10 +628,12 @@ function getUrlVars() {
  * Se encarga de clonar un objeto evitando problemas de referencia
  */
 function clone(obj) {
-    if (null == obj || "object" != typeof obj) return obj;
+    if (null == obj || "object" != typeof obj)
+        return obj;
     var copy = obj.constructor();
     for (var attr in obj) {
-        if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        if (obj.hasOwnProperty(attr))
+            copy[attr] = obj[attr];
     }
     return copy;
 }
@@ -640,7 +642,7 @@ function clone(obj) {
  * Polyfill for IE
  */
 if (!String.prototype.includes) {
-    String.prototype.includes = function(search, start) {
+    String.prototype.includes = function (search, start) {
         'use strict';
         if (typeof start !== 'number') {
             start = 0;
@@ -659,15 +661,12 @@ function formatPhone(phone) {
     phone = phone.replace(/-/g, "");
     var phoneLength = phone.length;
     if (phoneLength === 7) {
-        return phone. replace(/(\d{3})(\d{4})/, "$1-$2");
-    }
-    else if (phoneLength === 10) {
-        return phone. replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-    }
-    else if (phoneLength === 11) {
-        return phone. replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
-    }
-    else {
+        return phone.replace(/(\d{3})(\d{4})/, "$1-$2");
+    } else if (phoneLength === 10) {
+        return phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+    } else if (phoneLength === 11) {
+        return phone.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+    } else {
         return phone;
     }
 }
@@ -679,8 +678,7 @@ function formatPhone(phone) {
 function jsonParse(data) {
     try {
         return JSON.parse(data);
-    }
-    catch(e) {
+    } catch (e) {
         return null;
     }
 }
@@ -701,10 +699,10 @@ function urlPointsale(pointsaleId, path = null) {
     var currentPath = window.location.pathname;
     if (pointsaleId) {
         path = path ? path : window.location;
-        var pointSale = '?pointSale=' + pointsaleId.replace("#","");
-        var url = path+pointSale;
+        var pointSale = '?pointSale=' + pointsaleId.replace("#", "");
+        var url = path + pointSale;
         if (url != currentPath) {
-            window.location.href = path+pointSale;
+            window.location.href = path + pointSale;
         }
-    }
+}
 }

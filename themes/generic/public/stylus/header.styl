@@ -20,8 +20,7 @@
   .address-active
     left2()
     margin 30px 10px 10px 60px
-    color white
-    sub()
+    color primaryColorText
     trans(.4s)
     font(13px)
     cursor pointer
@@ -757,28 +756,18 @@ body
           width 24px
           height 26px
           font(14px)
-          border-right 1px solid primaryColor
-          border-left 1px solid primaryColor
-          border-top 1px solid primaryColor 
-          border-bottom 1px solid primaryColor 
+          border-right 1px solid rgba(grayBorder, .75)
+          border-left 1px solid rgba(grayBorder, .75)
         .mas, 
         .restar
           width 19px
           height 26px
           line-height 27px
           font(8px)
-          border-top 1px solid primaryColor
-          border-bottom 1px solid primaryColor
-        .mas
-          border-right 1px solid primaryColor
-          border-radius 0 500px 500px 0
-        .restar
-          border-left 1px solid primaryColor
-          border-radius 500px 0 0 500px
       .delete
         right2()
-        color #423f40
-        background white
+        color white
+        background #423f40
         border-radius 8px
         font(17px)
         padding 0 5px
@@ -797,6 +786,7 @@ body
     width 100%
     box()
     padding 7px 25px 10px 0
+    background white
     &:after
       clear()
     .total

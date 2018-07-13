@@ -136,7 +136,7 @@ var products = new Vue({
                                 cartCount(response.totalAmount);
                                 this.clean();
                             }
-                            notificationGeneral(message.add_cart);
+//                            notificationGeneral(message.add_cart);
                             $.magnificPopup.instance.close();
                             this.send = true;
                             element_sel.stopLoading();

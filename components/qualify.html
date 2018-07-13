@@ -54,9 +54,19 @@
                 btn_send_qual.startLoading({msg: "Enviando"});
                 var id = this.order_id !== 0 ? this.order_id : getLocalStorage("order_id");
                 if (this.score > 0 && id) {
-                    var params = {orderId: id, score: this.score, comment: this.comment};
-                    Analytics.track(EVENTS.ORDER_RATING, params);
-                    rateOrder(params, qualify.qualify);
+                    var data = {id:id, score:this.score, comment:this.comment };
+                    apiAjax("status", "post", data).then(data => {
+                            apiAjax("qualify", "post", data).then(data => {
+                                    btn_send_qual.stopLoading();
+                                }, error => {
+                                    btn_send_qual.stopLoading();
+                                    console.error("ERROR_DETAIL", error);
+                                });
+                            btn_send_qual.stopLoading();
+                        }, error => {
+                            btn_send_qual.stopLoading();
+                            console.error("ERROR_DETAIL", error);
+                        });
                 }
             },
             qualify: function (status, result) {

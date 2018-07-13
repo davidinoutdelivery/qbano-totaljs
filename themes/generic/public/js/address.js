@@ -33,7 +33,7 @@ let typeService = new Vue({
             apiAjax("service", "get", {}).then((response) => {
                 this.services = response;
                 modalAddress.initGeo();
-                
+
                 /*
                  * Para saltarse el tipo de servico se agrego la entrada al 
                  * directa modal de dirección, se quito la entrada al modal de 
@@ -216,12 +216,13 @@ var modalAddress = new Vue({
          * Handles select address event and set address for costumer
          */
         changeCustomerAddress: function () {
+
             if (Object.keys(this.selected_address).length > 0) {
                 $(".costumer_addresses").startLoading();
 
                 var address = this.selected_address;
-                console.log("address: ", address.location);
                 var datetime = {};
+
                 if (this.typeService && this.typeService.code == 3) {
                     if (this.date.length > 0 && this.time.length > 0) {
                         datetime.date = this.date;
@@ -240,6 +241,11 @@ var modalAddress = new Vue({
                 }, datetime).then((coverage) => {
                     $('.preload').hide(300);
                     //Sin cobertura
+                    console.log("coverage: ", coverage);
+                    console.log("coverage.result: ", coverage[0].result);
+                    console.log("coverage[0].result.isOpen: ", coverage[0].result.isOpen);
+                    console.log("Object.keys(coverage): ", Object.keys(coverage[0].result).length);
+                    
                     if (Object.keys(coverage[0].result).length === 0) {
 
                         /** Analytics **/
