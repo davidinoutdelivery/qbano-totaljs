@@ -335,7 +335,7 @@ function product() {
 }
 
 /**
- * Returns product details
+ * Returns status order details
  */
 function status() {
     F.functions.log("\n[/api/status/] status");
@@ -355,7 +355,7 @@ function status() {
 }
 
 /**
- * Returns product details
+ * Returns order change details
  */
 function qualify() {
     F.functions.log("\n[/api/qualify/] qualify");

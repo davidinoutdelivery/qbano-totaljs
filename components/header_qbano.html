@@ -146,14 +146,14 @@
                             </div>
                             <div class="large-12 medium-12 small-12 columns paddColumn">
                                 <div class="columns large-4 medium-4 small-12 columns">
-                                    <select name="city"  v-model="selectedCity" required class="large border-left">
+                                    <select name="city" autocomplete="on" v-model="selectedCity" required class="large border-left">
                                         <option value="">Ciudad</option>
                                         <option v-for="location in city" :value="location.city">{{location.city}}</option>
                                     </select>
                                 </div>
 
                                 <div class="columns large-8 medium-8 small-12 columns">
-                                    <input v-model="street" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
+                                    <input v-model="street" autocomplete="on" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
                                 </div>
 
                                 <div class="columns large-8 medium-8 small-12 columns">
@@ -263,14 +263,14 @@
                         </div>
                         <div class="large-12 medium-12 small-12 columns paddColumn paddColumn" >
                             <div class="columns large-4 medium-4 small-12 columns">
-                                <select name="city"  v-model="selectedCity" required class="large border-left">
+                                <select name="city" autocomplete="on" v-model="selectedCity" required class="large border-left">
                                     <option value="">Zona</option>
                                     <option v-for="location in city" :value="location.city">{{location.city}}</option>
                                 </select>
                             </div>
 
                             <div class="columns large-8 medium-8 small-12 columns">
-                                <input v-model="street" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
+                                <input v-model="street" autocomplete="on" type="text" name="calle" placeholder="Calle y número" maxlength="100" class="large border-right" required>
                             </div>
 
                             <div class="columns large-8 medium-8 small-12 columns">

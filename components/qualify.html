@@ -58,6 +58,7 @@
                     apiAjax("status", "post", data).then(data => {
                             apiAjax("qualify", "post", data).then(data => {
                                     btn_send_qual.stopLoading();
+                                    $('.close').click();
                                 }, error => {
                                     btn_send_qual.stopLoading();
                                     console.error("ERROR_DETAIL", error);
