@@ -56,6 +56,58 @@ var search= new Vue({
                 result = "Categoría";
             }
             return result;
+        },
+        /**
+         * Hace una compra directa del producto si no tiene modificadores
+         */
+        shop: function(categoria, producto, event) {
+            products.shop(categoria, producto, event);
+        },
+        /**
+         * Direcciona al hijo de la categoría seleccionada y agrega pointsale a la url si la tiene.
+         */
+        goToChildCategory: function (category) {       
+            if (category) {
+                let url = '/categories/' + category.slug;
+                redirect(url);
+            }
+            else {
+                notificationGeneral("El item no se encuentra activo.", {type: "warning"});
+            }
+            
+        },
+        /**
+         * Retorna el detalle de un producto
+         */
+        productDetail: function(categoria, producto, event) {
+            products.detail(categoria, producto, event);
+        },
+        /**
+         * Obtiene la url de la imagen de una categoría para usarla como fondo.
+         * @param isBackground : si true es un background-image de lo contrario es la url
+         */
+        getUrl: function (category, isBackground = false) {
+            if (isBackground) {
+                if (category.image && category.image.url) {
+                    let url = category.image.url;
+                    return {
+                        'background-image': 'url("' + url + '")'
+                    }
+                } else {
+                    return {
+                        'background-image': 'url("/generic/images/no_found.png")'
+                    }
+                }
+            }
+            else {
+                if (category.image && category.image.url) {
+                    let url = category.image.url;
+                    return url;
+                } else {
+                    return "/generic/images/no_found.png";
+                }
+            }
+          
         }
     }
 });

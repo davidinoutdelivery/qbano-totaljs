@@ -79,6 +79,7 @@ var products = new Vue({
                     this.purchase.amount = 1;
                     apiAjax("product", "post", data).then(data => {
                         data = data[0].result[0].products[0];
+                        console.log(data);
                         element_sel.stopLoading();
                         this.detailProduct = data;
                         this.generate(data);

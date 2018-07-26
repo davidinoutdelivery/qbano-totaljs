@@ -4,43 +4,159 @@
     @{component('header_qbano')}
 
     <section id="search">
-            <section class="wrapper_l">
+        <!--<section id="category">-->
+        <section class="wrapper_l">
 
-                    <div class="titulo searchResut p_t_20 p_b_30">
-                        <h1><i class="ti-search"></i> RESULTADOS DE: <strong> {{word}}</strong></h1>
+            <div class="titulo searchResut p_t_20 p_b_30">
+                <h1><i class="ti-search"></i> RESULTADOS DE: <strong> {{word}}</strong></h1>
+            </div>
+
+            <section class="row bg_destacados">
+                <ul class="destacados" v-if= "data.length > 0">
+                    <div class="title-short">
+                        <h2>Categorias</h2>
                     </div>
-        
-                    <section class="row bg_destacados">
-                        <ul class="destacados" v-if= "data.length > 0">
-                            <li class="small-12 medium-6 large-4 grid-item" v-for="result in data">
-                                <div class="bg_panel">
-                                        <a @click="detail(result)">
-                                            <div class="imgbg">
-                                                <img :src="getUrlImage(result)" alt="sin imagen">
-                                            </div>
-                                            <div class="tituloDest">
-                                                <h2><span class="txt_center block">{{result.name}}</span></h2>
-                                            </div>
-                                            </a>
-                                    <p>{{type(result)}}</p>
-                                    <a @click="detail(result)" class="btnA border">Ver mas</a>
+                    <ul class="list-categeory-icons">
+                        <li :id="category.slug" v-for="category in data" v-if="category._class === 'Category'">
+                            <a v-on:click="goToChildCategory(category)">
+                                <div class="panel-catg">
+                                    <span class="imgBg">
+                                        <img :src="getUrlImage(category)" alt="{{category.name}}">
+                                    </span>
+                                    <h3>{{category.name}}</h3>
                                 </div>
-                            </li>
-                        </ul>
-                        <div class="alertPage" v-else>
-                            <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
-                            <h2>No se encontraron resultados para tu búsqueda...</h2>
-                            <div class="txt_center p_t_20 p_b_30">
-                                <a href="/" data-effect="mfp-move-horizontal" class="btnA">Ver productos</a>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="title-short title-mobile">
+                        <h2>Productos</h2>
+                    </div>
+                    <ul class="all-product">
+                        <li class="large-3 medium-4 small-12 columns padding" v-for="product in data" v-if="product._class === 'Product'">                   
+                            <div class="item-feature-product">
+                                <a @click="productDetail(product.slugCategory, product.slug, $event)">
+                                    <span class="bg-image">
+                                        <img :src="getUrl(product, false)" alt="{{product.name}}">
+                                    </span>
+                                </a>
+                                <span class="txt">
+                                    <h3>{{product.name}}</h3>
+                                    <p class="price">$ {{product.price}}</p>                                     
+                                    <span class="shopCart"  @click="shop(product, product.slug, $event)"></span>
+                                </span>
                             </div>
-                        </div>
-                    </section>
-                    <!--Fin Products-->
-                    <div class="clear"></div>
-                </section>
+                        </li>
+                    </ul>
+                </ul>
+                <div class="alertPage" v-else>
+                    <i aria-hidden="true" class="fa fa-exclamation-circle"></i>
+                    <h2>No se encontraron resultados para tu búsqueda...</h2>
+                    <div class="txt_center p_t_20 p_b_30">
+                        <a href="/" data-effect="mfp-move-horizontal" class="btnA">Ver productos</a>
+                    </div>
+                </div>
+            </section>
+            <!--Fin Products-->
+            <div class="clear"></div>
+        </section>
     </section>
 </section>
+
+<a href="#modalDetail" data-effect="mfp-zoom-in" class="modales modalDetail"></a>
+<div id="products">
+    <section id="modalDetail" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <a title="Close (Esc)" class="mfp-close ti-close" v-on:click="clean()"></a>
+        </div>
+        <section class="cont_modal">
+            <section class="block">
+                <section class="bg_detalle" :class="{available: !detailProduct.isAvailable}">
+                    <section class="bg_panel portada sin_margin">
+                        <div class="imgbg">
+                            <div class="mask">
+                                <div class="relative">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    <h5>Producto no disponible</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tituloDest">
+                        </div>
+                    </section>
+                    <section class="bg_panelInt">
+                        <div class="large-6 medium-6 small-12 columns">
+                            <div class="bg_panel sin_margin">
+                                <div class="imgbg">
+                                    <img :src="getImage(detailProduct)" alt="Image product">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 medium-6 small-12 columns padding">
+                            <div class="row">
+                                <h1>{{detailProduct.name}}</h1>
+                                <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}</h2>
+                                <p v-html="detailProduct.description"></p>
+                            </div>
+                            <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['rid']"
+                                 v-if="detailProduct.modifiers.length > 0">
+                                <h3>{{modifier.name}}</h3>
+                                <span>{{modifier.selectUnique? 'Max 1 ': (modifier.maxSelect? 'Max '+modifier.maxSelect+' ':'')}}</span>
+                                <span>{{modifier.required? ' Requerido': ''}}</span>
+                                <div class="lineap"></div>
+                                <article class="small-12 medium-12 large-12 columns block"
+                                         v-for="item in modifier.items" :key="item['rid']"
+                                         v-if="item">
+                                    <label class="numberSmall">                                                 
+                                        <div class="large-8 medium-8 small-8 columns">
+                                            <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                        </div>
+                                        <div class="large-4 medium-4 small-4 columns checkMod">
+                                            <input class="checkbox"
+                                                   :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                   :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                   :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                   :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="checkbox"
+                                                   @click="selectModifier(modifier['rid'], item['rid'], $event)">
+                                            <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']">
+                                            </label>
+                                        </div>
+                                        <div class="clear"></div>
+                                    </label>
+                                </article>
+                            </div>
+
+                            <section class="row actions_detail">
+                                <div class="large-3 medium-4 small-4 columns">
+                                    <div class="catidad_real">
+                                        <a class="restar" @click="decrement()">
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        </a>
+                                        <input type="text" name="cant" :value="purchase.amount" size="3"
+                                               class="cantidad" disabled>
+                                        <a class="mas" @click="increment()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="large-9 medium-8 small-8 columns">
+                                    <a href="javascript:void(0)" class="btnA block" @click="addtocart($event)"
+                                       :class="{available: !detailProduct.isAvailable}">Agregar al Carrito
+                                    </a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="clear"></div>
+                    </section>
+                </section>
+
+                <div class="clear"></div>
+            </section>
+        </section>
+    </section>
+</div>
 <!--Fin Content_all-->
 
 @{component('footer_qbano')}
 @{version('search.js')}
+@{import('products.js')}
