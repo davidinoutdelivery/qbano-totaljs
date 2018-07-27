@@ -1,0 +1,46 @@
+<section id="modalrate" class="modal_pop modal_small mfp-with-anim"><a title="Close (Esc)" class="mfp-close ti-close close" aria-hidden="true"></a><section class="bg_login txt_center"><div class="titulo txt_center sin_padd sin_margin"><h1 class="c2">CALIFICA TU EXPERIENCIA</h1></div><article class="small-12 medium-7 large-8 inline"><div class="large-10"><p>En Inout delivery valoramos tu opinion para ser mejores cada dia. Tu pedido fue entregado y deseamos saber como te sentiste con nuestro servicio a domicilio</p></div><div class="calfication"><span class="fa fa-star-o calf1" v-on:click="selectScore(1)"></span><span class="fa fa-star-o calf2" v-on:click="selectScore(2)"></span><span class="fa fa-star-o calf3" v-on:click="selectScore(3)"></span><span class="fa fa-star-o calf4" v-on:click="selectScore(4)"></span><span class="fa fa-star-o calf5" v-on:click="selectScore(5)"></span></div><br><p class="name">Mi calificación</p><div class="formBB"> <textarea v-model="comment" cols="30" rows="10" placeholder="Comentarios sobre tu experiencia..."></textarea></div><div class="txt_center m_t_10"><button v-on:click="sendQualify()" name="btnLoginManual" class="btnA" id="btn_send_qual">ENVIAR</button></div></article><div class="clear"></div></section></section> @{version('~firebase.js')}<script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-app.js?v=@{F.config.version}"></script><script src="https://www.gstatic.com/firebasejs/4.1.1/firebase-database.js?v=@{F.config.version}"></script> <script type="application/javascript">
+    //eventRating
+    var qualify = new Vue({
+        data: {
+            score: 0,
+            comment:"",
+            order_id: 0,
+        },
+        el: '#modalrate',
+        methods: {
+            selectScore: function (score) {
+                if (score > 0) {
+                    this.score = score;
+                }
+            },
+            sendQualify: function () {
+                var btn_send_qual = $("#btn_send_qual");
+                btn_send_qual.startLoading({msg: "Enviando"});
+                var id = this.order_id !== 0 ? this.order_id : getLocalStorage("order_id");
+                if (this.score > 0 && id) {
+                    var data = {id:id, score:this.score, comment:this.comment };
+                    apiAjax("status", "post", data).then(data => {
+                            apiAjax("qualify", "post", data).then(data => {
+                                    btn_send_qual.stopLoading();
+                                    $('.close').click();
+                                }, error => {
+                                    btn_send_qual.stopLoading();
+                                    console.error("ERROR_DETAIL", error);
+                                });
+                            btn_send_qual.stopLoading();
+                        }, error => {
+                            btn_send_qual.stopLoading();
+                            console.error("ERROR_DETAIL", error);
+                        });
+                }
+            },
+            qualify: function (status, result) {
+                var btn_send_qual = $("#btn_send_qual");
+                if (status === "OK") {
+                    btn_send_qual.stopLoading();
+                    $(".mfp-close").click();
+                    notificationGeneral(message.qualify_ok, {});
+                }
+            }
+        }
+    });</script>
