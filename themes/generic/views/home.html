@@ -28,203 +28,227 @@
             @{json(model.banners, 'banners')}
             <section class="content_all">
                 @{component('header_qbano')}
+                <!--Slider-->
                 <section class="bg_slider">
-                    <div class="wrapper_l"> 
+                    <div class="wrapper_l">                    
                         <ul class="carrusel_slider sliderHome owl-carousel owl-theme">
-                            <li class="item"  v-for="banner,index in bannersModel" :key="banner['rid']">
+                            <li class="item"  v-for="banner,index in bannersModel" :key="banner['rid']" @click="goToUrlBanner(banner)">
                                 <div class="imgslide" :style="urlStyle(banner.image)"></div>
+                                <!-- <img :src="urlImage(banner.image)" :alt="banner.title ? banner.title : 'ImageBanner'"/> -->
                             </li>
-                        </ul>
+                        </ul>            
+                        <!-- <div class="mask"></div> -->
+                    </div>
                 </section>
-            </section>
-            <section class="wrapper_l" id="category">
-                <div v-if="show">  
-                    <section class="row bg_destacados" v-if="isRoot">
-                        <div class="small-12 medium-12 large-12 columns padding" v-for=" category in categories" v-if="(category.subcategories.length > 0 || category.products.length > 0) && category.sortOrder === 0">                              
-                            <div class="title-short title-mobile">                    
-                                <h2>{{category.name?category.name:"Unname"}}</h2>                                
-                                <a v-if = "!(category.subcategories.length < 5 && category.products.length < 5)" @click="goToChildCategory(category)" class="show-more-stores">Ver todos</a>
-                            </div> 
+                <!--Fin Slider-->
 
-                            <ul class="feature-product carrusel_feature_prod owl-carousel owl-theme">
-                                <li class="item" v-for="subcategory in category.subcategories">
-                                    <a @click="goToChildCategory(subcategory)">
-                                        <div class="item-feature-product">
-                                            <span class="bg-image">
-                                                <img :src="getUrl(subcategory, false)" alt="{{subcategory.name}}">
-                                            </span>
-                                            <span class="txt">
-                                                <h3 title="{{subcategory.name}}">{{subcategory.name}}</h3>
-                                            </span>
-                                        </div>
-                                    </a>
-                                </li>
-                                <li class="item" v-for="product in category.products">
-                                    <div class="item-feature-product">
-                                        <a @click="detail(category.slug, product.slug, $event)">
-                                            <span class="bg-image">
-                                                <img :src="getUrl(product, false)" alt="{{product.name}}">
-                                            </span>
-                                        </a>
-                                        <span class="txt">
-                                            <h3>{{product.name}}</h3>
-                                            <p class="price">$ {{product.price}}</p>                                     
-                                            <span class="shopCart" @click="shop(category.slug, product.slug, $event)"></span>
-                                        </span>
-                                    </div>      
-                                </li>
-                            </ul>
-                        </div>
-                    </section>
-                    <div class="title-short">
-                        <h2>Categorias</h2>
-                    </div>
-                    <ul class="list-categeory-icons">
-                        <li :id="category.slug" v-for="category in categories">
-                            <a v-on:click="goToChildCategory(category)">
-                                <div class="panel-catg">
-                                    <span class="imgBg">
-                                        <img :src="getUrlThumbnail(category, false)" alt="{{category.name}}">
-                                    </span>
-                                    <h3>{{category.name}}</h3>
+                <section class="home_content">
+                    <div class="wrapper_l" id="category">
+                        <div v-if="show">  
+                            <!-- Destacados siempre es la posición 0-->
+                            <section class="row bg_destacados" v-if="isRoot">
+                                <div class="small-12 medium-12 large-12 columns padding">                              
+                                    <div class="title-short title-mobile">                    
+                                        <h2>{{categories[0].name?categories[0].name:"Unname"}}</h2>
+                                        <a v-if = "!(categories[0].subcategories.length < 5 && categories[0].products.length < 5)" @click="goToChildCategory(categories[0])" class="show-more-stores">Ver Categoria</a>
+                                    </div>  
+
+                                    <ul class="feature-product carrusel_feature owl-carousel owl-theme">
+                                        <li class="item" v-for="subcategory in categories[0].subcategories">
+                                            <a @click="goToChildCategory(subcategory)">
+                                                <div class="item-feature-product">
+                                                    <span class="bg-image">
+                                                        <img :src="getUrl(subcategory, false)" alt="{{subcategory.name}}">
+                                                    </span>
+                                                    <span class="txt">
+                                                        <h3 title="{{subcategory.name}}">{{subcategory.name}}</h3>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="item" v-for="product in categories[0].products">
+                                            <div class="item-feature-product">
+                                                <a @click="detail(categories[0].slug, product.slug, $event)">
+                                                    <span class="bg-category">
+                                                        <img :src="getUrl(product, false)" alt="{{product.name}}">
+                                                    </span>
+                                                </a>
+                                                <span class="txt">
+                                                    <h3>{{product.name}}</h3>
+                                                    <p class="price">$ {{product.price}}</p>                                     
+                                                    <span class="shopCart" @click="shop(categories[0].slug, product.slug, $event)"></span>
+                                                </span>
+                                            </div>      
+                                        </li>
+                                    </ul>
                                 </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <section class="row" v-if="isRoot">
-                        <div class="small-12 medium-12 large-12 columns padding" v-for=" category in categories" v-if="(category.subcategories.length > 0 || category.products.length > 0) && category.sortOrder !== 0">                              
-                            <div class="title-short title-mobile">                    
-                                <h2>{{category.name?category.name:"Unname"}}</h2>                                
-                                <a v-if = "!(category.subcategories.length < 5 && category.products.length < 5)" @click="goToChildCategory(category)" class="show-more-stores">Ver todos</a>
-                            </div> 
+                            </section>
+                            <!-- Destacados -->
 
-                            <ul class="feature-product carrusel_feature_prod owl-carousel owl-theme">
-                                <li class="item" v-for="subcategory in category.subcategories">
-                                    <a @click="goToChildCategory(subcategory)">
-                                        <div class="item-feature-product">
-                                            <span class="bg-image">
-                                                <img :src="getUrl(subcategory, false)" alt="{{subcategory.name}}">
+                            <div class="padding">
+                                <div class="title-short">
+                                    <h2>Categorias</h2>
+                                </div>
+                            </div>
+                            <ul class="list-categeory-icons">
+                                <li :id="category.slug" v-for="category in categories">
+                                    <a v-on:click="goToChildCategory(category)">
+                                        <!-- <div v-if="category.image" class="panel-catg">
+                                            <span class="imgBg">
+                                                <img src="/generic/images/catg1.png" alt="{{category.name}}">
                                             </span>
-                                            <span class="txt">
-                                                <h3 title="{{subcategory.name}}">{{subcategory.name}}</h3>
+                                            <h3>{{category.name}}</h3>
+                                        </div> -->
+                                        <div class="panel-catg">
+                                            <span class="imgBg">
+                                                <img :src="getUrlThumbnail(category, false)" alt="{{category.name}}">
                                             </span>
+                                            <h3>{{category.name}}</h3>
                                         </div>
+                                        <!-- <div class="panel-catg" style="background-image: url('/generic/images/no_found.png')" v-else>
+                                            <h3>{{category.name}}</h3>
+                                        </div> -->
                                     </a>
                                 </li>
-                                <li class="item" v-for="product in category.products">
-                                    <div class="item-feature-product">
-                                        <a @click="detail(category.slug, product.slug, $event)">
-                                            <span class="bg-image">
-                                                <img :src="getUrl(product, false)" alt="{{product.name}}">
-                                            </span>
-                                        </a>
-                                        <span class="txt">
-                                            <h3>{{product.name}}</h3>
-                                            <p class="price">$ {{product.price}}</p>                                     
-                                            <span class="shopCart" @click="shop(category.slug, product.slug, $event)"></span>
-                                        </span>
-                                    </div>      
-                                </li>
                             </ul>
+                            <section class="row" v-if="isRoot">
+                                <div class="small-12 medium-12 large-12 columns padding" v-for=" category in categories" v-if="(category.subcategories.length > 0 || category.products.length > 0) && category.name !== 'Destacados'">                              
+                                    <div class="title-short title-mobile">                    
+                                        <h2>{{category.name?category.name:"Unname"}}</h2>
+                                        <a v-if = "!(category.subcategories.length < 5 && category.products.length < 5)" @click="goToChildCategory(category)" class="show-more-stores">Ver Categoria</a>
+                                    </div> 
+
+                                    <ul class="feature-product carrusel_feature_prod owl-carousel owl-theme">
+                                        <li class="item" v-for="subcategory in category.subcategories">
+                                            <a @click="goToChildCategory(subcategory)">
+                                                <div class="item-feature-product">
+                                                    <span class="bg-image">
+                                                        <img :src="getUrl(subcategory, false)" alt="{{subcategory.name}}">
+                                                    </span>
+                                                    <span class="txt">
+                                                        <h3 title="{{subcategory.name}}">{{subcategory.name}}</h3>
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="item" v-for="product in category.products">
+                                            <div class="item-feature-product">
+                                                <a @click="detail(category.slug, product.slug, $event)">
+                                                    <span class="bg-image">
+                                                        <img :src="getUrl(product, false)" alt="{{product.name}}">
+                                                    </span>
+                                                </a>
+                                                <span class="txt">
+                                                    <h3>{{product.name}}</h3>
+                                                    <p class="price">$ {{product.price}}</p>                                     
+                                                    <span class="shopCart" @click="shop(category.slug, product.slug, $event)"></span>
+                                                </span>
+                                            </div>      
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <!--Fin Products Categories-->
                         </div>
-                    </section>
-                </div>
-            </section>
-
-
-            <a href="#modalDetail" data-effect="mfp-zoom-in" class="modales modalDetail"></a>
-            <div id="products">
-                <section id="modalDetail" class="modal_pop modal_large mfp-with-anim">
-                    <div class="headModal">
-                        <a title="Close (Esc)" class="mfp-close ti-close" v-on:click="clean()"></a>
                     </div>
-                    <section class="cont_modal">
-                        <section class="block">
-                            <section class="bg_detalle" :class="{available: !detailProduct.isAvailable}">
-                                <section class="bg_panel portada sin_margin">
-                                    <div class="imgbg">
-                                        <div class="mask">
-                                            <div class="relative">
-                                                <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
-                                                <h5>Producto no disponible</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tituloDest">
-                                    </div>
-                                </section>
-                                <section class="bg_panelInt">
-                                    <div class="large-6 medium-6 small-12 columns">
-                                        <div class="bg_panel sin_margin">
-                                            <div class="imgbg">
-                                                <img :src="getImage(detailProduct)" alt="Image product">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="large-6 medium-6 small-12 columns padding">
-                                        <div class="row">
-                                            <h1>{{detailProduct.name}}</h1>
-                                            <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}</h2>
-                                            <p v-html="detailProduct.description"></p>
-                                        </div>
-                                        <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['rid']"
-                                             v-if="detailProduct.modifiers.length > 0">
-                                            <h3>{{modifier.name}}</h3>
-                                            <span>{{modifier.selectUnique? 'Max 1 ': (modifier.maxSelect? 'Max '+modifier.maxSelect+' ':'')}}</span>
-                                            <span>{{modifier.required? ' Requerido': ''}}</span>
-                                            <div class="lineap"></div>
-                                            <article class="small-12 medium-12 large-12 columns block"
-                                                     v-for="item in modifier.items" :key="item['rid']"
-                                                     v-if="item">
-                                                <label class="numberSmall">                                                 
-                                                    <div class="large-8 medium-8 small-8 columns">
-                                                        <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
-                                                    </div>
-                                                    <div class="large-4 medium-4 small-4 columns checkMod">
-                                                        <input class="checkbox"
-                                                               :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
-                                                               :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
-                                                               :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
-                                                               :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="checkbox"
-                                                               @click="selectModifier(modifier['rid'], item['rid'], $event)">
-                                                        <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']">
-                                                        </label>
-                                                    </div>
-                                                    <div class="clear"></div>
-                                                </label>
-                                            </article>
-                                        </div>
+                    <div class="prod_efect1 parallax"></div>
+                    <div class="prod_efect2 parallax"></div>
+                </section>
 
-                                        <section class="row actions_detail">
-                                            <div class="large-3 medium-4 small-4 columns">
-                                                <div class="catidad_real">
-                                                    <a class="restar" @click="decrement()">
-                                                        <i class="fa fa-minus" aria-hidden="true"></i>
-                                                    </a>
-                                                    <input type="text" name="cant" :value="purchase.amount" size="3"
-                                                           class="cantidad" disabled>
-                                                    <a class="mas" @click="increment()">
-                                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                                    </a>
+
+                <a href="#modalDetail" data-effect="mfp-zoom-in" class="modales modalDetail"></a>
+                <div id="products">
+                    <section id="modalDetail" class="modal_pop modal_large mfp-with-anim">
+                        <div class="headModal">
+                            <a title="Close (Esc)" class="mfp-close ti-close" v-on:click="clean()"></a>
+                        </div>
+                        <section class="cont_modal">
+                            <section class="block">
+                                <section class="bg_detalle" :class="{available: !detailProduct.isAvailable}">
+                                    <section class="bg_panel portada sin_margin">
+                                        <div class="imgbg">
+                                            <div class="mask">
+                                                <div class="relative">
+                                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                                    <h5>Producto no disponible</h5>
                                                 </div>
                                             </div>
-                                            <div class="large-9 medium-8 small-8 columns">
-                                                <a href="javascript:void(0)" class="btnA block" @click="addtocart($event)"
-                                                   :class="{available: !detailProduct.isAvailable}">Agregar al Carrito
-                                                </a>
+                                        </div>
+                                        <div class="tituloDest">
+                                        </div>
+                                    </section>
+                                    <section class="bg_panelInt">
+                                        <div class="large-6 medium-6 small-12 columns">
+                                            <div class="bg_panel sin_margin">
+                                                <div class="imgbg">
+                                                    <img :src="getImage(detailProduct)" alt="Image product">
+                                                </div>
                                             </div>
-                                        </section>
-                                    </div>
+                                        </div>
+                                        <div class="large-6 medium-6 small-12 columns padding">
+                                            <div class="row">
+                                                <h1>{{detailProduct.name}}</h1>
+                                                <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}</h2>
+                                                <p v-html="detailProduct.description"></p>
+                                            </div>
+                                            <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['rid']"
+                                                 v-if="detailProduct.modifiers.length > 0">
+                                                <h3>{{modifier.name}}</h3>
+                                                <span>{{modifier.selectUnique? 'Max 1 ': (modifier.maxSelect? 'Max '+modifier.maxSelect+' ':'')}}</span>
+                                                <span>{{modifier.required? ' Requerido': ''}}</span>
+                                                <div class="lineap"></div>
+                                                <article class="small-12 medium-12 large-12 columns block"
+                                                         v-for="item in modifier.items" :key="item['rid']"
+                                                         v-if="item">
+                                                    <label class="numberSmall">                                                 
+                                                        <div class="large-8 medium-8 small-8 columns">
+                                                            <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                                        </div>
+                                                        <div class="large-4 medium-4 small-4 columns checkMod">
+                                                            <input class="checkbox"
+                                                                   :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                                   :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                                   :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                                   :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="checkbox"
+                                                                   @click="selectModifier(modifier['rid'], item['rid'], $event)">
+                                                            <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']">
+                                                            </label>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </label>
+                                                </article>
+                                            </div>
 
-                                    <div class="clear"></div>
+                                            <section class="row actions_detail">
+                                                <div class="large-3 medium-4 small-4 columns">
+                                                    <div class="catidad_real">
+                                                        <a class="restar" @click="decrement()">
+                                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                                        </a>
+                                                        <input type="text" name="cant" :value="purchase.amount" size="3"
+                                                               class="cantidad" disabled>
+                                                        <a class="mas" @click="increment()">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="large-9 medium-8 small-8 columns">
+                                                    <a href="javascript:void(0)" class="btnA block" @click="addtocart($event)"
+                                                       :class="{available: !detailProduct.isAvailable}">Agregar al Carrito
+                                                    </a>
+                                                </div>
+                                            </section>
+                                        </div>
+
+                                        <div class="clear"></div>
+                                    </section>
                                 </section>
-                            </section>
 
-                            <div class="clear"></div>
+                                <div class="clear"></div>
+                            </section>
                         </section>
                     </section>
-                </section>
-            </div>
+                </div>
 
             </section>
 

@@ -3,14 +3,14 @@ var dbname = "qbano";
 var server = OrientDB({
     host:     'orientdb.mx.inoutdelivery.com',
     port:     2424,
-    username: 'social',
-    password: 'social123',
+    username: 'admin',
+    password: 'inout2018%$',
     name:     dbname
  });
  
  var db = server.use({
-    username: 'social',
-    password: 'social123',
+    username: 'admin',
+    password: 'inout2018%$',
     name:     dbname
  });
 
