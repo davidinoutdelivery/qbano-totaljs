@@ -76,6 +76,7 @@
                                                 <span class="txt">
                                                     <h3>{{product.name}}</h3>
                                                     <p class="price">$ {{product.price}}</p>                                     
+                                                    <p class="shopCartHidden" hidden>{{categories[0].slug + '-' + product.slug}}</p>
                                                     <span class="shopCart" @click="shop(categories[0].slug, product.slug, $event)"></span>
                                                 </span>
                                             </div>      
@@ -140,7 +141,8 @@
                                                 </a>
                                                 <span class="txt">
                                                     <h3>{{product.name}}</h3>
-                                                    <p class="price">$ {{product.price}}</p>                                     
+                                                    <p class="price">$ {{product.price}}</p>        
+                                                    <p class="shopCartHidden" hidden>{{category.slug + '-' + product.slug}}</p>
                                                     <span class="shopCart" @click="shop(category.slug, product.slug, $event)"></span>
                                                 </span>
                                             </div>      
@@ -188,7 +190,7 @@
                                         <div class="large-6 medium-6 small-12 columns padding">
                                             <div class="row">
                                                 <h1>{{detailProduct.name}}</h1>
-                                                <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}</h2>
+                                                <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}} <span class="text_bold">C/U</span></h2>
                                                 <p v-html="detailProduct.description"></p>
                                             </div>
                                             <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['rid']"
@@ -200,7 +202,7 @@
                                                 <article class="small-12 medium-12 large-12 columns block"
                                                          v-for="item in modifier.items" :key="item['rid']"
                                                          v-if="item">
-                                                    <label class="numberSmall">                                                 
+                                                    <label class="numberSmall" v-if="purchase['modifiers'][modifier['rid']]['conf']['selectUnique'] === true">                                                 
                                                         <div class="large-8 medium-8 small-8 columns">
                                                             <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
                                                         </div>
@@ -209,6 +211,23 @@
                                                                    :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
                                                                    :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
                                                                    :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                                   :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="radio"
+                                                                   @click="selectModifier(modifier['rid'], item['rid'], $event)">
+                                                            <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']">
+                                                            </label>
+                                                        </div>
+                                                        <div class="clear"></div>
+                                                    </label>
+                                                    <label class="numberSmall" v-else>                                                 
+                                                        <div class="large-8 medium-8 small-8 columns">
+                                                            <span>{{item.name}} {{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                                        </div>
+                                                        <div class="large-4 medium-4 small-4 columns checkMod">
+                                                            <input class="checkbox"
+                                                                   :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                                   :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                                   :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                                   :data-price="item['price']"
                                                                    :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="checkbox"
                                                                    @click="selectModifier(modifier['rid'], item['rid'], $event)">
                                                             <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']">
@@ -218,6 +237,13 @@
                                                     </label>
                                                 </article>
                                             </div>
+
+                                            <h2 class="price">
+                                                <span class="text_bold">Total:</span>
+                                                <span id="total_price" :data-price="detailProduct.price">
+                                                    {{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}
+                                                </span>
+                                            </h2>
 
                                             <section class="row actions_detail">
                                                 <div class="large-3 medium-4 small-4 columns">
@@ -233,7 +259,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="large-9 medium-8 small-8 columns">
-                                                    <a href="javascript:void(0)" class="btnA block" @click="addtocart($event)"
+                                                    <a href="javascript:void(0)" class="btnA block" @click="addtocart($event, detailProduct.idCategory, detailProduct.idProduct)"
                                                        :class="{available: !detailProduct.isAvailable}">Agregar al Carrito
                                                     </a>
                                                 </div>

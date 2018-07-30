@@ -20,7 +20,7 @@ var products = new Vue({
          * @param model
          */
         setup: function (model) {
-            if (Object.keys(model).length > 0 && model[0].products[0] ) {
+            if (Object.keys(model).length > 0 && model[0].products[0]) {
                 model = model[0].products[0];
             }
 
@@ -28,7 +28,7 @@ var products = new Vue({
                 this.detailProduct = model;
                 this.generate(model);
                 this.total = model.price ? model.price : model.priceDefault;
-            } 
+            }
 
             /** Analytics **/
             var params = {};
@@ -53,6 +53,9 @@ var products = new Vue({
          */
         increment: function () {
             this.purchase.amount += 1;
+            let totalPrice = $('#total_price').attr('data-price');
+            totalPrice *= this.purchase.amount;
+            $('#total_price').text(currencyFormat(totalPrice));
         },
         /**
          * Disminuye la cantidaad de un producto desde su detalle
@@ -60,6 +63,9 @@ var products = new Vue({
         decrement: function () {
             if (this.purchase.amount > 1) {
                 this.purchase.amount -= 1;
+                let totalPrice = $('#total_price').attr('data-price');
+                totalPrice *= this.purchase.amount;
+                $('#total_price').text(currencyFormat(totalPrice));
             }
         },
         /**
@@ -71,7 +77,7 @@ var products = new Vue({
             var element_sel = $(event.currentTarget).find("img");
             element_sel.startLoading();
             if (idCategory && idProduct) {
-                var data = {category: idCategory, product:idProduct };
+                var data = {category: idCategory, product: idProduct};
                 let pointSale = getPointSale();
 
                 if (pointSale && pointSale['rid']) {
@@ -79,8 +85,9 @@ var products = new Vue({
                     this.purchase.amount = 1;
                     apiAjax("product", "post", data).then(data => {
                         data = data[0].result[0].products[0];
-                        console.log(data);
                         element_sel.stopLoading();
+                        data.idCategory = idCategory;
+                        data.idProduct = idProduct;
                         this.detailProduct = data;
                         this.generate(data);
                         this.total = data.price ? data.price : data.priceDefault;
@@ -92,14 +99,12 @@ var products = new Vue({
                         element_sel.stopLoading();
                         console.error("ERROR_DETAIL", error);
                     });
-                }
-                else {
+                } else {
                     this.clean();
                     element_sel.stopLoading();
                     typeService.setup();
                 }
-            }
-            else {
+            } else {
                 element_sel.stopLoading();
                 console.error("ERROR_DETAIL", "Invalid parameter");
             }
@@ -107,10 +112,10 @@ var products = new Vue({
         /**
          * agrega un producto al carrito, si existe lo crea sino lo actualiza
          */
-        addtocart: function (event) {
+        addtocart: function (event, idCategory = null, idProduct = null) {
             var element_sel = $(event.currentTarget);
             element_sel.startLoading({msg: "Agregando"});
-            
+
             if (this.send && this.detailProduct.isAvailable) {
                 let cartId = getLocalStorage(nameStorage.cartId);
                 let pointSale = getPointSale();
@@ -118,14 +123,15 @@ var products = new Vue({
 
                 if (pointSale && pointSale['rid']) {
                     let data = {};
-                    if (cartId) data['cartId'] = cartId;
+                    if (cartId)
+                        data['cartId'] = cartId;
                     data['pointSale'] = pointSale['rid']; // indica costo de domicilio
                     data['pointSaleTypeServiceSchedule'] = pointSale.services[0].coverages[0].rid;
                     data['typeService'] = pointSale.services[0].rid;
                     data['cartItems'] = this.formatCart();
-                    if (this.validate()) { console.log("compra");
+                    if (this.validate()) {
                         apiAjax("cart", "post", data).then((response) => {
-                            response = response[0]?response[0]: null;
+                            response = response[0] ? response[0] : null;
                             if (response && response['@rid']) {
                                 /** Analytics **/
                                 this.trackAddToCart(this.detailProduct);
@@ -133,9 +139,11 @@ var products = new Vue({
                                 setLocalStorage(nameStorage.cartId, response['@rid'].replace("#", ""));
                                 if (!cartId) {
                                     response.totalAmount = data.cartItems.amount;
-                                };
+                                }
+                                ;
                                 cartCount(response.totalAmount);
                                 this.clean();
+                                this.addtocartanimation(idCategory, idProduct);
                             }
 //                            notificationGeneral(message.add_cart);
                             $.magnificPopup.instance.close();
@@ -147,8 +155,7 @@ var products = new Vue({
                             element_sel.stopLoading();
                             console.error("ERROR_SAVECART", error);
                         });
-                    }
-                    else {
+                    } else {
                         this.send = true;
                         element_sel.stopLoading();
                     }
@@ -163,11 +170,34 @@ var products = new Vue({
                     element_sel.stopLoading();
                     console.warn("Invalid pointSale");
                 }
-            }
-            else {
+            } else {
                 console.log("producto no disponible");
-            }
-            
+        }
+        },
+        addtocartanimation: function (idCategory, idProduct) {
+
+            let shopCartImg = $(".shopCartHidden:contains('" + idCategory + "-" + idProduct + "')")
+                    .parent()
+                    .parent()
+                    .children('a')
+                    .children('.bg-image, .bg-category')
+                    .children('img');
+
+            let shopCart = $(".shopCartHidden:contains('" + idCategory + "-" + idProduct + "')")
+                    .parent()
+                    .parent()
+                    .children('a')
+                    .children('.bg-image, .bg-category');
+
+            shopCart.prepend('<img class="animationAddToCard" src="/generic/images/agregar_carrito.png" alt="agregar_carrito"/>');
+            shopCart = shopCart.children('img');
+            shopCart.on('animationend webkitAnimationEnd oAnimationEnd', function () {
+                $('.animationAddToCard').remove();
+            });
+            shopCartImg.addClass('animationAddToCardImg');
+            shopCartImg.on('animationend webkitAnimationEnd oAnimationEnd', function () {
+                shopCartImg.removeClass('animationAddToCardImg');
+            });
         },
         clean: function () {
             if (!window.location.pathname.includes("products")) {
@@ -181,16 +211,16 @@ var products = new Vue({
                     "modifiersGroups": {},
                     "amount": 1,
                 };
-            // } else if (this.category) {
-            //      let pointSale = getPointSale();
-            //      if (category.categories.length > 1) {
-            //         window.history.replaceState({}, '', '/categories?pointSale='+pointSale.slug);
-            //      }
-            //      else {
-            //         window.history.replaceState({}, '', '/categories/'+category.categories[0].slug+'?pointSale='+pointSale.slug);
-            //      }
-                 
-             }
+                // } else if (this.category) {
+                //      let pointSale = getPointSale();
+                //      if (category.categories.length > 1) {
+                //         window.history.replaceState({}, '', '/categories?pointSale='+pointSale.slug);
+                //      }
+                //      else {
+                //         window.history.replaceState({}, '', '/categories/'+category.categories[0].slug+'?pointSale='+pointSale.slug);
+                //      }
+
+            }
         },
         close: function () {
             this.detailProduct = {};
@@ -201,11 +231,11 @@ var products = new Vue({
          */
         hasModifiers: function (product) {
             let result = false;
-            if ( (product.modifiers && product.modifiers.length >0) 
-                || (product.modifiersGroups && product.modifiersGroups.length > 0)
-                || (product.productGroups && product.productGroups.length > 0 ) ) {
-                    result = true;
-                }
+            if ((product.modifiers && product.modifiers.length > 0)
+                    || (product.modifiersGroups && product.modifiersGroups.length > 0)
+                    || (product.productGroups && product.productGroups.length > 0)) {
+                result = true;
+            }
             return result;
         },
         /**
@@ -215,7 +245,7 @@ var products = new Vue({
             var element_sel = $(event.currentTarget);
             element_sel.startLoading();
             if (idCategory && idProduct) {
-                var data = {category: idCategory, product:idProduct };
+                var data = {category: idCategory, product: idProduct};
                 let pointSale = getPointSale();
 
                 if (pointSale && pointSale['rid']) {
@@ -224,15 +254,16 @@ var products = new Vue({
                     apiAjax("product", "post", data).then(data => {
                         data = data[0].result[0].products[0];
                         element_sel.stopLoading();
+                        data.idCategory = idCategory;
+                        data.idProduct = idProduct;
                         this.detailProduct = data;
                         this.generate(data);
                         this.total = data.price ? data.price : data.priceDefault;
-
                         if (!this.hasModifiers(data)) {
-                            this.addtocart(event);
-                        }
-                        else {
+                            this.addtocart(event, idCategory, idProduct);
+                        } else {
                             element_sel.stopLoading();
+                            
                             $('.modalDetail').click();
                         }
 
@@ -241,16 +272,14 @@ var products = new Vue({
                         element_sel.stopLoading();
                         console.error("error en detalle");
                     });
-                }
-                else {
+                } else {
                     this.clean();
                     element_sel.stopLoading();
                     typeService.setup();
                     console.warn("Invalid pointSale");
                 }
 
-            }
-            else {
+            } else {
                 element_sel.stopLoading();
                 console.error("Invalid parameter");
             }
@@ -318,7 +347,7 @@ var products = new Vue({
                     params[Properties.HAS_MODIFIERS_GROUP] = !!(product.modifierGroups && product.modifierGroups.length > 0);
                     params[Properties.IS_COMBO] = product.requiredCombo ? product.requiredCombo : false;
                     params[Properties.PURCHASE] = product.purchase;
-                    params[Properties.VALUE] = product.price? product.price: product.priceDefault;
+                    params[Properties.VALUE] = product.price ? product.price : product.priceDefault;
                     params[Properties.CURRENCY] = "COP";
                     Analytics.track(EVENTS.ADD_TO_CART, params);
                     /** **/
@@ -342,14 +371,39 @@ var products = new Vue({
 
             if (this.purchase.modifiers[modifierId]["conf"]["selectUnique"] === true) {
                 if (count > 1) {
-                    this.purchase.modifiers[modifierId][itemId].checked = false;
+                    var item = null;
+                    for (item in this.purchase.modifiers[modifierId]) {
+                        if (item != 'conf') {
+                            this.purchase.modifiers[modifierId][item].checked = false
+                        }
+                    }
+                    this.purchase.modifiers[modifierId][itemId].checked = true;
                 }
-            }
-            else {
+            } else {
                 if (max > 0 && count > max) {
                     this.purchase.modifiers[modifierId][itemId].checked = false;
                 }
             }
+
+            let totalPrice = parseInt($('#total_price').attr('data-price'));
+            let modifiers = null;
+            let modifier = null;
+            for (modifiers in this.purchase.modifiers) {
+                for (modifier in this.purchase.modifiers[modifiers]) {
+                    if (modifier != 'conf') {
+                        if (this.purchase.modifiers[modifiers][modifier].checked === true) {
+                            totalPrice += parseInt(this.purchase.modifiers[modifiers][modifier].price);
+                        } else {
+                            totalPrice -= parseInt(this.purchase.modifiers[modifiers][modifier].price);
+                        }
+                    }
+                }
+            }
+
+            $('#total_price').attr('data-price', totalPrice);
+
+            totalPrice *= this.purchase.amount;
+            $('#total_price').text(currencyFormat(totalPrice));
         },
         /**
          * Cuenta la cantidad de item de un modificador que han sido seleccionados.
@@ -379,7 +433,6 @@ var products = new Vue({
                         "maxSelect": modifier.maxSelect,
                         "name": modifier.name
                     };
-
                     Vue.set(products.purchase.modifiers, modifier["rid"], {});
                     Vue.set(products.purchase.modifiers[modifier["rid"]], 'conf', conf);
 
@@ -450,8 +503,7 @@ var products = new Vue({
                                 notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
                                 result = false;
                             }
-                        }
-                        else {
+                        } else {
                             maxSelect = maxSelect ? maxSelect : 1;
                             //selección multiple
                             if (!((count > 0) && (count <= maxSelect))) {
@@ -470,8 +522,7 @@ var products = new Vue({
         getImage: function (product) {
             if (product.image && product.image.url) {
                 return product.image.url;
-            }
-            else {
+            } else {
                 return "/generic/images/no_found.png";
             }
         },
