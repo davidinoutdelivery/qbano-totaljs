@@ -8,7 +8,7 @@ F.functions.crashReport();
 // Routes loads from the server
 exports.install = function () {
     let timeOut = 50000; //50 seconds
-    F.route('/login', login,[timeOut]);
+    F.route('/login', login, [timeOut]);
     F.route('/logout', logout, [timeOut]);
     F.route('/account', account, [timeOut]);
     F.route('/register', register, [timeOut]);
@@ -31,7 +31,7 @@ let header = {
  * @param body :: Send object
  * @param time :: Boolean var for timeout control.
  */
-let build_body = function (func_api, body, time=true) {
+let build_body = function (func_api, body, time = true) {
     let _body = {
         headers: header,
         url: url + func_api,
@@ -84,15 +84,15 @@ function address(consumerId) {
     self.theme(F.config['theme']);
     let title = "Direcciones";
 
-    let query = 'SELECT expand(userAddress[status = true]) FROM #' +consumerId+ ' order by createdAt desc;';
+    let query = 'SELECT expand(userAddress[status = true]) FROM #' + consumerId + ' order by createdAt desc;';
     F.functions.query(query)
-    .then( function(response) {
-        F.functions.view_response(self, "address", 200, {address: response, title: F.functions.build_title(title)});
-    })
-    .catch (function (error) {
-         console.log("[Error] ", e);
-         F.functions.view_response(self, 404, 404, {title: F.functions.build_title("404")});
-    });
+            .then(function (response) {
+                F.functions.view_response(self, "address", 200, {address: response, title: F.functions.build_title(title)});
+            })
+            .catch(function (error) {
+                console.log("[Error] ", e);
+                F.functions.view_response(self, 404, 404, {title: F.functions.build_title("404")});
+            });
 }
 
 /**
@@ -100,6 +100,7 @@ function address(consumerId) {
  * @param self : controller
  */
 function account() {
+
     let self = this;
     self.theme(F.config['theme']);
     let title = "Cuenta";

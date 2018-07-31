@@ -968,7 +968,6 @@ var modalAddress2 = new Vue({
                     "longitude": modalAddress2.location.longitude
                 }, datetime_dict).then((new_coverage) => {
                     coverage = new_coverage;
-                    //console.log(coverage);
                     var hoursToPickerTime = proccessHours(coverage[0].result);
                     var picker = $('.timepicker').pickatime('picker');
                     picker.set('disable', true);
@@ -981,13 +980,10 @@ var modalAddress2 = new Vue({
 
             var daysInactive = [];
 
-            //console.log("coverage schedules", coverage);
 
             if (coverage[0].result.schedules.length > 0) {
                 daysInactive = coverage[0].result.schedules[0]["daysInactive"];
             }
-
-            //console.log(daysInactive);
 
             //date
             var $inputDate = $('.datepicker').pickadate({
@@ -1018,24 +1014,16 @@ var modalAddress2 = new Vue({
                     disabled: 'picker__list-item--disabled hide'
                 },
                 onStart: function () {
-                    // console.log('Hello there :)')
                 },
                 onRender: function () {
-                    // console.log('Whoa.. rendered anew')
                 },
                 onOpen: function () {
-                    // console.log('Opened up')
-                    /*var new_hours = hoursToPickerTime(coverage);
-                     modalAddress2.timepicker.set('disable', true);
-                     modalAddress2.timepicker.set("disable", new_hours);*/
 
                     var new_height = calcHeightPickerTime();
-                    //console.log("NEW HEIGHT: ", new_height);
                     $("#startTime_root .picker__holder").css("margin-top", new_height);
 
                 },
                 onSet: function (context) {
-                    // console.log('Just set stuff TIMEPICKER:', context, modalAddress2.timepicker.get('select'));
                     modalAddress2.time = document.getElementById("startTime").value;
                 }
             });
@@ -1157,7 +1145,6 @@ var modalAddress2 = new Vue({
                     var dateText = $("input[name='bday_submit']").val() + " " + document.getElementById("startTime").value;
                     dateText = dateText.trim();
                     if (dateText != "undefined") {
-                        //console.log(dateText);
 
                         var getDateFunction = function (date) {
                             var d = date.getDate();
@@ -1179,7 +1166,6 @@ var modalAddress2 = new Vue({
                         datetime.time = getTimeFunction(datetimePicker);
                         dateDefault = false;
                         console.log("date---->");
-                        //console.log( datetime );
                     }
 
 

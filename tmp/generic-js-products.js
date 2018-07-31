@@ -129,6 +129,7 @@ var products = new Vue({
                     data['pointSaleTypeServiceSchedule'] = pointSale.services[0].coverages[0].rid;
                     data['typeService'] = pointSale.services[0].rid;
                     data['cartItems'] = this.formatCart();
+                    console.log(data);
                     if (this.validate()) {
                         apiAjax("cart", "post", data).then((response) => {
                             response = response[0] ? response[0] : null;
@@ -385,7 +386,7 @@ var products = new Vue({
                 }
             }
 
-            let totalPrice = parseInt($('#total_price').attr('data-price'));
+            let totalPrice = parseInt($('#total_price').attr('data-base'));
             let modifiers = null;
             let modifier = null;
             for (modifiers in this.purchase.modifiers) {
@@ -393,8 +394,6 @@ var products = new Vue({
                     if (modifier != 'conf') {
                         if (this.purchase.modifiers[modifiers][modifier].checked === true) {
                             totalPrice += parseInt(this.purchase.modifiers[modifiers][modifier].price);
-                        } else {
-                            totalPrice -= parseInt(this.purchase.modifiers[modifiers][modifier].price);
                         }
                     }
                 }

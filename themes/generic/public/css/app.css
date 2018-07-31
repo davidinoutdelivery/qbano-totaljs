@@ -9317,6 +9317,7 @@ body .bg_paneld_pedido
     display:block;
     position:relative;
     border-radius:10px;
+    z-index: 1;
 
 }
 body .bg_paneld_pedido:after
@@ -12276,7 +12277,7 @@ footer
     -webkit-background-size:cover;
     -moz-background-size:cover;
     background-size:cover;
-
+    z-index: -2;
 }
 footer:after
 {
@@ -12295,7 +12296,7 @@ footer .prod1F
     position:absolute;
     right:-5px;
     bottom:-5px;
-
+    z-index: -1;
 }
 @media only screen and (max-width:1500px)
 {
@@ -12334,7 +12335,7 @@ footer .prod2F
     position:absolute;
     left:-5px;
     bottom:-5px;
-
+    z-index: -1;
 }
 @media only screen and (max-width:1500px)
 {

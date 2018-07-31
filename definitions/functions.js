@@ -34,7 +34,7 @@ F.functions.sendCrash = function (error) {
  * @returns {string}
  */
 F.functions.getMessage = function (message, type) {
-    if(message) {
+    if (message) {
         let value = JSON.stringify(message).split("::")[1].replace(/\\/g, "");
         if (type) {
             return JSON.parse(value.slice(0, value.length - 5));
@@ -53,27 +53,27 @@ F.functions.getMessage = function (message, type) {
 F.functions.metaTags = function (self, data) {
     var url = 'http://transmartfoundation.org/wp-content/plugins/lightbox/images/No-image-found.jpg';
     var detail = 'sin imagen';
-    if(data.result) {
+    if (data.result) {
         if (data.result.image) {
             url = data.result.image.url;
             detail = data.result.name;
         }
     }
 
-    return '<meta property="fb:app_id" content="'+F.config["facebook_id"]+'"/>'
-        + '<meta name="title" content=" ' + data.result.name + '" />'
-        + '<meta name="description" content=" ' + data.result.description + '" />'
-        + '<meta name="keywords" content="producto, promoción" />'
-        + '<meta name="image" content="' + url + '" />'
-        + '<meta name="og:title" content="' + detail + '" />'
-        + '<meta name="og:description" content=" ' + data.result.description + '" />'
-        + '<meta property="og:image" content="' + url + '"/>'
-        + '<meta property="og:url" content="' + self.req.uri.href + '"/>'
-        + '<meta property="og:title" content="' + data.result.name + '"/>'
-        + '<meta property="og:image:type" content="image/png"/>'
-        + '<meta property="og:type" content="article"/>'
-        + '<meta property="og:description" content="' + data.result.description + '"/>'
-        + '<link href="' + url + '" rel="image_src">';
+    return '<meta property="fb:app_id" content="' + F.config["facebook_id"] + '"/>'
+            + '<meta name="title" content=" ' + data.result.name + '" />'
+            + '<meta name="description" content=" ' + data.result.description + '" />'
+            + '<meta name="keywords" content="producto, promoción" />'
+            + '<meta name="image" content="' + url + '" />'
+            + '<meta name="og:title" content="' + detail + '" />'
+            + '<meta name="og:description" content=" ' + data.result.description + '" />'
+            + '<meta property="og:image" content="' + url + '"/>'
+            + '<meta property="og:url" content="' + self.req.uri.href + '"/>'
+            + '<meta property="og:title" content="' + data.result.name + '"/>'
+            + '<meta property="og:image:type" content="image/png"/>'
+            + '<meta property="og:type" content="article"/>'
+            + '<meta property="og:description" content="' + data.result.description + '"/>'
+            + '<link href="' + url + '" rel="image_src">';
 };
 
 
@@ -123,15 +123,16 @@ F.functions.handle_response = function (error, responseRequest, body) {
         response: {}
     };
 
-    try {F.functions.log("statusCode: " + responseRequest.statusCode);}catch(e){/*pass*/}
+    try {
+        F.functions.log("statusCode: " + responseRequest.statusCode);
+    } catch (e) {/*pass*/
+    }
     if (error && (error.code === "ESOCKETTIMEDOUT" || error.code === "ETIMEDOUT" || error.connect === true)) {
         _resp["status"] = 408;
-    }
-    else if (error) {
+    } else if (error) {
         console.log("ERROR!!", error);
         _resp["status"] = 500;
-    }
-    else {
+    } else {
         _resp["response"] = body;
         if (typeof body !== "object") {
             _resp["response"] = {};
@@ -153,21 +154,17 @@ F.functions.view_response = function (controller, view, status, dict) {
     controller.status = status;
     if (status >= 200 && status <= 209) {
         controller.view(String(view), dict);
-    }
-    else if (view === status) {
+    } else if (view === status) {
         if (status === 404 || status === 408) {
             controller.view(String(view), dict);
-        }
-        else {
+        } else {
             //Cualquier otro error se maneja como 404
             controller.view("404", dict);
         }
-    }
-    else {
+    } else {
         if (isNaN(view)) {
             controller.view(String(view), dict);
-        }
-        else {
+        } else {
             controller.view("404", dict);
         }
     }
@@ -191,18 +188,19 @@ F.functions.json_response = function (controller, status, dict) {
  * @returns Promise
  */
 F.functions.query = function (query) {
-    console.log("QUERY::=>",query);
+    console.log("QUERY::=>", query);
     return new Promise((resolve, reject) => {
         if (typeof query === 'string' || query instanceof String) {
             let db = DB();
             db.query(query, {class: "s"})
-                .then( function ( response ) {
-                    resolve(response);
-                    db.close();
-                }).catch( function ( e ) {
-                    reject(e);
-                    db.close();
-             });
+                    .then(function (response) {
+                        console.warn("Query response", response);
+                        resolve(response);
+                        db.close();
+                    }).catch(function (e) {
+                reject(e);
+                db.close();
+            });
         } else {
             reject("Invalid parameters");
         }
@@ -212,8 +210,8 @@ F.functions.query = function (query) {
 /**
  * Manejo de errores de Orientdb
  */
-F.functions.handleError = function ( error ) {
-    
+F.functions.handleError = function (error) {
+
     /** 100 - 129 = orientdb Error
      *  130 - 159 = manual Error
      *  160 - 189 = server error
@@ -230,7 +228,7 @@ F.functions.handleError = function ( error ) {
                 error.code = 101; //Campos obligatorios en base de datos
                 error.status = 400;
                 break;
-            
+
             case 'com.orientechnologies.orient.core.exception.OSecurityAccessException':
                 error.code = 102; // Sin permisos en BD
                 error.status = 400;
@@ -240,12 +238,12 @@ F.functions.handleError = function ( error ) {
                 error.code = 103; // consulta mal formada
                 error.status = 400;
                 break;
-            
+
             case 'com.orientechnologies.orient.core.exception.ORecordNotFoundException':
                 error.code = 104; // Registro no encontrado
                 error.status = 400;
                 break;
-            
+
             case 'com.orientechnologies.orient.core.command.script.OCommandScriptException':
                 error.code = 105; //Error generado por un script, manejado
                 error.status = 400;
@@ -261,7 +259,7 @@ F.functions.handleError = function ( error ) {
                         error.code = 158;
                         error.status = 408;
                         break;
-                
+
                     default:
                         error.code = 159; // error manual sin manejar
                         error.status = 501;
@@ -269,14 +267,13 @@ F.functions.handleError = function ( error ) {
                 }
 
                 break;
-        
+
             default:
                 error.code = 189; // Error type desconocido
                 error.status = 500;
                 break;
         }
-    }
-    else {
+    } else {
         error = new Error();
         error.code = 200; // error estructura
         error.status = 500;

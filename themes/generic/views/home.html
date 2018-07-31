@@ -240,7 +240,7 @@
 
                                             <h2 class="price">
                                                 <span class="text_bold">Total:</span>
-                                                <span id="total_price" :data-price="detailProduct.price">
+                                                <span id="total_price" :data-price="detailProduct.price" :data-base="detailProduct.price">
                                                     {{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}
                                                 </span>
                                             </h2>

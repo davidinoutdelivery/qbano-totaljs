@@ -18,14 +18,14 @@ var appCart = new Vue({
     el: '#carrito',
     data: function () {
         return {
-            "model": { 
+            "model": {
                 "items": {},
             },
             "service": {}
         }
     },
     methods: {
-        setup:function (model) {
+        setup: function (model) {
             console.log("SHOPINGCART", model);
             if (Object.keys(model).length > 0) {
                 this.model = model;
@@ -49,14 +49,14 @@ var appCart = new Vue({
 
             var cartId = getLocalStorage(nameStorage.cartId);
             var pointSale = getPointSale();
-            
+
             var serviceId = pointSale.services[0]["rid"];
             console.log("GETCART", pointSale, serviceId);
             if (cartId) {
                 apiAjax("getCart", "post", {cartId: cartId, serviceId: serviceId}).then((response) => {
-                    console.log("RESP CART: ", response);
+
                     if (response.length > 0 && response[0].getCart) {
-                        var model= response[0].getCart;
+                        var model = response[0].getCart;
                         this.setup(model);
                         element_sel.stopLoading();
                     } else {
@@ -67,25 +67,24 @@ var appCart = new Vue({
                     element_sel.stopLoading();
                     console.error("Error Obteniendo el carrito:::", error);
                 });
-            }
-            else {
+            } else {
                 element_sel.stopLoading();
             }
         },
         /**
          * Actualiza un item del carrito como por ejemplo la cantidad
          */
-        updateItem: function(id, dict, index) {
-            var data = {"itemId": id, 
-                        "item": dict, 
-                        "cartId": getLocalStorage(nameStorage.cartId), 
-                        //"serviceId": this.service["rid"],
-                    };
+        updateItem: function (id, dict, index) {
+            var data = {"itemId": id,
+                "item": dict,
+                "cartId": getLocalStorage(nameStorage.cartId),
+                //"serviceId": this.service["rid"],
+            };
 
             if (dict.amount > 0) {
                 apiAjax("updateCartItem", "put", data).then((response) => {
                     console.log(response);
-                    this.model= response[0].getCart;
+                    this.model = response[0].getCart;
                     this.cartItemCounter();
                 }, error => {
                     console.error("Error actualizando item:::", error);
@@ -102,10 +101,10 @@ var appCart = new Vue({
                     total += item.amount;
                 }
             }
-            
+
             setLocalStorage(nameStorage.cartCount, total.toString());
             $("a.carrito b").text(getLocalStorage(nameStorage.cartCount));
-            $("a.carrito .animated li").text(getLocalStorage(nameStorage.cartCount)); 
+            $("a.carrito .animated li").text(getLocalStorage(nameStorage.cartCount));
         },
         /**
          * elimina un item del carrito
@@ -117,9 +116,9 @@ var appCart = new Vue({
             element_sel.startLoading({show_text: false});
 
             var data = {"cartId": getLocalStorage(nameStorage.cartId),
-                        "itemId": id,
-                        "serviceId": this.service["@rid"],
-                    };
+                "itemId": id,
+                "serviceId": this.service["@rid"],
+            };
             apiAjax("deleteCartItem", "delete", data).then((response) => {
                 this.model = response[0].getCart;
                 cartCount(response[0].getCart.totalAmount);
@@ -127,8 +126,8 @@ var appCart = new Vue({
                 element_sel.stopLoading();
                 notificationGeneral(message.delete_item_cart, {type: "success"});
             }, error => {
-                 element_sel.stopLoading();
-                 console.error("Error eliminando producto del carrito:::", error);
+                element_sel.stopLoading();
+                console.error("Error eliminando producto del carrito:::", error);
             });
         },
         clear: function () {
@@ -137,13 +136,13 @@ var appCart = new Vue({
             var data = {cartId: this.model['@rid'].replace("#", "")};
             apiAjax("emptyCart", "delete", data).then((response) => {
                 console.log("SEBORROTOF", response);
-                this.model= response[0];
+                this.model = response[0];
                 this.cartItemCounter();
                 notificationGeneral(message.delete_cart);
                 btn_empty_cart.stopLoading();
             }, error => {
-                 element_sel.stopLoading();
-                 console.error("Error eliminando el carrito:::", error);
+                element_sel.stopLoading();
+                console.error("Error eliminando el carrito:::", error);
             });
         },
         updatecart: function () {
@@ -153,10 +152,10 @@ var appCart = new Vue({
             products.getSuggested();
             $(".modalCollection").click();
         },
-        getUrlImage: function (product, background= false) {
+        getUrlImage: function (product, background = false) {
             var url = background ? 'background-image: url("generic/images/no_found.png")' : '/generic/images/no_found.png';
             if (product.image && product.image.url) {
-                url = background ? 'background-image: url("' + product.image.url + '")' : product.image.url ;
+                url = background ? 'background-image: url("' + product.image.url + '")' : product.image.url;
             }
             return url;
         },
@@ -297,8 +296,7 @@ var appCart = new Vue({
                                         modi.modifierItem = modi.modifierItem.id;
                                         modi.modifier = modi.modifier.id;
                                     }
-                                }
-                                else {
+                                } else {
                                     item.modifiersGroups = [];
                                 }
                             }
@@ -324,14 +322,14 @@ var appCart = new Vue({
                                                 modi.modifierItem = modi.modifierItem.id;
                                                 modi.modifier = modi.modifier.id;
                                             }
-                                    } else {
-                                        coupon.modifiersGroups = [];
+                                        } else {
+                                            coupon.modifiersGroups = [];
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
                     $.ajax({
                         type: 'put',
@@ -340,22 +338,22 @@ var appCart = new Vue({
                         data: JSON.stringify(update),
                         dataType: 'json'
                     })
-                        .done(data => {
-                            setLocalStorage(nameStorage.cartCount, data.count.toString());
-                            $("a.carrito b").text(getLocalStorage(nameStorage.cartCount));
-                            $("a.carrito .animated li").text(getLocalStorage(nameStorage.cartCount));
-                            if (Parse.User.current() && getLocalStorage(nameStorage.consumer)) {
-                                getCollections();
-                                btn_go_to_checkout.stopLoading();
-                            } else {
-                                var cart_id = getLocalStorage(nameStorage.cartId);
-                                var next_url = "/login?next=/cart?id=" + cart_id;
-                                redirect(next_url);
-                            }
-                        }).fail(function (reason) {
-                            btn_go_to_checkout.stopLoading();
-                            console.warn("no se actualizo el carrito", reason);
-                        });
+                            .done(data => {
+                                setLocalStorage(nameStorage.cartCount, data.count.toString());
+                                $("a.carrito b").text(getLocalStorage(nameStorage.cartCount));
+                                $("a.carrito .animated li").text(getLocalStorage(nameStorage.cartCount));
+                                if (Parse.User.current() && getLocalStorage(nameStorage.consumer)) {
+                                    getCollections();
+                                    btn_go_to_checkout.stopLoading();
+                                } else {
+                                    var cart_id = getLocalStorage(nameStorage.cartId);
+                                    var next_url = "/login?next=/cart?id=" + cart_id;
+                                    redirect(next_url);
+                                }
+                            }).fail(function (reason) {
+                        btn_go_to_checkout.stopLoading();
+                        console.warn("no se actualizo el carrito", reason);
+                    });
                 }
             }, function (error) {
                 btn_go_to_checkout.stopLoading();
@@ -366,8 +364,7 @@ var appCart = new Vue({
             if (this.calc.subtotal <= minOrderPrice) {
                 notificationOne(message.order_price + minOrderPrice);
                 return false;
-            }
-            else if (!delivery) {
+            } else if (!delivery) {
                 notificationOne(message.close_delivery);
                 return false;
             }
@@ -381,7 +378,8 @@ var appCart = new Vue({
             }
         },
         isCart: function () {
-            if (!this.model.cartItems) return false;
+            if (!this.model.cartItems)
+                return false;
             if (this.model.cartItems.length > 0) {
                 return true;
             } else {
@@ -390,12 +388,11 @@ var appCart = new Vue({
         },
         //verifica si existen detalles
         hasDetails: function (product) {
-            if ((product.cartItemModifiers && product.cartItemModifiers.length > 0) || 
-            ( product.cartItemModifierGroups && product.cartItemModifierGroups.length > 0) || 
-            (product.cartItemProductGroups && product.cartItemProductGroups.length > 0)) {
+            if ((product.cartItemModifiers && product.cartItemModifiers.length > 0) ||
+                    (product.cartItemModifierGroups && product.cartItemModifierGroups.length > 0) ||
+                    (product.cartItemProductGroups && product.cartItemProductGroups.length > 0)) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -418,25 +415,25 @@ var appCart = new Vue({
                 var pointsale = getLocalStorage(nameStorage.pointSale) ? JSON.parse(getLocalStorage(nameStorage.pointSale)) : null;
                 if (pointsale && pointsale["id"]) {
                     $.ajax({
-                    type: 'get',
-                    url: '/api/pointSaleIsOpen?id=' + pointsale["id"],
-                    contentType: "application/json; charset=utf-8",
-                    dataType: 'json'
-                }).then((data) => {
-                    resolve(data);
-            }).fail(err => {
-                    reject(err);
+                        type: 'get',
+                        url: '/api/pointSaleIsOpen?id=' + pointsale["id"],
+                        contentType: "application/json; charset=utf-8",
+                        dataType: 'json'
+                    }).then((data) => {
+                        resolve(data);
+                    }).fail(err => {
+                        reject(err);
+                    });
+                } else {
+                    reject("sin punto de venta");
+                }
             });
-            } else {
-                reject("sin punto de venta");
-            }
-        });
         },
-        cleaning: function(cart){
+        cleaning: function (cart) {
             console.log(cart);
             for (let item of cart.cartItems) {
-                
-                 // Modificadores
+
+                // Modificadores
                 if (item.product.modifier && Object.keys(item.product.modifier).length > 0) {
                     item.product.modifier = Object.values(item.product.modifier);
                     for (let modifier of item.product.modifier) {
@@ -461,7 +458,7 @@ var appCart = new Vue({
     },
     computed: {
         total: function () {
-          return this.model.items.total + this.service.cost;
+            return this.model.items.total + this.service.cost;
         }
     },
 });

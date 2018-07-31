@@ -26,6 +26,7 @@ exports.install = function () {
     F.route('/api/registerUser/', registerUser, [timeOut, 'post'], 2000);
     F.route('/api/updateUser/', updateUser, [timeOut, 'put'], 2000);
     F.route('/api/login/', login, [timeOut, 'post'], 2000);
+    F.route('/api/cartMigrate/', cartMigrate, [timeOut, 'post'], 2000);
     F.route('/api/loginSocial/', loginSocial, [timeOut, 'post'], 2000);
     F.route('/api/logout/', logout, [timeOut, 'post'], 2000);
     F.route('/api/service/', typeService, [timeOut, 'get'], 2000);
@@ -92,8 +93,6 @@ function email() {
                     'data = {"from_email":"freddy@inoutdelivery.com","from_name":"Contact Admin", "subject":"' +
                     self.body.subject + '", "name":"' + self.body.name + '",' +
                     '"title":"' + self.body.title + '","email":"' + self.body.email + '","content":"' + self.body.comments + '"} ';
-
-            //console.log(query);
 
             F.functions.query(query).then(function (response) {
                 var result = response[0];
@@ -518,7 +517,6 @@ function createAddress() {
             }
 
             let query = 'BEGIN;' + queryCreated + 'commit;'
-            console.log(query);
             F.functions.query(query)
                     .then(function (response) {
                         F.functions.json_response(self, 200, response);
@@ -715,7 +713,6 @@ function getCart() {
             let query = 'select getCart(' + JSON.stringify(params) + ');';
             F.functions.query(query)
                     .then(function (response) {
-                        console.log(response);
                         F.functions.json_response(self, 200, response);
                     }
                     ).catch(function (error) {
@@ -875,7 +872,6 @@ function registerUser() {
                 F.functions.json_response(self, 400, error);
             });
         } else {
-            console.log("CHINGA");
             let error = F.functions.handleError({type: 'manual error', message: "Mandatory parameters"});
             F.functions.json_response(self, 400, error);
         }
@@ -922,17 +918,21 @@ function updateUser() {
  */
 function login() {
     F.functions.log("\n[/api/login/] login");
+
     let self = this;
 
     try {
         let user = self.body.user ? self.body.user : null;
+
         if (user && user.email && user.password) {
-            //TO_DO: este tipo de autenticación se debe revisar
-            F.setDatabaseUser(user.email, user.password);
+
             let query = 'SELECT getUser({username: "' + user.email + '"});';
+
             F.functions.query(query)
                     .then(function (response) {
-                        F.functions.json_response(self, 200, response[0]);
+                        response[1] = self.body.data;
+                        response[2] = self.body.user;
+                        F.functions.json_response(self, 200, response);
                     }
                     ).catch(function (error) {
                 F.setDatabaseUser("admin", "admin"); //login
@@ -976,6 +976,49 @@ function loginSocial() {
             let error = F.functions.handleError({type: 'manual error', message: "Mandatory parameters"});
             F.functions.json_response(self, 400, error);
         }
+    } catch (e) {
+        F.functions.sendCrash(e);
+        let error = F.functions.handleError({type: 'manual error'});
+        F.functions.json_response(self, 500, error);
+    }
+}
+
+/**
+ * Migrar carrito de compra del usuario de un usuario a otro.
+ */
+function cartMigrate() {
+    F.functions.log("\n[/api/login/] cartMigrate");
+    let self = this;
+    try {
+
+        let data = {};
+        data['user'] = self.body.user;
+        data['cart'] = self.body.carRid;
+        data['cartItems'] = self.body.cartItems;
+        if (self.body.cartItemsModifiers) {
+            data['cartItemsModifiers'] = self.body.cartItemsModifiers;
+        }
+        if (self.body.cartItemsModifiersGroup) {
+            data['cartItemsModifiersGroup'] = self.body.cartItemsModifiersGroup;
+        }
+        if (self.body.cartItemProductGroup) {
+            data['cartItemProductGroup'] = self.body.cartItemProductGroup;
+        }
+
+        let query = 'SELECT cartMigrate(' + JSON.stringify(data) + ');';
+        F.functions.query(query)
+                .then(function (responseCart) {
+                    console.log('Cart = ', responseCart[0]);
+                    F.setDatabaseUser(self.body.username.email, self.body.username.password);
+                    responseCart[1] = self.body;
+                    F.functions.json_response(self, 200, responseCart);
+                }
+                ).catch(function (error) {
+            F.functions.sendCrash(error);
+            error = F.functions.handleError(error);
+            F.functions.json_response(self, 400, error);
+        });
+
     } catch (e) {
         F.functions.sendCrash(e);
         let error = F.functions.handleError({type: 'manual error'});
@@ -1078,7 +1121,6 @@ function userExist() {
 function updateCart() {
     F.functions.log("\n[/api/savecart/] saveCart");
     let self = this;
-    console.log(self.body);
 
     try {
         if (self.body.cartId && self.body.cart) {
