@@ -264,7 +264,6 @@ let checkoutApp = new Vue({
         getCart: function () {
             var element_sel = $(".listCart");
             element_sel.startLoading();
-            /* Obtiene el carrito actual  */
             var cartId = getLocalStorage(nameStorage.cartId);
             var pointSale = getPointSale();
 

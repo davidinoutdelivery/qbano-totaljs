@@ -76,7 +76,7 @@
         <div class="small-12 medium-4 large-4 columns padding">
             <div class="bg_paneld_pedido">
                 <h2 class="sub">RESUMEN DEL PEDIDO</h2>
-                <ul class="listCart row padding">
+<!--                <ul class="listCart row padding">
                     <li class="row" v-for="item in cart.items">   
                         <div class="columns large-3 medium-3 small-3">                            
                             <a href="#">  
@@ -91,6 +91,43 @@
                                     <p v-html="item.description"></p>
                                 </div>
                             </a>
+                        </div>                
+                    </li>
+                </ul>-->
+                <ul class="listCart row padding">
+                    <li class="row" v-for="(item, index) of cart.items"  :key="item['@rid']">
+                        <div class="columns large-4 medium-4 small-4">
+                            <a href="javascript:void(0)">  
+                                <div class="img" :style="getUrl(item, true)"></div>  
+                            </a>
+                        </div>
+                        <div class="columns large-8 medium-8 small-8 padding">
+                            <a href="javascript:void(0)">
+                                <div class="txt">
+                                    <h4>{{item.product}}</h4>
+                                    <h5>{{currencyFormat(item.priceUnit)}}</h5>
+                                    <p>{{item.description}}</p>
+                                </div>
+                            </a>
+                            <div class="row">
+                                <h4>Adiciones</h4>
+                                <div class="txtModifiers" v-for="modifier of item.cartItemModifiers"  :key="modifier['@rid']">
+                                     <h5 class="modifierName">{{modifier.modifierItem}}</h5>
+                                    <h5 class="modifierPrice">{{currencyFormat(modifier.priceUnit)}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div v-for="modifierGroup of item.cartItemModifierGroups"  :key="modifierGroup['@rid']">
+                                     <div class="txtModifiers">
+                                        <h4 class="modifierGroupname">{{modifierGroup.group}}</h4>
+                                        <h4 class="modifierGroupPrice">{{currencyFormat(modifierGroup.priceUnit)}}</h4>
+                                    </div>
+                                    <div class="txtModifiers" v-for="modifier of modifierGroup.modifiers"  :key="modifier['@rid']">
+                                         <h5 class="modifierName">{{modifier.modifierItem}}</h5>
+                                        <h5 class="modifierPrice">{{currencyFormat(modifier.priceUnit)}}</h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>                
                     </li>
                 </ul>
@@ -238,7 +275,7 @@
                 <div class="block chec_modal" v-for="add of addresses">
                     <input type="radio" name="address" :value="add['@rid']" :id="add['@rid']" :checked="isSelected(add)">
                     <label for="address" v-on:click="changeAddress(add)">
-                        {{add.address}} {{add.description}} {{add.city}} {{add['@rid'] === address['@rid']}} {{add['@rid']}}
+                        {{add.address}} {{add.description}} {{add.city}}
                     </label>
                 </div>
             </div>

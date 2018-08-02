@@ -218,14 +218,20 @@ function changePassword() {
  * @param dict :: array de objectos u objeto a ser insertado
  * @returns String
  */
-function __createInsert(table, fields, dict) {
+function __createInsert(table, fields, dict, letName = null) {
+
     let values = [];
-    //mutiples objetos en un array (bulk)
+
     if (Array.isArray(dict)) {
+
         for (let j = 0; j < dict.length; j++) {
+
             let tmpValues = [];
+
             for (let i = 0; i < fields.length; i++) {
+
                 let item = '';
+
                 if (fields[i] === "createdAt" || fields[i] === "updatedAt") {
                     item = 'SYSDATE()';
                 } else if (fields[i] === "roles") {
@@ -233,20 +239,21 @@ function __createInsert(table, fields, dict) {
                 } else {
                     item = dict[j][fields[i]] ? convertString(dict[j][fields[i]]) : "null";
                 }
+
                 tmpValues.push(item);
             }
             values.push(tmpValues);
         }
 
-        let query = 'let $' + table + ' = INSERT INTO ' + table + ' (' + fields.toString() + ') values ';
+        console.log('///////letName === null', (letName === null ? table : letName));
+        console.log('///////letName', letName);
+        let query = 'let $' + (letName === null ? table : letName) + ' = INSERT INTO ' + table + ' (' + fields.toString() + ') values ';
         for (let i = 0; i < values.length; i++) {
             query += '(' + values[i].toString() + ')';
             query += values.length - 1 === i ? '; ' : ',';
         }
         return query;
-    }
-    // un solo objeto
-    else if (typeof dict === 'object') {
+    } else if (typeof dict === 'object') {
         for (let i = 0; i < fields.length; i++) {
             let item = '';
             if (fields[i] === "createdAt" || fields[i] === "updatedAt") {
@@ -259,8 +266,8 @@ function __createInsert(table, fields, dict) {
 
             values.push(item);
         }
-        return 'let $' + table + ' = INSERT INTO ' + table + ' (' + fields.toString() + ') values (' + values.toString() + '); ';
-    }
+        return 'let $' + (letName === null ? table : letName) + ' = INSERT INTO ' + table + ' (' + fields.toString() + ') values (' + values.toString() + '); ';
+}
 }
 
 function convertString(value) {
@@ -326,7 +333,7 @@ function product() {
                     F.functions.json_response(self, 200, response);
                 }
                 ).catch(function (error) {
-            console.log("[Error] ", error);
+            console.warn("[Error] ", error);
             F.functions.sendCrash(error);
             F.functions.json_response(self, 400, error);
         });
@@ -347,7 +354,7 @@ function status() {
                 F.functions.json_response(self, 200, params);
             })
             .catch(function (error) {
-                console.log("[Error] ", error);
+                console.warn("[Error] ", error);
                 F.functions.sendCrash(error);
                 F.functions.json_response(self, 400, error);
             });
@@ -365,7 +372,7 @@ function qualify() {
                 F.functions.json_response(self, 200, response);
             })
             .catch(function (error) {
-                console.log("[Error] ", error);
+                console.warn("[Error] ", error);
                 F.functions.sendCrash(error);
                 F.functions.json_response(self, 400, error);
             });
@@ -607,28 +614,39 @@ function updateAddress() {
 function saveCartItem() {
     F.functions.log("\n[/api/savecart/] saveCart");
     let self = this;
-    let queryItemModifiers = '';
+    let queryItemModifierGroupModifiers = '';
     let queryItemModifierGroup = '';
+    let queryItemModifiers = '';
     let querycartItem = '';
     let queryCart = '';
 
     if (self.body.cartItems) {
         let item = self.body.cartItems;
-        //Query para los modificadores
+
         if (item.modifiers && item.modifiers.length > 0) {
-            let filedsItemModifiers = ["modifier", "modifierItem", "amount"]; //campos de la tabla
+            let filedsItemModifiers = ["modifier", "modifierItem", "amount"];
             queryItemModifiers = __createInsert("cartItemModifier", filedsItemModifiers, item.modifiers);
         }
-        //Query para los grupos modificadores TO_DO: probar
+
         if (item.modifiersGroups && item.modifiersGroups.length > 0) {
+            let letName = null;
+            let filedsItemModifiers = ["modifier", "modifierItem", "amount"];
             let filedsItemModifierGroup = ["modifierGroup", "cartItemModifiers", "amount"];
-            queryItemModifierGroup = __createInsert("CartItemModifierGroup", filedsItemModifierGroup, item.modifiersGroups);
+
+            for (let i = 0; i < item.modifiersGroups.length; i++) {
+                letName = 'cartItemModifier' + i;
+                queryItemModifierGroupModifiers += __createInsert("cartItemModifier", filedsItemModifiers, item.modifiersGroups[i].modifiers, letName);
+
+                item.modifiersGroups[i]['cartItemModifiers'] = '$' + letName;
+            }
+            queryItemModifierGroup = __createInsert("cartItemModifierGroup", filedsItemModifierGroup, item.modifiersGroups);
         }
 
         //query para item
         let filedscartItem = ["product", "comment", "code", "cartItemProductGroups", "cartItemModifiers",
             "cartItemModifierGroups", "amount", "createdAt"];
         item["cartItemModifiers"] = queryItemModifiers.length > 0 ? '$cartItemModifier' : null;
+        item["cartItemModifierGroups"] = queryItemModifierGroup.length > 0 ? '$cartItemModifierGroup' : null;
         querycartItem = __createInsert("cartItem", filedscartItem, item);
     }
 
@@ -636,12 +654,14 @@ function saveCartItem() {
     let fieldsCart = [];
     let itemCart = {};
     // Actualización del carrito TO-DO: contemplar todos los campos a actualizar
+    console.log('/////////////////////////self.body.cartId', self.body.cartId);
     if (self.body.cartId) {
         fieldsCart.push("updatedAt");
-        if (self.body.cartItems)
+        if (self.body.cartItems) {
             itemCart.cartItems = '$cartItem';
-        queryCart = 'let $Cart = UPDATE Cart ADD cartItems= $cartItem SET updatedAt = SYSDATE(), pointSale = "' + self.body.pointSale + '" UPSERT WHERE @rid= #' + self.body.cartId + ';' +
-                'SELECT *, sum(cartItems.amount) AS totalAmount from Cart WHERE @rid = #' + self.body.cartId + ';';
+        }
+        queryCart = 'let $Cart = UPDATE Cart ADD cartItems= $cartItem SET updatedAt = SYSDATE(), pointSale = "' + self.body.pointSale + '" UPSERT WHERE @rid= ' + self.body.cartId + ';' +
+                'SELECT *, sum(cartItems.amount) AS totalAmount from Cart WHERE @rid = ' + self.body.cartId + ';';
     }
     // Crea un nuevo carrito
     else {
@@ -681,8 +701,9 @@ function saveCartItem() {
     }
 
     let query = 'begin;' +
-            queryItemModifiers +
+            queryItemModifierGroupModifiers +
             queryItemModifierGroup +
+            queryItemModifiers +
             querycartItem +
             queryCart +
             'commit;';
@@ -692,7 +713,7 @@ function saveCartItem() {
             }
             ).catch(function (error) {
         F.functions.sendCrash(error);
-        console.log("[Error] ", error);
+        console.warn("[Error] ", error);
         F.functions.json_response(self, 400, error);
     });
 }
@@ -1008,7 +1029,6 @@ function cartMigrate() {
         let query = 'SELECT cartMigrate(' + JSON.stringify(data) + ');';
         F.functions.query(query)
                 .then(function (responseCart) {
-                    console.log('Cart = ', responseCart[0]);
                     F.setDatabaseUser(self.body.username.email, self.body.username.password);
                     responseCart[1] = self.body;
                     F.functions.json_response(self, 200, responseCart);

@@ -162,45 +162,51 @@ var login = new Vue({
                         data['cartItemProductGroup'] = '[';
 
                         let item = 0;
-                        for (item; item < cart[0].getCart.items.length; item++) {
+                        let items = cart[0].getCart.items;
+                        for (item; item < items.length; item++) {
 
-                            data['cartItems'] += cart[0].getCart.items[item].rid + ',';
+                            data['cartItems'] += items[item].rid + ',';
 
-                            if (cart[0].getCart.items[item].cartItemModifiers.length > 0) {
+                            if (items[item].cartItemModifiers.length > 0) {
+                                let cartItemModifiers = items[item].cartItemModifiers;
 
-                                for (let itemModifiers = 0; itemModifiers < cart[0].getCart.items[item].cartItemModifiers.length; itemModifiers++) {
-                                    console.log('Item Modifiers Rid = ', cart[0].getCart.items[item].cartItemModifiers[itemModifiers].rid);
-                                    data['cartItemsModifiers'] += cart[0].getCart.items[item].cartItemModifiers[itemModifiers].rid + ',';
+                                for (let itemModifiers = 0; itemModifiers < cartItemModifiers.length; itemModifiers++) {
+                                    data['cartItemsModifiers'] += cartItemModifiers[itemModifiers].rid + ',';
                                 }
 
                             }
 
-                            if (cart[0].getCart.items[item].cartItemModifierGroups.length > 0) {
+                            if (items[item].cartItemModifierGroups.length > 0) {
+                                let cartItemModifierGroups = items[item].cartItemModifierGroups;
 
-                                for (let itemModifiersGroup = 0; itemModifiersGroup < cart[0].getCart.items[item].cartItemModifierGroups.length; itemModifiersGroup++) {
-                                    console.log('Item Modifiers Group Rid = ', cart[0].getCart.items[item].cartItemModifierGroups[itemModifiersGroup].rid);
-                                    data['cartItemsModifiersGroup'] += cart[0].getCart.items[item].cartItemModifierGroups[itemModifiersGroup].rid + ',';
+                                for (let itemModifiersGroup = 0; itemModifiersGroup < cartItemModifierGroups.length; itemModifiersGroup++) {
+                                    data['cartItemsModifiersGroup'] += cartItemModifierGroups[itemModifiersGroup].rid + ',';
+
+
+                                    for (let modifier = 0; modifier < cartItemModifierGroups[itemModifiersGroup].modifiers.length; modifier++) {
+                                        data['cartItemsModifiers'] += cartItemModifierGroups[itemModifiersGroup].modifiers[modifier].rid + ',';
+                                    }
                                 }
 
                             }
 
-                            if (cart[0].getCart.items[item].cartItemProductGroups.length > 0) {
+                            if (items[item].cartItemProductGroups.length > 0) {
+                                let cartItemProductGroups = items[item].cartItemProductGroups;
 
-                                for (let itemProductGroup = 0; itemProductGroup < cart[0].getCart.items[item].cartItemProductGroups.length; itemProductGroup++) {
-                                    console.log('Item Product Group = ', cart[0].getCart.items[item].cartItemProductGroups[itemProductGroup].rid);
-                                    data['cartItemProductGroup'] += cart[0].getCart.items[item].cartItemProductGroups[itemProductGroup].rid + ',';
+                                for (let itemProductGroup = 0; itemProductGroup < cartItemProductGroups.length; itemProductGroup++) {
+                                    data['cartItemProductGroup'] += cartItemProductGroups[itemProductGroup].rid + ',';
                                 }
 
                             }
                         }
 
                         data['cartItems'] = data['cartItems'].slice(0, -1) + ']';
-                        data['cartItemsModifiers'] = (data['cartItemsModifiers'] != '[') ? data['cartItemsModifiers'].slice(0, -1) + ']' : null;
-                        data['cartItemsModifiersGroup'] = (data['cartItemsModifiersGroup'] != '[') ? data['cartItemsModifiersGroup'].slice(0, -1) + ']' : null;
-                        data['cartItemProductGroup'] = (data['cartItemProductGroup'] != '[') ? data['cartItemProductGroup'].slice(0, -1) + ']' : null;
+                        data['cartItemsModifiers'] = (data['cartItemsModifiers'] !== '[') ? data['cartItemsModifiers'].slice(0, -1) + ']' : null;
+                        data['cartItemsModifiersGroup'] = (data['cartItemsModifiersGroup'] !== '[') ? data['cartItemsModifiersGroup'].slice(0, -1) + ']' : null;
+                        data['cartItemProductGroup'] = (data['cartItemProductGroup'] !== '[') ? data['cartItemProductGroup'].slice(0, -1) + ']' : null;
                         data['carRid'] = '[' + cart[0].getCart.rid + ']';
 
-                        console.log("Data Cart: ", data);
+                        console.log("Data Cart: ", JSON.stringify(data));
 
                         apiAjax("login", "post", {user: user, data: data}).then((response) => {
 

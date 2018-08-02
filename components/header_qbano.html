@@ -79,7 +79,7 @@
             <div class="tab-delivery">
                 <div class="padding large-6 medium-6 small-12 columns" v-for="service in listService" :key="service.code">
                     <a href="javascript:void(0)" @click.prevent="selectService(service)" :id="'service-' + service.code" :class="service.classObject">
-                        <h4 v-if="service.name === 'Domicilio'">Entrega inmediata <small> (Próximamente)</small></h4>
+                       <h4 v-if="service.name === 'Domicilio'">Entrega inmediata <small> (Próximamente)</small></h4>
                         <h4 v-else="">{{service.name}}</h4>
                         <p>{{service.description}}</p>
                     </a>
@@ -332,28 +332,46 @@
 <section class="cartView">
     <div id="carrito" class="relative">
         <div class="header-view">
-            <a href="#" class="close"><i class="ti-angle-right"></i></a>
+            <a href="javascript:void(0)" class="close"><i class="ti-angle-right"></i></a>
             <h3>Tu Carrito</h3>
         </div>
         <div v-if="Object.keys(model.items).length > 0">
             <div class="body-view">
                 <ul class="listCart row padding">
-                    <li class="row" v-for="(item, index) of model.items"  :key="item['@rid']">          
+                    <li class="row" v-for="(item, index) of model.items"  :key="item['@rid']">
                         <div class="columns large-4 medium-4 small-4">
-
-                            <a href="#">  
+                            <a href="javascript:void(0)">  
                                 <div class="img" :style="getUrlImage(item, true)"></div>  
                             </a>
                         </div>
                         <div class="columns large-8 medium-8 small-8 padding">
-                            <a href="">
+                            <a href="javascript:void(0)">
                                 <div class="txt">
                                     <h4>{{item.product}}</h4>
                                     <h5>{{currencyFormat(item.priceUnit)}}</h5>
-                                    <p v-html="item.description"></p>
+                                    <p>{{item.description}}</p>
                                 </div>
                             </a>
                             <div class="row">
+                                <h4>Adiciones</h4>
+                                <div class="txtModifiers" v-for="modifier of item.cartItemModifiers"  :key="modifier['@rid']">
+                                     <h5 class="modifierName">{{modifier.modifierItem}}</h5>
+                                    <h5 class="modifierPrice">{{currencyFormat(modifier.priceUnit)}}</h5>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div v-for="modifierGroup of item.cartItemModifierGroups"  :key="modifierGroup['@rid']">
+                                     <div class="txtModifiers">
+                                        <h4 class="modifierGroupname">{{modifierGroup.group}}</h4>
+                                        <h4 class="modifierGroupPrice">{{currencyFormat(modifierGroup.priceUnit)}}</h4>
+                                    </div>
+                                    <div class="txtModifiers" v-for="modifier of modifierGroup.modifiers"  :key="modifier['@rid']">
+                                         <h5 class="modifierName">{{modifier.modifierItem}}</h5>
+                                        <h5 class="modifierPrice">{{currencyFormat(modifier.priceUnit)}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row panel">
                                 <div class="catidad_real">
                                     <a class="restar" v-on:click.prevent="updateItem(item['@rid'], {amount: item.amount > 0 ? item.amount-1: item.amount}, index)"><i class="fa fa-minus"
                                                                                                                                                                       aria-hidden="true"></i></a>
@@ -362,7 +380,9 @@
                                     <a class="mas" v-on:click.prevent="updateItem(item['@rid'], {amount:item.amount+1}, index)"><i class="fa fa-plus"
                                                                                                                                    aria-hidden="true"></i></a>
                                 </div>
-                                <a v-on:click.prevent="deleteItemCart(item['@rid'], $event)" class="delete"><i class="ti-trash"></i></a>
+                                <div class="deleteItemCart">
+                                    <a v-on:click.prevent="deleteItemCart(item['@rid'], $event)" class="delete"><i class="ti-trash"></i></a>
+                                </div>
                             </div>
                         </div>                
                     </li>

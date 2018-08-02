@@ -27,9 +27,6 @@ var profile = new Vue({
     methods: {
         setup: function (user) {
             if (user) {
-                console.log("carga",user);
-
-                 // Enviando datos a Analytics
                 var params = {};
                 params[Properties.CONTENT_NAME] = "profile";
                 Analytics.track(EVENTS.VIEW_CONTENT, params);

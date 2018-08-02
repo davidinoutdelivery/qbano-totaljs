@@ -377,6 +377,18 @@ var appCart = new Vue({
                 return "";
             }
         },
+        nameModifierFormat: function (value) {
+            if (value) {
+                let resp = value.split(" ");
+                return resp[0];
+            }
+        },
+        trimFormat: function (value) {
+            if (value) {
+                let resp = value.trim();
+                return resp;
+            }
+        },
         isCart: function () {
             if (!this.model.cartItems)
                 return false;

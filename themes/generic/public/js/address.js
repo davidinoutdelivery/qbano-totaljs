@@ -34,13 +34,9 @@ let typeService = new Vue({
                 this.services = response;
                 modalAddress.initGeo();
 
-                /*
-                 * Para saltarse el tipo de servico se agrego la entrada al 
-                 * directa modal de dirección, se quito la entrada al modal de 
-                 * tipo de servicio y se ejecuto la función de typeService.
-                 */
-
-                typeService.selectService($('#service-1'));
+                typeService.selectService(response[0]);
+                console.log('Hola servicio', response[0]);
+                
                 modalAddress.setup();
             }, function (error) {
                 console.error("ERROR_GETSERVICES", error);
@@ -50,7 +46,6 @@ let typeService = new Vue({
             if (service && service.name) {
                 this.service_selected = service.code;
                 setLocalStorage(nameStorage.service, JSON.stringify(service));
-                notificationGeneral("Servicio " + service.name + ' actualizado correctamente');
                 switch (service.code) {
                     case '1':
                         removeLocalStorage(nameStorage.deliveryTime);
@@ -240,11 +235,6 @@ var modalAddress = new Vue({
                     "longitude": address.location.coordinates[0]
                 }, datetime).then((coverage) => {
                     $('.preload').hide(300);
-                    //Sin cobertura
-                    console.log("coverage: ", coverage);
-                    console.log("coverage.result: ", coverage[0].result);
-                    console.log("coverage[0].result.isOpen: ", coverage[0].result.isOpen);
-                    console.log("Object.keys(coverage): ", Object.keys(coverage[0].result).length);
                     
                     if (Object.keys(coverage[0].result).length === 0) {
 
@@ -461,15 +451,15 @@ var modalAddress = new Vue({
                         this.showMap(location);
                     } else {
                         if (response.status === google.maps.GeocoderStatus.ZERO_RESULTS) {
-                            console.log('Geocode was not successful for the following reason: ', response.status);
+                            console.warn('Geocode was not successful for the following reason: ', response.status);
                             notificationGeneral(message.zero_results, {type: 'warning'});
                         } else if (response.status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-                            console.log("daily for OVER_QUERY_LIMIT");
+                            console.warn("daily for OVER_QUERY_LIMIT");
                             notificationGeneral(message.error, {type: 'error'});
                         }
                     }
                 }, function (error) {
-                    console.log("error comprobando la localizacíon de la dirección", error);
+                    console.warn("error comprobando la localizacíon de la dirección", error);
                     notificationGeneral("Error comprobando la localizacíon de la dirección", {type: "error"});
                 });
             }
@@ -488,7 +478,6 @@ var modalAddress = new Vue({
          * @param isCreate :: booleano si es true crea una dirección de lo contrario solo valida
          */
         coverage(position, isCreate = false) {
-            console.log("Coverage", position, isCreate);
             var pointSale = jsonParse(getLocalStorage(nameStorage.pointSale));
             var datetime = {};
             if (this.typeService && this.typeService.code == 3) {
@@ -498,8 +487,6 @@ var modalAddress = new Vue({
             var form_add_address = $("#form_add_address button[type=submit]");
             if (position && (position.latitude && position.longitude)) {
                 apiAddress.coverage(position, datetime).then((coverage) => {
-                    console.log("coveragefinal", coverage);
-                    console.log("iscreated", isCreate);
                     //Se actualiza el location
                     this.location = position;
                     //Direccion a guardar

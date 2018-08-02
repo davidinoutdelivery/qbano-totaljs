@@ -1236,7 +1236,7 @@ p
     -moz-transition:0.3s;
     transition:0.3s;
     color:#595959;
-    margin:0 0 7px 0
+    margin:10px 0 7px 0;
 }
 .preload
 {
@@ -2908,10 +2908,26 @@ body .showMovil
     display:block;
     overflow:hidden
 }
+.row .panel {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-content: center;
+    margin: 0 auto;
+    padding: 10px 0;
+}
 .cartView .listCart li .txt
 {
     padding:0 10px 0 0;
 
+}
+.cartView .listCart li h4
+{
+    color:#423f40;
+    font-size:13px;
+    font-family:'GothamRndBold';
+    letter-spacing:-.4px;
+    display:block;
 }
 .cartView .listCart li .txt h4
 {
@@ -2934,6 +2950,103 @@ body .showMovil
     margin:0 0 10px;
     display:block;
     line-height:15px
+}
+.cartView .listCart li .txtModifiers
+{
+    display: flex;
+    color:#423f40;
+    font-family:'GothamRoundedLight';
+    font-size:11px;
+}
+.cartView .listCart li .txtModifiers .modifierName
+{
+    width: 70%;
+}
+.cartView .listCart li .txtModifiers .modifierPrice
+{
+    width: 30%
+}
+.modifierGroupname
+{
+    width: 70%;
+}
+.cartView .listCart li .modifierGroupPrice
+{
+    display: flex;
+    color:#423f40;
+    font-family:'GothamRoundedLight';
+    font-size:11px;
+    width: 30%
+}
+.row .panel {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-content: center;
+    margin: 0 auto;
+    padding: 10px 0;
+}
+.listCart li .txt
+{
+    padding:0 10px 0 0;
+
+}
+.listCart li h4
+{
+    color:#423f40;
+    font-size:13px;
+    font-family:'GothamRndBold';
+    letter-spacing:-.4px;
+    display:block;
+}
+.listCart li .txt h4
+{
+    color:#423f40;
+    font-size:16px;
+    font-family:'GothamRndBold';
+    letter-spacing:-.4px;
+    display:block
+}
+.listCart li .txt h5
+{
+    color:#423f40;
+    font-family:'GothamRoundedLight';
+    display:block;
+    line-height:22px
+}
+.listCart li .txt p
+{
+    font-size:12px;
+    margin:0 0 10px;
+    display:block;
+    line-height:15px
+}
+.listCart li .txtModifiers
+{
+    display: flex;
+    color:#423f40;
+    font-family:'GothamRoundedLight';
+    font-size:11px;
+}
+.listCart li .txtModifiers .modifierName
+{
+    width: 70%;
+}
+.listCart li .txtModifiers .modifierPrice
+{
+    width: 30%
+}
+.modifierGroupname
+{
+    width: 70%;
+}
+.listCart li .modifierGroupPrice
+{
+    display: flex;
+    color:#423f40;
+    font-family:'GothamRoundedLight';
+    font-size:11px;
+    width: 30%
 }
 .cartView .listCart li .catidad_real .cantidad,.cartView .listCart li .catidad_real input[type="text"],.cartView .listCart li .catidad_real input[type="number"]
 {
@@ -2979,7 +3092,6 @@ body .showMovil
     -moz-box-sizing:border-box;
     box-sizing:border-box;
     padding:7px 25px 10px 0;
-    background:#fff;
 
 }
 .cartView .subCartTotal:after
@@ -7838,7 +7950,7 @@ body .g-recaptcha > div
 }
 .bg_detalle .bg_panelInt h1,.bg_detalle .bg_panelInt h2
 {
-    color:#423f40;
+    color:#ea7521;
     font-family:'GothamRndBold';
     letter-spacing:-.4px;
     font-size:24px;
@@ -7860,7 +7972,7 @@ body .g-recaptcha > div
 .bg_detalle .bg_panelInt h1.price,.bg_detalle .bg_panelInt h2.price
 {
     color:#423f40;
-    font-family:'GothamRoundedLight';
+    font-family:'GothamRndBold';
     font-size:20px;
     padding:0;
 
@@ -7882,21 +7994,44 @@ body .g-recaptcha > div
     }
 
 }
-.bg_detalle .bg_panelInt h3
+.bg_detalle .bg_panelInt .flex-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+.bg_detalle .bg_panelInt .flex-row h3
 {
-    color:#595959;
+    color:#423f40;
     font-family:'GothamRndBold';
     letter-spacing:-.4px;
-    font-size:18px;
-    text-align:center;
+    font-size:17px;
+    text-align:left;
     text-transform:uppercase;
-    padding:0 0 7px 0;
+    padding:0;
     display:block;
+    order: 1;
 
+}
+.bg_detalle .bg_panelInt .flex-row span
+{
+    background-color: #A4A4A4;
+    color: #fff;
+    border-radius: 3px;
+    font-family: 'GothamRoundedLight';
+    letter-spacing: -.4px;
+    font-size: 12px;
+    text-align: left;
+    text-transform: capitalize;
+    padding: 0 5px 0 5px;
+    margin: 0 0 0 5px;
+    display: block;
+    order: 2;
 }
 @media only screen and (max-width:642px)
 {
-    .bg_detalle .bg_panelInt h3
+    .bg_detalle .bg_panelInt .flex-row h3
     {
         margin:0 0 5px;
         padding:7px 0 7px;
@@ -7906,20 +8041,20 @@ body .g-recaptcha > div
 }
 @media only screen and (max-width:330px)
 {
-    .bg_detalle .bg_panelInt h3
+    .bg_detalle .bg_panelInt .flex-row h3
     {
         font-size:14px
     }
 
 }
-.bg_detalle .bg_panelInt h3.valor
+.bg_detalle .bg_panelInt .flex-row h3.valor
 {
     font-size:26px;
 
 }
 @media only screen and (max-width:642px)
 {
-    .bg_detalle .bg_panelInt h3.valor
+    .bg_detalle .bg_panelInt .flex-row h3.valor
     {
         font-size:25px
     }
@@ -8081,6 +8216,10 @@ body .g-recaptcha > div
     clear:both;
     display:block
 }
+.displayNone
+{
+    display: none;
+}
 .paddselectproduct h3
 {
     color:#423f40;
@@ -8090,25 +8229,189 @@ body .g-recaptcha > div
     display:block;
     margin:5px 0 3px
 }
-.paddselectproduct .block
-{
-    margin:0 0 5px;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
-    background:transparent;
-    padding:0
+select:focus
+{ 
+    outline: none;
 }
-.paddselectproduct label
+.paddselectproduct .selectDiv {
+    position: relative;
+    border: 0px;
+    border-radius: 5px;
+    width: 80%;
+    overflow: hidden;
+    background-color: #fff;
+}
+.paddselectproduct .selectDiv:after
 {
-    display:block;
-    padding:6px 0 6px 29px;
-    font-size:16px;
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 5px 0 5px;
+    border-color: #fff transparent transparent transparent;
+    background: #ea7521;
+    z-index: 5;
+    pointer-events: none;
+    margin: 2px 5px 0 0;
+}
+
+.paddselectproduct .selectDiv select.modifierSelect
+{
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    appearance: none;
+    background: #ea7521;
+    color: #fff;
+    font-size:12px;
+    font-family:'GothamRoundedBook';
+}
+.paddselectproduct .selectDiv select.modifierSelect option
+{
+    background: #fff;
+    color: #000;
+}
+.paddselectproduct .checkboxDiv
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: flex-start;
+    width: 100%;
+    font-size:12px;
     font-family:'GothamRoundedBook';
     color:#595959;
-
 }
-@media only screen and (max-width:340px)
+.paddselectproduct .checkboxDiv > div {
+    width: 50%;
+}
+.collapsible:after
+{
+    content: '';
+    position: absolute;
+    right: 5px;
+    top: 7px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 5px 0 5px;
+    border-color: #ea7521 transparent transparent transparent;
+    background: #fff;
+    z-index: 5;
+    pointer-events: none;
+    margin: 2px 5px 0 0;
+}
+@keyframes animationCollapsibleOpen
+{
+    0% 
+    {
+        transform: rotate(0deg);
+    }
+    100% 
+    {
+        transform: rotate(90deg);
+    }
+}
+.animationCollapsibleOpen
+{
+    animation-name: animationCollapsibleOpen;
+    animation-direction: normal;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+}
+@keyframes animationCollapsibleClose
+{
+    0% 
+    {
+        transform: rotate(90deg);
+    }
+    100% 
+    {
+        transform: rotate(0deg);
+    }
+}
+.animationCollapsibleClose
+{
+    animation-name: animationCollapsibleOpen;
+    animation-direction: reverse ;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+}
+.flexbox-container > div:checkboxDivCol {
+    margin-right: 20px;
+}
+.paddselectproduct .checkboxDiv .checkboxDivCol
+{
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+    font-size:12px;
+    font-family:'GothamRoundedBook';
+    color:#595959;
+}
+.spanNamePrice
+{
+    order: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 80%;
+}
+.spanNamePrice .itemName
+{
+    order: 1;
+    width: 100%;
+}
+.spanNamePrice .itemPrice
+{
+    order: 2;
+    width: 100%;
+    font-size:10px;
+}
+.paddselectproduct .checkboxDiv .checkboxModifierGroup
+{
+    order: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    font-size:12px;
+    font-family:'GothamRoundedBook';
+    color:#595959;
+}
+.checkboxModifierGroup .spanNamePrice
+{
+    order: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 92%;
+}
+.itemCheckbox
+{
+    order: 2;
+    flex-grow: 1;
+}@media only screen and (max-width:340px)
 {
     .paddselectproduct label
     {
@@ -8148,18 +8451,18 @@ body .g-recaptcha > div
     }
 
 }
-.paddselectproduct label .checkMod label
+.paddselectproduct .numberSmall .checkMod label
 {
     display:inline-block;
     vertical-align:middle;
     float:right;
     padding:0 0 0 31px
 }
-.paddselectproduct label .checkMod [type=checkbox]+label:before,.paddselectproduct label .checkMod [type=checkbox]:not(.filled-in)+label:after
+.paddselectproduct .numberSmall .checkMod [type=checkbox]+.numberSmall:before,.paddselectproduct .numberSmall .checkMod [type=checkbox]:not(.filled-in)+.numberSmall:after
 {
     top:0
 }
-.paddselectproduct label .checkMod [type=checkbox]:checked+label:before
+.paddselectproduct .numberSmall .checkMod [type=checkbox]:checked+.numberSmall:before
 {
     top:-2px;
     left:-2px
@@ -8211,16 +8514,20 @@ body .switchDetail a
 }
 .catidad_real
 {
-    text-align:center;
-    position:relative;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
-    margin:0 0 20px 0;
-    display:inline-block;
-    vertical-align:top;
-    font-size:0;
-
+    text-align: center;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    vertical-align: top;
+    font-size: 0;
+    width: 70%;
+}
+.deleteItemCart
+{
+    width: 30%;
+    display: flex;
 }
 .catidad_real .cantidad,.catidad_real input[type="text"],.catidad_real input[type="number"]
 {
@@ -9557,7 +9864,7 @@ body .listCart li .img
     background-position:center;
     background-color:#e6e6e6;
     width:100%;
-    height:87px;
+    height:70px;
     border-radius:10px;
     position:relative;
     display:block;

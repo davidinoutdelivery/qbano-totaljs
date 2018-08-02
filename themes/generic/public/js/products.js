@@ -36,18 +36,6 @@ var products = new Vue({
             Analytics.track(EVENTS.VIEW_CONTENT, params);
             /** **/
         },
-        // loadProduct: function(){    
-        //     this.tiemProducts = window.setTimeout(function() {
-        //         $('.gridIso').isotope({
-        //               // options        
-        //               itemSelector: '.grid-item',
-        //               percentPosition: true,
-        //               masonry: {
-        //                 columnWidth: '.grid-sizer'
-        //               }
-        //         });
-        //     },400);                  
-        // },
         /**
          * Incrementa la cantidaad de un producto desde su detalle
          */
@@ -56,6 +44,7 @@ var products = new Vue({
             let totalPrice = $('#total_price').attr('data-price');
             totalPrice *= this.purchase.amount;
             $('#total_price').text(currencyFormat(totalPrice));
+            this.setDetailProductCountToZero();
         },
         /**
          * Disminuye la cantidaad de un producto desde su detalle
@@ -66,6 +55,21 @@ var products = new Vue({
                 let totalPrice = $('#total_price').attr('data-price');
                 totalPrice *= this.purchase.amount;
                 $('#total_price').text(currencyFormat(totalPrice));
+            }
+            this.setDetailProductCountToZero();
+        },
+        initDetailProductCount: function () {
+            this.detailProduct.countModifier = 0;
+            this.detailProduct.countModifierGroup = 0;
+            let count = 0;
+            for (var modifier in this.detailProduct.modifiers) {
+                this.detailProduct.modifiers[modifier].count = count;
+                count++;
+            }
+            count = 0;
+            for (var modifierGroup in this.detailProduct.modifiersGroups) {
+                this.detailProduct.modifiersGroups[modifierGroup].count = count;
+                count++;
             }
         },
         /**
@@ -89,6 +93,7 @@ var products = new Vue({
                         data.idCategory = idCategory;
                         data.idProduct = idProduct;
                         this.detailProduct = data;
+                        this.initDetailProductCount();
                         this.generate(data);
                         this.total = data.price ? data.price : data.priceDefault;
                         var url = '/products/' + idCategory + '/' + idProduct + "?pointsale=" + pointSale.slug;
@@ -113,40 +118,48 @@ var products = new Vue({
          * agrega un producto al carrito, si existe lo crea sino lo actualiza
          */
         addtocart: function (event, idCategory = null, idProduct = null) {
+
             var element_sel = $(event.currentTarget);
             element_sel.startLoading({msg: "Agregando"});
 
             if (this.send && this.detailProduct.isAvailable) {
+
                 let cartId = getLocalStorage(nameStorage.cartId);
                 let pointSale = getPointSale();
-                this.send = false; // previene varios click
+                this.send = false;
 
                 if (pointSale && pointSale['rid']) {
+
                     let data = {};
-                    if (cartId)
+                    if (cartId) {
                         data['cartId'] = cartId;
-                    data['pointSale'] = pointSale['rid']; // indica costo de domicilio
+                    }
+                    data['pointSale'] = pointSale['rid'];
                     data['pointSaleTypeServiceSchedule'] = pointSale.services[0].coverages[0].rid;
                     data['typeService'] = pointSale.services[0].rid;
                     data['cartItems'] = this.formatCart();
-                    console.log(data);
-                    if (this.validate()) {
+                    
+                    if (this.validateModifiers() && this.validateModifiersGroups()) {
+
                         apiAjax("cart", "post", data).then((response) => {
+
                             response = response[0] ? response[0] : null;
+
                             if (response && response['@rid']) {
-                                /** Analytics **/
+
                                 this.trackAddToCart(this.detailProduct);
-                                /** **/
                                 setLocalStorage(nameStorage.cartId, response['@rid'].replace("#", ""));
+
                                 if (!cartId) {
                                     response.totalAmount = data.cartItems.amount;
                                 }
                                 ;
+
                                 cartCount(response.totalAmount);
                                 this.clean();
                                 this.addtocartanimation(idCategory, idProduct);
                             }
-//                            notificationGeneral(message.add_cart);
+
                             $.magnificPopup.instance.close();
                             this.send = true;
                             element_sel.stopLoading();
@@ -172,7 +185,7 @@ var products = new Vue({
                     console.warn("Invalid pointSale");
                 }
             } else {
-                console.log("producto no disponible");
+                console.warn("Producto no disponible");
         }
         },
         addtocartanimation: function (idCategory, idProduct) {
@@ -212,15 +225,6 @@ var products = new Vue({
                     "modifiersGroups": {},
                     "amount": 1,
                 };
-                // } else if (this.category) {
-                //      let pointSale = getPointSale();
-                //      if (category.categories.length > 1) {
-                //         window.history.replaceState({}, '', '/categories?pointSale='+pointSale.slug);
-                //      }
-                //      else {
-                //         window.history.replaceState({}, '', '/categories/'+category.categories[0].slug+'?pointSale='+pointSale.slug);
-                //      }
-
             }
         },
         close: function () {
@@ -258,13 +262,14 @@ var products = new Vue({
                         data.idCategory = idCategory;
                         data.idProduct = idProduct;
                         this.detailProduct = data;
+                        this.initDetailProductCount();
                         this.generate(data);
                         this.total = data.price ? data.price : data.priceDefault;
                         if (!this.hasModifiers(data)) {
                             this.addtocart(event, idCategory, idProduct);
                         } else {
                             element_sel.stopLoading();
-                            
+
                             $('.modalDetail').click();
                         }
 
@@ -290,6 +295,12 @@ var products = new Vue({
                 return "$ " + value.toLocaleString();
             }
         },
+        nameModifierFormat: function (value) {
+            if (value) {
+                let resp = value.split(" ");
+                return resp[0];
+            }
+        },
         containsModifiers: function (status, id) {
             if (status) {
                 this.detail(id);
@@ -297,22 +308,6 @@ var products = new Vue({
                 this.shop(id);
             }
         },
-        // getCombos: function (combo) {
-        //     if (this.combos.code == combo.code) {
-        //         if (!this.detailProduct.requiredCombo) {
-        //             this.combos = {};
-        //             this.detailProduct.price = this.total;
-        //             this.detailProduct.priceDefault = this.total;
-        //         }
-        //     }
-        //     else {
-        //         this.combos = combo;
-        //         this.detailProduct.price = combo.price;
-        //         this.detailProduct.priceDefault = combo.price;
-        //     }
-        // }, isRequiredCombo: function (combo) {
-        //     this.getCombos(combo);
-        // },
         trackProduct: function (product) {
             if (product) {
                 try {
@@ -365,9 +360,80 @@ var products = new Vue({
          * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
          * @param modifierId :: Object :: Objeto del DOM al hacer click.
          */
-        selectModifier: function (modifierId, itemId, event) {
+        setDetailProductCountToZero: function () {
+            this.detailProduct.countModifier = 0;
+            this.detailProduct.countModifierGroup = 0;
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        priceCalculator: function () {
+
+            let totalPrice = parseInt($('#total_price').attr('data-base'));
+
+            let modifiers = null;
+            let modifier = null;
+            for (modifiers in this.purchase.modifiers) {
+                for (modifier in this.purchase.modifiers[modifiers]) {
+                    if (modifier != 'conf') {
+                        if (this.purchase.modifiers[modifiers][modifier].checked === true) {
+                            totalPrice += parseInt(this.purchase.modifiers[modifiers][modifier].price);
+                        }
+                    }
+                }
+            }
+
+            let modifierGroup = null;
+            for (modifierGroup in this.purchase.modifiersGroups) {
+                if (this.purchase.modifiersGroups[modifierGroup].checked === true) {
+                    totalPrice += parseInt(this.purchase.modifiersGroups[modifierGroup]['conf'].price);
+                } else {
+                    for (modifiers in this.purchase.modifiersGroups[modifierGroup].modifier) {
+                        for (modifier in this.purchase.modifiersGroups[modifierGroup].modifier[modifiers]) {
+                            if (modifier != 'conf') {
+                                this.purchase.modifiersGroups[modifierGroup].modifier[modifiers][modifier].checked = false
+                            }
+                        }
+                    }
+                }
+            }
+
+            modifierGroup = null;
+            modifiers = null;
+            modifier = null;
+            for (modifierGroup in this.purchase.modifiersGroups) {
+                for (modifiers in this.purchase.modifiersGroups[modifierGroup].modifier) {
+                    for (modifier in this.purchase.modifiersGroups[modifierGroup].modifier[modifiers]) {
+                        if (modifier != 'conf') {
+                            if (this.purchase.modifiersGroups[modifierGroup].modifier[modifiers][modifier].checked === true) {
+                                totalPrice += parseInt(this.purchase.modifiersGroups[modifierGroup].modifier[modifiers][modifier].price);
+                            }
+                        }
+                    }
+                }
+            }
+
+            $('#total_price').attr('data-price', totalPrice);
+
+            totalPrice *= this.purchase.amount;
+            $('#total_price').text(currencyFormat(totalPrice));
+
+            this.setDetailProductCountToZero();
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        selectModifierCheck: function (modifierId, itemId, event) {
             this.purchase.modifiers[modifierId][itemId].checked = event.target.checked;
-            let count = this.countChecked(modifierId); // cuantos seleccionados existen
+            let count = this.countCheckedModifier(modifierId); // cuantos seleccionados existen
             let max = this.purchase.modifiers[modifierId]["conf"]["maxSelect"];
 
             if (this.purchase.modifiers[modifierId]["conf"]["selectUnique"] === true) {
@@ -386,32 +452,163 @@ var products = new Vue({
                 }
             }
 
-            let totalPrice = parseInt($('#total_price').attr('data-base'));
-            let modifiers = null;
-            let modifier = null;
-            for (modifiers in this.purchase.modifiers) {
-                for (modifier in this.purchase.modifiers[modifiers]) {
-                    if (modifier != 'conf') {
-                        if (this.purchase.modifiers[modifiers][modifier].checked === true) {
-                            totalPrice += parseInt(this.purchase.modifiers[modifiers][modifier].price);
+            this.priceCalculator();
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        selectModifierSelect: function (modifierId, itemId, event) {
+            if (itemId == 0) {
+                var item = null;
+                for (item in this.purchase.modifiers[modifierId]) {
+                    if (item != 'conf') {
+                        this.purchase.modifiers[modifierId][item].checked = false
+                    }
+                }
+            } else {
+                this.purchase.modifiers[modifierId][itemId].checked = event.target.selectedOptions[0].selected;
+            }
+            let count = this.countCheckedModifier(modifierId); // cuantos seleccionados existen
+            let max = this.purchase.modifiers[modifierId]["conf"]["maxSelect"];
+
+            if (this.purchase.modifiers[modifierId]["conf"]["selectUnique"] === true) {
+                if (count > 1) {
+                    var item = null;
+                    for (item in this.purchase.modifiers[modifierId]) {
+                        if (item != 'conf') {
+                            this.purchase.modifiers[modifierId][item].checked = false
                         }
                     }
+                    this.purchase.modifiers[modifierId][itemId].checked = true;
+                }
+            } else {
+                if (max > 0 && count > max) {
+                    this.purchase.modifiers[modifierId][itemId].checked = false;
                 }
             }
 
-            $('#total_price').attr('data-price', totalPrice);
+            this.priceCalculator();
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        selectModifierGroup: function (modifierGroupId, modifierGroup, event) {
+            this.purchase.modifiersGroups[modifierGroupId].checked = event.target.checked;
 
-            totalPrice *= this.purchase.amount;
-            $('#total_price').text(currencyFormat(totalPrice));
+            let article = $(".modifierGroup-" + modifierGroup);
+
+            if (article.hasClass('displayNone')) {
+                article.slideDown("slow", function () {
+                    article.removeClass('displayNone');
+                });
+            } else {
+                article.slideUp("slow", function () {
+                    article.addClass('displayNone');
+                });
+            }
+
+            this.priceCalculator();
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        selectModifierGroupModifierCheck: function (modifierGroupId, modifierId, itemId, event) {
+
+            this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = event.target.checked;
+            let count = this.countCheckedModifierGroup(modifierGroupId, modifierId);
+            let max = this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]["conf"]["maxSelect"];
+
+            if (this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]["conf"]["selectUnique"] === true) {
+                if (count > 1) {
+                    var item = null;
+                    for (item in this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]) {
+                        if (item != 'conf') {
+                            this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][item].checked = false
+                        }
+                    }
+                    this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = true;
+                }
+            } else {
+                if (max > 0 && count > max) {
+                    this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = false;
+                }
+            }
+
+            this.priceCalculator();
+        },
+        /**
+         * Al seleccionar un modificador, valida sus restricciones para permitir
+         * seleccionarlo.
+         * @param modifierId :: String :: identificador del modificador.
+         * @param modifierId :: String :: identificador del item seleccionado en ese modificador.
+         * @param modifierId :: Object :: Objeto del DOM al hacer click.
+         */
+        selectModifierGroupModifierSelect: function (modifierGroupId, modifierId, itemId, event) {
+
+            if (itemId == 0) {
+                var item = null;
+                for (item in this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]) {
+                    if (item != 'conf') {
+                        this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = false
+                    }
+                }
+            } else {
+                this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = event.target.selectedOptions[0].selected;
+            }
+            let count = this.countCheckedModifierGroup(modifierGroupId, modifierId);
+            let max = this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]["conf"]["maxSelect"];
+
+            if (this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]["conf"]["selectUnique"] === true) {
+                if (count > 1) {
+                    var item = null;
+                    for (item in this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]) {
+                        if (item != 'conf') {
+                            this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][item].checked = false
+                        }
+                    }
+                    this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = true;
+                }
+            } else {
+                if (max > 0 && count > max) {
+                    this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][itemId].checked = false;
+                }
+            }
+
+            this.priceCalculator();
         },
         /**
          * Cuenta la cantidad de item de un modificador que han sido seleccionados.
          * @param modifierId :: String :: identificador del modificador.
          */
-        countChecked: function (modifierId) {
+        countCheckedModifier: function (modifierId) {
             let count = 0;
             for (let item in this.purchase.modifiers[modifierId]) {
                 if (this.purchase.modifiers[modifierId][item].checked === true) {
+                    count += 1;
+                }
+            }
+            return count;
+        },
+        /**
+         * Cuenta la cantidad de item de un modificador que han sido seleccionados.
+         * @param modifierId :: String :: identificador del modificador.
+         */
+        countCheckedModifierGroup: function (modifierGroupId, modifierId) {
+            let count = 0;
+            for (let item in this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId]) {
+                if (this.purchase.modifiersGroups[modifierGroupId].modifier[modifierId][item].checked === true) {
                     count += 1;
                 }
             }
@@ -423,17 +620,21 @@ var products = new Vue({
          * @param product:: Object:: detalle del producto
          */
         generate: function (product) {
-            //Modificadores            
             if (product.modifiers && product.modifiers.length > 0) {
                 for (let modifier of product.modifiers) {
+
                     let conf = {
                         "selectUnique": modifier.selectUnique,
                         "required": modifier.required,
                         "maxSelect": modifier.maxSelect,
                         "name": modifier.name
                     };
-                    Vue.set(products.purchase.modifiers, modifier["rid"], {});
-                    Vue.set(products.purchase.modifiers[modifier["rid"]], 'conf', conf);
+                    Vue.set(products.purchase.modifiers,
+                            modifier["rid"],
+                            {});
+                    Vue.set(products.purchase.modifiers[modifier["rid"]],
+                            'conf',
+                            conf);
 
                     if (modifier.items && modifier.items.length > 0) {
                         for (let item of modifier.items) {
@@ -444,6 +645,57 @@ var products = new Vue({
                             info.selectedByDefault = item.selectedByDefault;
                             info.checked = item.selectedByDefault ? item.selectedByDefault : false;
                             Vue.set(products.purchase.modifiers[modifier["rid"]], item["rid"], info);
+                        }
+                    }
+                }
+            }
+            if (product.modifiersGroups && product.modifiersGroups.length > 0) {
+                for (let modifierGroup of product.modifiersGroups) {
+
+                    let conf = {
+                        "name": modifierGroup.name,
+                        "price": modifierGroup.price
+                    };
+                    Vue.set(products.purchase.modifiersGroups,
+                            modifierGroup["rid"],
+                            {});
+                    Vue.set(products.purchase.modifiersGroups[modifierGroup["rid"]],
+                            'conf',
+                            conf);
+                    Vue.set(products.purchase.modifiersGroups[modifierGroup["rid"]],
+                            'modifier',
+                            {});
+
+                    if (modifierGroup.modifiers && modifierGroup.modifiers.length > 0) {
+                        for (let modifier of modifierGroup.modifiers) {
+
+                            let conf = {
+                                "selectUnique": modifier.selectUnique,
+                                "required": modifier.required,
+                                "maxSelect": modifier.maxSelect,
+                                "name": modifier.name
+                            };
+                            Vue.set(products.purchase.modifiersGroups[modifierGroup["rid"]].modifier,
+                                    modifier["rid"],
+                                    {});
+                            Vue.set(products.purchase.modifiersGroups[modifierGroup["rid"]].modifier[modifier["rid"]],
+                                    'conf',
+                                    conf);
+
+                            if (modifier.items && modifier.items.length > 0) {
+                                for (let item of modifier.items) {
+                                    let info = {
+                                        'modifier': modifier["rid"],
+                                        'modifierItem': item["rid"],
+                                        'price': item.price ? item.price : 0,
+                                        'selectedByDefault': item.selectedByDefault,
+                                        'checked': item.selectedByDefault ? item.selectedByDefault : false,
+                                    };
+                                    Vue.set(products.purchase.modifiersGroups[modifierGroup["rid"]].modifier[modifier["rid"]],
+                                            item["rid"],
+                                            info);
+                                }
+                            }
                         }
                     }
                 }
@@ -460,41 +712,96 @@ var products = new Vue({
                 "product": this.detailProduct['rid'],
                 "comment": "Web",
                 "modifiers": [],
-                "modifiersGroups": [],
+                "modifiersGroups": []
             };
 
-            //Modificadores
             let countModifier = Object.keys(this.purchase.modifiers).length;
             if (countModifier > 0) {
-                for (let modifier in this.purchase.modifiers) {
-                    for (let item in this.purchase.modifiers[modifier]) {
-                        let infoItem = this.purchase.modifiers[modifier][item];
+
+                let modifier = null;
+                let item = null;
+                let infoItem = null;
+                let info = null;
+
+                for (modifier in this.purchase.modifiers) {
+                    for (item in this.purchase.modifiers[modifier]) {
+                        infoItem = this.purchase.modifiers[modifier][item];
                         if (infoItem.checked) {
-                            let info = {
+                            info = {
                                 "modifier": infoItem.modifier,
                                 "modifierItem": infoItem.modifierItem,
                                 "price": infoItem.price,
-                                "amount": 1, // por el momento
+                                "amount": 1
                             };
                             result.modifiers.push(info);
                         }
                     }
-
                 }
             }
+
+            let countModifierGroup = Object.keys(this.purchase.modifiersGroups).length;
+            if (countModifierGroup > 0) {
+
+                let modifierGroup = null;
+                let infoModifierGroup = null;
+                let modifier = null;
+                let item = null;
+                let infoItem = null;
+                let info = null;
+
+                for (modifierGroup in this.purchase.modifiersGroups) {
+
+                    infoModifierGroup = this.purchase.modifiersGroups[modifierGroup];
+
+                    if (infoModifierGroup.checked) {
+
+                        infoModifierGroup = {
+                            "modifierGroup": modifierGroup,
+                            "price": infoModifierGroup.conf.price,
+                            "amount": 1,
+                            "modifiers": []
+                        };
+
+                        for (modifier in this.purchase.modifiersGroups[modifierGroup].modifier) {
+
+                            for (item in this.purchase.modifiersGroups[modifierGroup].modifier[modifier]) {
+
+                                infoItem = this.purchase.modifiersGroups[modifierGroup].modifier[modifier][item];
+
+                                if (infoItem.checked) {
+
+                                    info = {
+                                        "modifier": infoItem.modifier,
+                                        "modifierItem": infoItem.modifierItem,
+                                        "price": infoItem.price,
+                                        "amount": 1
+                                    };
+                                    infoModifierGroup.modifiers.push(info);
+
+                                }
+                            }
+                        }
+
+                        result.modifiersGroups.push(infoModifierGroup);
+                        infoModifierGroup = null;
+                    }
+                }
+            }
+
             return result;
         },
 
-        validate: function () {
+        validateModifiers: function () {
+
             let result = true;
-            //Modificadores
             let countModifier = Object.keys(this.purchase.modifiers).length;
+
             if (countModifier > 0) {
                 for (let modifier in this.purchase.modifiers) {
                     let infoItem = this.purchase.modifiers[modifier]['conf'];
                     let selectUnique = infoItem.selectUnique;
                     let maxSelect = infoItem.maxSelect;
-                    let count = this.countChecked(modifier);
+                    let count = this.countCheckedModifier(modifier);
                     if (infoItem.required === true) {
                         if (selectUnique) {
                             //selección unica
@@ -515,6 +822,46 @@ var products = new Vue({
             }
             return result
         },
+        validateModifiersGroups: function () {
+
+            let result = true;
+            let countModifierGroup = Object.keys(this.purchase.modifiersGroups).length;
+
+            if (countModifierGroup > 0) {
+
+                for (let modifierGroup in this.purchase.modifiersGroups) {
+                    for (let modifier in this.purchase.modifiersGroups[modifierGroup].modifier) {
+                        
+                        let infoItem = this.purchase.modifiersGroups[modifierGroup].modifier[modifier]['conf'];
+                        let selectUnique = infoItem.selectUnique;
+                        let maxSelect = infoItem.maxSelect;
+                        let count = this.countCheckedModifierGroup(modifierGroup, modifier);
+                        
+                        if (infoItem.required === true) {
+                            
+                            if (selectUnique) {
+                                
+                                if (count !== 1) {
+                                    
+                                    notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
+                                    result = false;
+                                }
+                            } else {
+                                
+                                maxSelect = maxSelect ? maxSelect : 1;
+                                
+                                if (!((count > 0) && (count <= maxSelect))) {
+                                    
+                                    notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
+                                    result = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return result
+        },
         /**
          * Obtiene la url de la imagen de una categoría o una por defecto.
          */
@@ -525,6 +872,22 @@ var products = new Vue({
                 return "/generic/images/no_found.png";
             }
         },
+        collapsibleAnimation: function (modifier, event) {
+            let article = $(".modifier-" + modifier);
+
+            if (article.children().hasClass('checkboxDiv')) {
+
+                if (article.hasClass('displayNone')) {
+                    article.slideDown("slow", function () {
+                        article.removeClass('displayNone');
+                    });
+                } else {
+                    article.slideUp("slow", function () {
+                        article.addClass('displayNone');
+                    });
+                }
+            }
+        }
     },
 });
 
