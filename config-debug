@@ -6,8 +6,8 @@ business_id			                : com.inoutdelivery.inouttemplate
 token                               : 123
 parse_server                        : https://dev.parse.inoutdelivery.com/parse/functions/
 theme                               : generic
-facebook_id                         : 2055563498006137
-facebookPixelId                     : 615311242144115
+facebook_id                         : 1880835098605772
+facebookPixelId                     : XXXXXXXXXXXXXXXX
 mixPanelToken                       : c71a41fe8cac4b1c57a4bb89de676583
 googleAnalyticsId                   : UA-100273913-1
 twitter_user                        : @InoutDelivery

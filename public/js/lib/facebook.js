@@ -4,7 +4,7 @@ function loadFacebookSDK(facebookAppId) {
       appId            : facebookAppId,
       autoLogAppEvents : true,
       xfbml            : true,
-      version          : 'v2.12'
+      version          : 'v3.0'
     });
   };
 
@@ -27,7 +27,7 @@ function loadFacebookPixel(facebookPixelId) {
     if (!f._fbq)f._fbq = n;
     n.push = n;
     n.loaded = !0;
-    n.version = '2.0';
+    n.version = '3.0';
     n.queue = [];
     t = b.createElement(e);
     t.async = !0;

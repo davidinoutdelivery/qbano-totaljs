@@ -34,7 +34,7 @@ if (typeof modeContext === "string") {
             env["MODE"] = modeContext.mode ? modeContext.mode : "DEV";
             serviceConfig["businessId"] = modeContext.business_id ? modeContext.business_id : "com.inoutdelivery.inouttemplate";
             serviceConfig["parseURL_pro"] =  modeContext.parse_server_url ? modeContext.parse_server_url : "https://dev.parse.inoutdelivery.com/parse/";
-            serviceConfig["facebookAppId"] = modeContext.facebook_id ? modeContext.facebook_id : "XXXXXXXXXXXXXXXX";
+            serviceConfig["facebookAppId"] = modeContext.facebook_id ? modeContext.facebook_id : "1880835098605772";
             serviceConfig["facebookPixelId"] = modeContext.facebookPixelId ? modeContext.facebookPixelId : "XXXXXXXXXXXXXXXX";
             serviceConfig["mixPanelToken"] = modeContext.mixPanelToken ? modeContext.mixPanelToken : "XXXXXXXXXXXXXXXXX";
             serviceConfig["googleAnalyticsId"] = modeContext.googleAnalyticsId ? modeContext.googleAnalyticsId : "UA-100273913-1";
@@ -60,8 +60,8 @@ if (typeof modeContext === "string") {
             "parseAppId_pro": "hSMaiK7EXqDqRVYyY2fjIp4lBweiZnjpEmhH4LpJ",
             "parseURL_dev": "https://dev.parse.inoutdelivery.com/parse/",
             "parseURL_pro": "https://pro.parse.inoutdelivery.com/parse/",
-            "FACEBOOK_APP_ID": "1252569251538310",
-            "facebookPixelId": "196365190821788",
+            "FACEBOOK_APP_ID": "1880835098605772",
+            "facebookPixelId": "XXXXXXXXXXXXXXXX",
             "mixPanelToken": "c71a41fe8cac4b1c57a4bb89de676583",
             "googleAnalyticsId": "UA-100273913-1",
             "firebase_url": "https://inout-fdc9b.firebaseio.com",

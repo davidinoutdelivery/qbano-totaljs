@@ -2,7 +2,7 @@
  * oculta la alerta fija en el home
  */
 function closeReset() {
-    if (window.location.pathname ===  "/") {
+    if (window.location.pathname === "/") {
         $(".alertBgStatic").removeClass();
     }
 }
@@ -23,15 +23,15 @@ var resetNotification = new Vue({
             this.iscreate = iscreate;
 
             console.log("RESET setup", this.tmpCoverage, this.tmpAddress, this.iscreate);
-            notificationFive(message.reset_address , true);
+            notificationFive(message.reset_address, true);
         },
         reset: function () {
             var currentAddress = jsonParse(getLocalStorage(nameStorage.currentAddress));
             var tmpAddress = jsonParse(getLocalStorage(nameStorage.tmpAddress));
             var typeService = jsonParse(getLocalStorage(nameStorage.service));
             var pathname = window.location.pathname;
-            var magnificPopup = $.magnificPopup.instance; 
-    
+            var magnificPopup = $.magnificPopup.instance;
+
 
             console.log("RESET", currentAddress, tmpAddress, typeService, pathname);
             if (tmpAddress || currentAddress) {
@@ -46,29 +46,27 @@ var resetNotification = new Vue({
                     console.log("RESET1");
                     if (this.iscreate) {
                         modalAddress.createAddress(this.tmpAddress, this.tmpCoverage);
-                        magnificPopup.close(); 
-                    }
-                    else {
+                        magnificPopup.close();
+                    } else {
                         setLocalStorage(nameStorage.pointSale, JSON.stringify(this.tmpCoverage[0].result));
                         setLocalStorage(nameStorage.currentAddress, JSON.stringify(this.tmpAddress));
                         notificationGeneral(message.ok_address);
-                        redirect(pathname, {pointSale: this.tmpCoverage[0].result.slug });
+                        redirect(pathname, {pointSale: this.tmpCoverage[0].result.slug});
                     }
-                    
+
                     break;
                 case "3":
                     console.log("RESET3");
                     if (this.iscreate) {
                         modalAddress2.createAddress(this.tmpAddress, this.tmpCoverage);
-                    }
-                    else {
+                    } else {
                         setLocalStorage(nameStorage.pointSale, JSON.stringify(this.tmpCoverage[0].result));
                         setLocalStorage(nameStorage.currentAddress, JSON.stringify(this.tmpAddress));
                         //notificationGeneral(message.ok_address);
-                        redirect(pathname, {pointSale: this.tmpCoverage[0].result.slug });
+                        redirect(pathname, {pointSale: this.tmpCoverage[0].result.slug});
                     }
-                break;
-            
+                    break;
+
                 default:
                     break;
             }
@@ -100,7 +98,7 @@ var headerApp = new Vue({
             let currentAddress = jsonParse(getLocalStorage(nameStorage.currentAddress));
             let tmpAddress = jsonParse(getLocalStorage(nameStorage.tmpAddress));
             if (currentAddress || tmpAddress) {
-                this.service = (currentAddress && currentAddress['@rid']) ? currentAddress.address.substring(0,20)+', '+ currentAddress.city: tmpAddress.address.substring(0,20)+', '+ tmpAddress.city;
+                this.service = (currentAddress && currentAddress['@rid']) ? currentAddress.address.substring(0, 20) + ', ' + currentAddress.city : tmpAddress.address.substring(0, 20) + ', ' + tmpAddress.city;
             }
             //Cuando existe un carrito agrega la cantidad en el icono y cambia el href
             //si no existe se deja en 0 y el href es la página actual
@@ -111,21 +109,20 @@ var headerApp = new Vue({
             if (cartId) {
                 $("li a.carrito b").text(count);
                 $(".carritoClic.carrito").attr("href", "/cart?id=" + cartId);
-            }
-            else {
+            } else {
                 setLocalStorage(nameStorage.cartCount, 0);
                 $("li a.carrito b").text(0);
                 $(".carritoClic.carrito").attr("href", nameStorage.cartUrl);
             }
         },
-        openCart: function() {
+        openCart: function () {
             appCart.getCart();
         },
         home: function () {
             redirect("/");
         },
         search: function () {
-            let params = {word:this.searchWord};
+            let params = {word: this.searchWord};
             let pointSale = jsonParse(getLocalStorage(nameStorage.pointSale));
             if (pointSale) {
                 params.pointSale = pointSale.slug;
@@ -137,17 +134,22 @@ var headerApp = new Vue({
 
 $(window).load(function () {
 
+    if (location.protocol != 'https:' && location.host != 'localhost:5000')
+    {
+        location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+    }
+
     //SEARCH
-    $("html").click(function() {
+    $("html").click(function () {
         // alert("Click!");
         $('.searchSite').removeClass('open');
-    });    
-    $('body').on('click', '.clckSearch', function(event) {
+    });
+    $('body').on('click', '.clckSearch', function (event) {
         // $('#searchIpt').focus();
         event.stopPropagation();
         $('.searchSite').addClass('open');
     });
-    $('body').on('click', '.searchSite.open, #searchGeneric', function(event) {
+    $('body').on('click', '.searchSite.open, #searchGeneric', function (event) {
         event.stopPropagation();
     });
 
@@ -189,15 +191,14 @@ $(window).load(function () {
                     });
                 }
 
-                if(getLocalStorage(nameStorage.showMsgSaveAddress)) {
+                if (getLocalStorage(nameStorage.showMsgSaveAddress)) {
                     try {
                         var msg_address = JSON.parse(getLocalStorage(nameStorage.showMsgSaveAddress));
                         if (typeof msg_address === "object" && msg_address.show) {
                             notificationGeneral(msg_address.msg, {type: msg_address.type});
                             removeLocalStorage(nameStorage.showMsgSaveAddress);
                         }
-                    }
-                    catch(e) {
+                    } catch (e) {
                         /** PASS **/
                     }
                 }
@@ -210,9 +211,9 @@ $(window).load(function () {
             setCities: function (config) {
                 if (config && typeof config === "object" && typeof config.cities !== "undefined") {
                     var cities = [];
-                    for(var index in config.cities){
-                        var result  = config.cities[index];
-                        if(result) {
+                    for (var index in config.cities) {
+                        var result = config.cities[index];
+                        if (result) {
                             var city = result.split(",");
                             city = city[0].split("-");
                             if (city[0]) {
@@ -230,7 +231,7 @@ $(window).load(function () {
             },
             loadPagesBlog: function (config) {
 
-                if (config.result){
+                if (config.result) {
                     config = config.result;
                     this.config = config;
                 }
@@ -238,8 +239,7 @@ $(window).load(function () {
                 // Verifica si 'viewPages' y 'viewBlog' están correctamente creados en 'config'
                 if (config && typeof config === "object" && typeof config.viewPages !== "undefined" && typeof config.viewBlogs !== "undefined") {
                     pages_and_blog.getPagesNamesBlog(this.config.viewPages, this.config.viewBlogs);
-                }
-                else {
+                } else {
                     console.warn("[ERROR] loadPagesBlog");
                 }
             },
@@ -247,7 +247,7 @@ $(window).load(function () {
              * verifica si el comercio esta abierto o cerrado
              */
             isOpen: function () {
-                if (window.location.pathname ===  "/") {
+                if (window.location.pathname === "/") {
                     var pointsale = JSON.parse(getLocalStorage(nameStorage.pointSale));
                     if (pointsale && pointsale["id"]) {
                         apiAjax('pointSaleIsOpen?id=' + pointsale["id"], 'get', {timeout: timeoutAjax}).then(pointsale => {
@@ -263,7 +263,7 @@ $(window).load(function () {
             /**
              * Verifica si hay un usuario logueado para cambiar menu y agregar botón en header
              */
-            loadUser: function() {
+            loadUser: function () {
                 var user_cache = getLocalStorage(nameStorage.consumer);
                 if (user_cache) {
                     $("#menu_login").html("MI CUENTA");
