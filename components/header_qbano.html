@@ -371,6 +371,18 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="txtModifiers">
+                                    <h4 class="modifierGroupname">Subtotal </h4>
+                                    <h4 class="modifierGroupPrice">{{currencyFormat(item.price/item.amount)}}</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="txtModifiers">
+                                    <h4 class="modifierGroupname">Total </h4>
+                                    <h4 class="modifierGroupPrice">{{currencyFormat(item.price)}}</h4>
+                                </div>
+                            </div>
                             <div class="row panel">
                                 <div class="catidad_real">
                                     <a class="restar" v-on:click.prevent="updateItem(item['@rid'], {amount: item.amount > 0 ? item.amount-1: item.amount}, index)"><i class="fa fa-minus"

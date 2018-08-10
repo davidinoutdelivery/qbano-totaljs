@@ -138,7 +138,7 @@ var products = new Vue({
                     data['pointSaleTypeServiceSchedule'] = pointSale.services[0].coverages[0].rid;
                     data['typeService'] = pointSale.services[0].rid;
                     data['cartItems'] = this.formatCart();
-                    
+
                     if (this.validateModifiers() && this.validateModifiersGroups()) {
 
                         apiAjax("cart", "post", data).then((response) => {
@@ -829,34 +829,41 @@ var products = new Vue({
 
             if (countModifierGroup > 0) {
 
+                console.log('this.purchase.modifiersGroups', this.purchase.modifiersGroups);
+
                 for (let modifierGroup in this.purchase.modifiersGroups) {
-                    for (let modifier in this.purchase.modifiersGroups[modifierGroup].modifier) {
-                        
-                        let infoItem = this.purchase.modifiersGroups[modifierGroup].modifier[modifier]['conf'];
-                        let selectUnique = infoItem.selectUnique;
-                        let maxSelect = infoItem.maxSelect;
-                        let count = this.countCheckedModifierGroup(modifierGroup, modifier);
-                        
-                        if (infoItem.required === true) {
-                            
-                            if (selectUnique) {
-                                
-                                if (count !== 1) {
-                                    
-                                    notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
-                                    result = false;
-                                }
-                            } else {
-                                
-                                maxSelect = maxSelect ? maxSelect : 1;
-                                
-                                if (!((count > 0) && (count <= maxSelect))) {
-                                    
-                                    notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
-                                    result = false;
+
+                    if (this.purchase.modifiersGroups[modifierGroup].checked && this.purchase.modifiersGroups[modifierGroup].checked === true) {
+
+                        for (let modifier in this.purchase.modifiersGroups[modifierGroup].modifier) {
+
+                            let infoItem = this.purchase.modifiersGroups[modifierGroup].modifier[modifier]['conf'];
+                            let selectUnique = infoItem.selectUnique;
+                            let maxSelect = infoItem.maxSelect;
+                            let count = this.countCheckedModifierGroup(modifierGroup, modifier);
+
+                            if (infoItem.required === true) {
+
+                                if (selectUnique) {
+
+                                    if (count !== 1) {
+
+                                        notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
+                                        result = false;
+                                    }
+                                } else {
+
+                                    maxSelect = maxSelect ? maxSelect : 1;
+
+                                    if (!((count > 0) && (count <= maxSelect))) {
+
+                                        notificationGeneral('Campos requeridos en ' + infoItem.name, {type: 'notice'});
+                                        result = false;
+                                    }
                                 }
                             }
                         }
+
                     }
                 }
             }
