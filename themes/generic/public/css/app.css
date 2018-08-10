@@ -2864,7 +2864,7 @@ body .showMovil
     display:block;
     overflow-y:auto;
     overflow-x:hidden;
-    height:80vh;
+    height: calc(100vh - 200px);
     width:100%;
 
 }
@@ -2873,14 +2873,6 @@ body .showMovil
     content:'';
     clear:both;
     display:block
-}
-@media only screen and (max-width:1400px)
-{
-    .cartView .listCart
-    {
-        height:70vh
-    }
-
 }
 .cartView .listCart li
 {
@@ -3087,7 +3079,6 @@ body .showMovil
     max-width:380px;
     bottom:0;
     right:0;
-    width:100%;
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
@@ -4576,9 +4567,8 @@ body .address-takeout-panel .formBB button.btnA.block
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
-    padding:14px 15px;
     border-radius:10px;
-
+    overflow: hidden;
 }
 .list-categeory-icons li .panel-catg .imgBg:after
 {
@@ -4588,7 +4578,7 @@ body .address-takeout-panel .formBB button.btnA.block
 }
 .list-categeory-icons li .panel-catg .imgBg img
 {
-    height:75px;
+    height:100px;
     max-width:100%;
     display:block;
     margin:0 auto
@@ -12536,7 +12526,7 @@ body .terminosBg .content-block a
 }
 .bgPageError .titulo h1
 {
-    color:#fff;
+    color:#000;
 
 }
 .bgPageError .titulo h1 span

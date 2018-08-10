@@ -59,13 +59,6 @@ $(window).load(function () {
 
 $(function () {
 
-    //VALIDACION 
-    $('body').on('click', '.edadClic', function (event) {
-        event.preventDefault();
-        $('.ege_validation').addClass('close');
-    });
-
-
     //LOGIN
     $('body').on('click', '.close_register', function (event) {
         event.preventDefault();

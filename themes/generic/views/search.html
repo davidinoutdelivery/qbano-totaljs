@@ -21,7 +21,7 @@
                             <a v-on:click="goToChildCategory(category)">
                                 <div class="panel-catg">
                                     <span class="imgBg">
-                                        <img :src="getUrlImage(category)" alt="{{category.name}}">
+                                        <img :src="getUrl(category)" alt="{{category.name}}">
                                     </span>
                                     <h3>{{category.name}}</h3>
                                 </div>
@@ -64,6 +64,228 @@
 
 <a href="#modalDetail" data-effect="mfp-zoom-in" class="modales modalDetail"></a>
 <div id="products">
+    <section id="modalDetail" class="modal_pop modal_large mfp-with-anim">
+        <div class="headModal">
+            <a title="Close (Esc)" class="mfp-close ti-close" v-on:click="clean()"></a>
+        </div>
+        <section class="cont_modal">
+            <section class="block">
+                <section class="bg_detalle" :class="{available: !detailProduct.isAvailable}">
+                    <section class="bg_panel portada sin_margin">
+                        <div class="imgbg">
+                            <div class="mask">
+                                <div class="relative">
+                                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                                    <h5>Producto no disponible</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tituloDest">
+                        </div>
+                    </section>
+                    <section class="bg_panelInt">
+                        <div class="large-6 medium-6 small-12 columns">
+                            <div class="bg_panel sin_margin">
+                                <div class="imgbg">
+                                    <img :src="getImage(detailProduct)" alt="Image product">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-6 medium-6 small-12 columns padding">
+                            <div class="row">
+                                <h1>{{detailProduct.name}}</h1>
+                                <h2 class="price">{{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}} <span class="text_bold">C/U</span></h2>
+                                <p v-html="detailProduct.description"></p>
+                            </div>
+                            <div class="row paddselectproduct" v-for="modifier in detailProduct.modifiers" :key="modifier['rid']"
+                                 v-if="detailProduct.modifiers.length > 0">
+                                <a class="flex-row" 
+                                   href="javascript:void(0)" @click="collapsibleAnimation(modifier.count, $event)">
+                                    <h3>
+                                        {{nameModifierFormat(modifier.name)}}
+                                    </h3>
+                                    <span v-if="modifier.selectUnique === true">
+                                        Máx 1
+                                    </span>
+                                    <span v-if="modifier.maxSelect === true">
+                                        {{'Max ' + modifier.maxSelect}}
+                                    </span>
+                                    <span v-if="modifier.required === true">
+                                        Requerido
+                                    </span>
+                                    <span :class="((purchase['modifiers'][modifier['rid']]['conf']['selectUnique'] !== true) ? 'collapsible' : '')"></span>
+                                </a>
+                                <article :class="'modifier-' + (detailProduct.countModifier++)"
+                                    v-if="purchase['modifiers'][modifier['rid']]['conf']['selectUnique'] === true && 
+                                    purchase['modifiers'][modifier['rid']]['conf']['required'] === true">
+                                    <div class="selectDiv">
+                                        <select class='modifierSelect inputText'
+                                                @change="selectModifierSelect(modifier['rid'], $event.target.selectedOptions[0].value, $event)">
+                                            <option class="inputText" value="0">
+                                                Seleccione
+                                            </option>
+                                            <option class="inputText" 
+                                                    v-for="item in modifier.items" :key="item['rid']"
+                                                    v-if="item"
+                                                    :value="item['rid']"
+                                                    :selected="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                    :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                    :name="'modifiers.'+modifier['rid']+'.'+item['rid']">
+                                                {{item.name}}
+                                                {{currencyFormat(item.price?item.price:item.priceDefault)}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </article>
+                                <article :class="'modifier-' + (detailProduct.countModifier++) + ' displayNone'"
+                                    v-else>
+                                    <div class="checkboxDiv">
+                                        <div class="checkboxDivCol displayNone" v-for="item in modifier.items" :key="item['rid']"
+                                             v-if="item">
+                                            <div class="spanNamePrice">
+                                                <span class="itemName">{{item.name}}</span>
+                                                <span class="itemPrice">{{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                            </div>
+                                            <div class="itemCheckbox">
+                                                <input class="checkbox"
+                                                       :checked="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                       :value="purchase['modifiers'][modifier['rid']][item['rid']]['checked']"
+                                                       :id="'modifiers.'+modifier['rid']+'.'+item['rid']"
+                                                       :data-price="item['price']"
+                                                       :name="'modifiers.'+modifier['rid']+'.'+item['rid']" type="checkbox"
+                                                       @click="selectModifierCheck(modifier['rid'], item['rid'], $event)"/>
+                                                <label :for="'modifiers.'+modifier['rid']+'.'+item['rid']"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!--/////////////////////////////////////////////////////////////////////////////////////////////
+                            /////////////////////////////////////////////////////////////////////////////////////////////-->
+                            <div class="row paddselectproduct" v-for="modifierGroup in detailProduct.modifiersGroups" :key="modifierGroup['rid']"
+                                 v-if="detailProduct.modifiersGroups.length > 0">
+
+                                <div class="checkboxDiv">
+                                    <div class="checkboxModifierGroup">
+                                        <div class="spanNamePrice">
+                                            <h3>{{modifierGroup.name}}</h3>
+                                            <span class="itemPrice" :data-price="modifierGroup.price">{{currencyFormat(modifierGroup.price?modifierGroup.price:'')}}</span>
+                                        </div>
+                                        <div class="itemCheckbox">
+                                            <input class="checkbox"
+                                                   :id="'modifierGroup.'+modifierGroup['rid']"
+                                                   :data-price="modifierGroup['price']"
+                                                   :name="'modifierGroup.'+modifierGroup['rid']" type="checkbox"
+                                                   @click="selectModifierGroup(modifierGroup['rid'], modifierGroup.count, $event)"/>
+                                            <label :for="'modifierGroup.'+modifierGroup['rid']"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <article :class="'modifierGroup-' + (detailProduct.countModifierGroup++) + ' displayNone'">
+                                    <div class="row paddselectproduct" v-for="modifier in modifierGroup.modifiers" :key="modifier['rid']"
+                                     v-if="modifierGroup.modifiers.length > 0">
+                                        <a class="flex-row" 
+                                           href="javascript:void(0)" @click="collapsibleAnimation(modifier.count, $event)">
+                                            <h3>
+                                                {{nameModifierFormat(modifier.name)}}
+                                            </h3>
+                                            <span v-if="modifier.selectUnique === true">
+                                                Máx 1
+                                            </span>
+                                            <span v-if="modifier.maxSelect === true">
+                                                {{'Max ' + modifier.maxSelect}}
+                                            </span>
+                                            <span v-if="modifier.required === true">
+                                                Requerido
+                                            </span>
+                                            <span :class="((purchase['modifiersGroups'][modifierGroup['rid']]['modifier'][modifier['rid']]['conf']['selectUnique'] !== true) ? 'collapsible' : '')"></span>
+                                        </a>
+                                        <article :class="'modifierGroup-modifier-' + (detailProduct.countModifierGroup++)"
+                                            v-if="purchase['modifiersGroups'][modifierGroup['rid']]['modifier'][modifier['rid']]['conf']['selectUnique'] === true && 
+                                            purchase['modifiersGroups'][modifierGroup['rid']]['modifier'][modifier['rid']]['conf']['required'] === true">
+                                            <div class="selectDiv">
+                                                <select class='modifierSelect inputText'
+                                                        @change="selectModifierGroupModifierSelect(modifierGroup['rid'], modifier['rid'], $event.target.selectedOptions[0].value, $event)">
+                                                    <option class="inputText" value="0">
+                                                        Seleccione
+                                                    </option>
+                                                    <option class="inputText" 
+                                                            v-for="item in modifier.items" :key="item['rid']"
+                                                            v-if="item"
+                                                            :value="item['rid']"
+                                                            :selected="purchase['modifiersGroups'][modifierGroup['rid']]['modifier'][modifier['rid']][item['rid']]['checked']"
+                                                            :id="'modifiersGroups.modifiers.'+modifierGroup['rid']+'.'+modifier['rid']+'.'+item['rid']"
+                                                            :name="'modifiersGroups.modifiers.'+modifierGroup['rid']+'.'+modifier['rid']+'.'+item['rid']">
+                                                        {{item.name}}
+                                                        {{currencyFormat(item.price?item.price:item.priceDefault)}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </article>
+                                        <article :class="'modifierGroup-modifier-' + (detailProduct.countModifierGroup++)"
+                                            v-else>
+                                            <div class="checkboxDiv">
+                                                <div class="checkboxDivCol displayNone" v-for="item in modifier.items" :key="item['rid']"
+                                                     v-if="item">
+                                                    <div class="spanNamePrice">
+                                                        <span class="itemName">{{item.name}}</span>
+                                                        <span class="itemPrice">{{currencyFormat(item.price?item.price:item.priceDefault)}}</span>
+                                                    </div>
+                                                    <div class="itemCheckbox">
+                                                        <input class="checkbox"
+                                                               :checked="purchase['modifiersGroups'][modifierGroup['rid']]['modifier'][modifier['rid']][item['rid']]['checked']"
+                                                               :value="item['rid']"
+                                                               :id="'modifiersGroups.modifiers.'+modifierGroup['rid']+'.'+modifier['rid']+'.'+item['rid']"
+                                                               :data-price="item['price']"
+                                                               :name="'modifiersGroups.modifiers.'+modifierGroup['rid']+'.'+modifier['rid']+'.'+item['rid']" type="checkbox"
+                                                               @click="selectModifierGroupModifierCheck(modifierGroup['rid'], modifier['rid'], item['rid'], $event)"/>
+                                                        <label :for="'modifiersGroups.modifiers.'+modifierGroup['rid']+'.'+modifier['rid']+'.'+item['rid']"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </article>
+                            </div>
+                            <h2 class="price">
+                                <span class="text_bold">Total:</span>
+                                <span id="total_price" :data-price="detailProduct.price" :data-base="detailProduct.price">
+                                    {{currencyFormat(detailProduct.price?detailProduct.price:detailProduct.priceDefault)}}
+                                </span>
+                            </h2>
+
+                            <section class="row actions_detail">
+                                <div class="large-3 medium-4 small-4 columns">
+                                    <div class="catidad_real">
+                                        <a class="restar" @click="decrement()">
+                                            <i class="fa fa-minus" aria-hidden="true"></i>
+                                        </a>
+                                        <input type="text" name="cant" :value="purchase.amount" size="3"
+                                               class="cantidad" disabled>
+                                        <a class="mas" @click="increment()">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="large-9 medium-8 small-8 columns">
+                                    <a href="javascript:void(0)" class="btnA block" @click="addtocart($event, detailProduct.idCategory, detailProduct.idProduct)"
+                                       :class="{available: !detailProduct.isAvailable}">Agregar al Carrito
+                                    </a>
+                                </div>
+                            </section>
+                        </div>
+
+                        <div class="clear"></div>
+                    </section>
+                </section>
+
+                <div class="clear"></div>
+            </section>
+        </section>
+    </section>
+</div>
+<!--<div id="products">
     <section id="modalDetail" class="modal_pop modal_large mfp-with-anim">
         <div class="headModal">
             <a title="Close (Esc)" class="mfp-close ti-close" v-on:click="clean()"></a>
@@ -154,7 +376,7 @@
             </section>
         </section>
     </section>
-</div>
+</div>-->
 <!--Fin Content_all-->
 
 @{component('footer_qbano')}
