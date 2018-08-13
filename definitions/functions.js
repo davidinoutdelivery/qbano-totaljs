@@ -194,7 +194,6 @@ F.functions.query = function (query) {
             let db = DB();
             db.query(query, {class: "s"})
                     .then(function (response) {
-                        console.warn("Query response", response);
                         resolve(response);
                         db.close();
                     }).catch(function (e) {

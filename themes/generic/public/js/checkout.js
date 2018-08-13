@@ -6,11 +6,10 @@ $(document).ready(function () {
     let cartId = getLocalStorage(nameStorage.cartId);
     if (cartId) {
         checkoutApp.setup();
-    }
-    else {
+    } else {
         redirect('/');
     }
-    
+
     /**
      * componente que captura la devuelta
      */
@@ -86,8 +85,7 @@ let promocode = new Vue({
                                 layout: 'attached'
                             });
                             $('.modal_cupon .close').click();
-                        }
-                        else {
+                        } else {
                             checkoutApp.model.codeCoupon = "";
                             checkoutApp.coupon = {};
                             checkoutApp.cart = cart;
@@ -124,11 +122,11 @@ let paymentApp = new Vue({
          * carga inical de los métodos de pago.
          * @param model
          */
-        setup: function() {
+        setup: function () {
             var pointSale = getPointSale();
             if (pointSale && pointSale['rid']) {
                 // Carga todos los métodos de pago desde el pointsale
-                this.paymentMethods= pointSale.services[0].paymentMethods;
+                this.paymentMethods = pointSale.services[0].paymentMethods;
             }
 
             //verifica la existencia previa de un método de pago seleccionado.
@@ -142,8 +140,8 @@ let paymentApp = new Vue({
                     this.pricePaid = checkout.pricePaid;
                     checkoutApp.model.pricePaid = checkout.pricePaid;
                 }
-                
-           }
+
+            }
         },
         /**
          * Cambia el método de pago.
@@ -153,8 +151,8 @@ let paymentApp = new Vue({
             if (method && method["rid"]) {
                 this.selectPayment = method;
                 checkoutApp.payment = method;
-                checkoutApp.model.paymentMethod =method.rid;
-                
+                checkoutApp.model.paymentMethod = method.rid;
+
                 //Método de pago a recordar.
                 var checkout = jsonParse(getLocalStorage(nameStorage.checkout));
                 if (checkout) {
@@ -173,7 +171,7 @@ let paymentApp = new Vue({
                         checkoutApp.model.pricePaid = 0;
                         $(".close").click();
                         break;
-                }        
+                }
             }
         },
         /**
@@ -184,11 +182,11 @@ let paymentApp = new Vue({
             if (this.pricePaid && this.pricePaid >= totalCart) {
                 checkoutApp.model.pricePaid = this.pricePaid;
                 var checkout = jsonParse(getLocalStorage(nameStorage.checkout));
-                if(checkout) {
+                if (checkout) {
                     checkout["pricePaid"] = this.pricePaid;
                     setLocalStorage(nameStorage.checkout, JSON.stringify(checkout));
                 }
-                
+
                 $(".close").click();
             } else {
                 notificationGeneral(message.error_value, {type: 'notice', layout: 'attached'});
@@ -214,7 +212,8 @@ let checkoutApp = new Vue({
             "codeCoupon": "",
             "comment": "",
         },
-
+        "paymentMethods": [],
+        "selectPayment": {},
         "payment": {},
         "address": {},
         "addresses": [],
@@ -223,7 +222,7 @@ let checkoutApp = new Vue({
         "delivery": "",
         "pricePaid": 0,
         "coupon": {},
-        "send": true,  //previene doble click al confirmar orden
+        "send": true, //previene doble click al confirmar orden
         "status": false, //Indica si existe un error
         "load": false, //Indica si la pagina 
         "typeService": {},
@@ -253,9 +252,28 @@ let checkoutApp = new Vue({
                 paymentApp.setup(); //Métodos de pago del comercio
                 addressApp.setup(); //Direcciones del usuario
                 schedule.setup(); //fecha de entreg
-            }
-            else {
+            } else {
                 console.log("NO existe usuario");
+            }
+
+            var pointSale = getPointSale();
+            if (pointSale && pointSale['rid']) {
+                // Carga todos los métodos de pago desde el pointsale
+                this.paymentMethods = pointSale.services[0].paymentMethods;
+            }
+
+            //verifica la existencia previa de un método de pago seleccionado.
+            var checkout = jsonParse(getLocalStorage(nameStorage.checkout));
+            if (checkout && checkout["payment"]) {
+                this.selectPayment = checkout["payment"];
+                checkoutApp.payment = checkout["payment"];
+                checkoutApp.model.paymentMethod = checkout["payment"].rid;
+
+                if (checkout.pricePaid) {
+                    this.pricePaid = checkout.pricePaid;
+                    checkoutApp.model.pricePaid = checkout.pricePaid;
+                }
+
             }
         },
         /**
@@ -300,15 +318,14 @@ let checkoutApp = new Vue({
                         'background-image': 'url("/generic/images/no_found.png")'
                     }
                 }
-            }
-            else {
+            } else {
                 if (category.image && category.image.thumbnail) {
                     let url = category.image.thumbnail;
                     return url;
                 } else {
                     return "/generic/images/no_found.png";
                 }
-            }
+        }
         },
         currencyFormat: function (value) {
             if (value) {
@@ -330,10 +347,9 @@ let checkoutApp = new Vue({
                         notificationGeneral(response, {type: 'notice'});
                         this.send = true;
                         checkout_btn.stopLoading();
-                    }
-                    else {
+                    } else {
 
-                        var headers ={
+                        var headers = {
                             'BROWSER_CODE_NAME': navigator.appCodeName,
                             'BROWSER_VERSION': navigator.appVersion,
                             'BROWSER_LANGUAGE': navigator.language,
@@ -345,24 +361,27 @@ let checkoutApp = new Vue({
                         var checkout = {
                             cart: this.cart["rid"],
                             platform: "WEB",
-                            headers: JSON.stringify(headers) 
+                            headers: JSON.stringify(headers)
                         };
 
-                        if (this.cart.couponValid) checkout.codeCoupon = this.cart.couponDetails.codeCoupon;
-                        if (checkoutApp.model.comment) checkout.comment = checkoutApp.model.comment;
-                        if (checkoutApp.delivery) checkout.typeServiceDetails = JSON.stringify({delivery_date: checkoutApp.delivery});
+                        if (this.cart.couponValid)
+                            checkout.codeCoupon = this.cart.couponDetails.codeCoupon;
+                        if (checkoutApp.model.comment)
+                            checkout.comment = checkoutApp.model.comment;
+                        if (checkoutApp.delivery)
+                            checkout.typeServiceDetails = JSON.stringify({delivery_date: checkoutApp.delivery});
                         checkout.pricePaid = checkoutApp.model.pricePaid;
 
-                        apiAjax("checkout", "post", {purchase: checkout }).then(data => {
+                        apiAjax("checkout", "post", {purchase: checkout}).then(data => {
                             var order = data[0].createOrder.replace("#", "");
                             removeLocalStorage(nameStorage.cartId);
                             removeLocalStorage(nameStorage.cartCount);
-                            setLocalStorage(nameStorage.orderId, order );
+                            setLocalStorage(nameStorage.orderId, order);
                             window.location = "/bill/" + order;
                         }, error => {
                             checkout_btn.stopLoading();
                             this.send = true;
-                            if(error && typeof error.responseJSON !== "undefined" && typeof error.responseJSON.code !== "undefined" && error.responseJSON.code === 105) {
+                            if (error && typeof error.responseJSON !== "undefined" && typeof error.responseJSON.code !== "undefined" && error.responseJSON.code === 105) {
                                 notificationGeneral(message.error_hour_already_used, {type: "warning"});
                             } else {
                                 notificationGeneral(message.error_checkout, {type: "error"});
@@ -391,8 +410,7 @@ let checkoutApp = new Vue({
                 if (!this.address["@rid"] || !this.cart.userAddress) {
                     messageValidate += message.empty_address + "</br>";
                     resolve(messageValidate);
-                }
-                else {
+                } else {
                     let datetime = jsonParse(getLocalStorage(nameStorage.deliveryTime));
                     //console.log(datetime);
                     apiAddress.coverage({
@@ -402,15 +420,12 @@ let checkoutApp = new Vue({
                         if (Object.keys(coverage[0].result).length === 0) {
                             messageValidate += message.coverage_out + "</br>";
                             resolve(messageValidate);
-                        }
-                        else {
+                        } else {
                             if (!coverage[0].result.isOpen) {
                                 messageValidate += message.closed_business + "</br>";
-                            }
-                            else if ((checkoutApp.cart.total - checkoutApp.cart.costService) <= coverage[0].result.services[0].coverages[0].minOrderPrice) {
+                            } else if ((checkoutApp.cart.total - checkoutApp.cart.costService) <= coverage[0].result.services[0].coverages[0].minOrderPrice) {
                                 messageValidate += message.order_price + checkoutApp.currencyFormat(coverage[0].result.services[0].coverages[0].minOrderPrice) + "</br>";
-                            }
-                            else {
+                            } else {
                                 if (pointSale && (coverage[0].result.rid !== pointSale.rid)) {
                                     messageValidate += message.reset_address + "</br>";
                                 }
@@ -436,20 +451,21 @@ let checkoutApp = new Vue({
             if (!this.payment.rid || !this.model.paymentMethod)
                 messageValidate += message.empty_paymethod + "</br>";
             if (!this.address["@rid"] || !this.model.userAddress)
-                 messageValidate += message.empty_address + "</br>";
-            
-            if (messageValidate.length == 0) {
+                messageValidate += message.empty_address + "</br>";
+
+            if (messageValidate.length === 0) {
                 var cartId = getLocalStorage(nameStorage.cartId);
                 var cart = {
-                    paymentMethod : checkoutApp.model.paymentMethod,
-                    user : checkoutApp.model.user,
-                    userAddress : checkoutApp.model.userAddress,
+                    paymentMethod: checkoutApp.model.paymentMethod,
+                    user: checkoutApp.model.user,
+                    userAddress: checkoutApp.model.userAddress,
                 };
 
                 //Campos a actualizar obligatorios
-                let params = {cart: cart, cartId: '#'+cartId };
+                let params = {cart: cart, cartId: '#' + cartId};
 
-                if (checkoutApp.cart.couponValid) params.codeCoupon = checkoutApp.cart.couponDetails.codeCoupon;
+                if (checkoutApp.cart.couponValid)
+                    params.codeCoupon = checkoutApp.cart.couponDetails.codeCoupon;
 
                 apiAjax("updateCart", "put", params).then(response => {
                     checkoutApp.cart = response[0].getCart;
@@ -457,8 +473,7 @@ let checkoutApp = new Vue({
                 }, error => {
                     console.error("ERROR_UPDATEDCHECKOUT", error);
                 });
-            }
-            else {
+            } else {
                 notificationGeneral(messageValidate, {type: "notice"});
             }
         },
@@ -497,8 +512,7 @@ let checkoutApp = new Vue({
         hasDetails: function (product) {
             if (product.cartItemModifiers.length > 0 || product.cartItemModifierGroups.length > 0 || product.cartItemProductGroups.length > 0) {
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -523,13 +537,20 @@ let checkoutApp = new Vue({
             params[Properties.VALUE] = cart.total;
             params[Properties.CONSUMER_ADDRESSES] = cart.consumerAddress;
             params[Properties.CONTENT_IDS] = [];
-            if (cart.deliveryCost) params[Properties.DELIVERY_COST] = cart.deliveryCost;
-            if (cart.deliveryCostPickup) params[Properties.DELIVERY_COST_PICKUP] = cart.deliveryCostPickup;
-            if (cart.comment) params[Properties.MESSAGE] = cart.comment;
-            if (cart.coupon) params[Properties.COUPON] = cart.coupon;
-            if (cart.costCoupon) params[Properties.COST_COUPON] = cart.costCoupon;
-            if (cart.dateSchedule) params[Properties.DATE_SCHEDULE] = cart.dateSchedule;
-            if (cart.dateSchedule) params[Properties.DATE_PICKUP] = cart.datePickup;
+            if (cart.deliveryCost)
+                params[Properties.DELIVERY_COST] = cart.deliveryCost;
+            if (cart.deliveryCostPickup)
+                params[Properties.DELIVERY_COST_PICKUP] = cart.deliveryCostPickup;
+            if (cart.comment)
+                params[Properties.MESSAGE] = cart.comment;
+            if (cart.coupon)
+                params[Properties.COUPON] = cart.coupon;
+            if (cart.costCoupon)
+                params[Properties.COST_COUPON] = cart.costCoupon;
+            if (cart.dateSchedule)
+                params[Properties.DATE_SCHEDULE] = cart.dateSchedule;
+            if (cart.dateSchedule)
+                params[Properties.DATE_PICKUP] = cart.datePickup;
 
             for (var items of cart.items) {
                 var itemParams = Analytics.setUpItemParams({}, items);
@@ -540,6 +561,55 @@ let checkoutApp = new Vue({
             Analytics.track(EVENTS.PURCHASE, params);
             /** **/
         },
+        /**
+         * Cambia el método de pago.
+         * @param method
+         */
+        paymentChoice: function (method) {
+            if (method && method["rid"]) {
+                this.selectPayment = method;
+                checkoutApp.payment = method;
+                checkoutApp.model.paymentMethod = method.rid;
+
+                //Método de pago a recordar.
+                var checkout = jsonParse(getLocalStorage(nameStorage.checkout));
+                if (checkout) {
+                    checkout["payment"] = method;
+                    setLocalStorage(nameStorage.checkout, JSON.stringify(checkout));
+                }
+
+                // 1: efectivo, 2: datafono, 3: credito
+                // Acciones dependientes del método seleccionado
+                switch (method.code) {
+                    case 1:
+                    case 3:
+                        break;
+                    default:
+                        this.pricePaid = 0;
+                        checkoutApp.model.pricePaid = 0;
+                        $(".close").click();
+                        break;
+                }
+            }
+        },
+        /**
+         * Permite cambiar el precio si el método es efectivo.
+         */
+        changePrice: function () {
+            var totalCart = checkoutApp.cart.total ? checkoutApp.cart.total : null;
+            if (this.pricePaid && this.pricePaid >= totalCart) {
+                checkoutApp.model.pricePaid = this.pricePaid;
+                var checkout = jsonParse(getLocalStorage(nameStorage.checkout));
+                if (checkout) {
+                    checkout["pricePaid"] = this.pricePaid;
+                    setLocalStorage(nameStorage.checkout, JSON.stringify(checkout));
+                }
+
+                $(".close").click();
+            } else {
+                notificationGeneral(message.error_value, {type: 'notice', layout: 'attached'});
+            }
+        }
     }
 });
 
@@ -566,19 +636,19 @@ var schedule = new Vue({
             let pointSale = getPointSale();
             if (pointSale) {
                 this.getSchedules(pointSale);
-            } 
+            }
         },
         setCurrentSchedule: function () {
             let _this = this;
             let currentDatetime = new Date();
             let datetime = jsonParse(getLocalStorage(nameStorage.deliveryTime));
-            
+
             if (datetime) {
-                let delivery_time =  datetime.date + ' ' + datetime.time + ':00';
+                let delivery_time = datetime.date + ' ' + datetime.time + ':00';
                 if (new Date(delivery_time) > currentDatetime) {
                     checkoutApp.delivery = delivery_time;
                     setTimeout(function () {
-                        _this.datePicker.set('select', datetime.date, { format: 'yyyy-mm-dd' });
+                        _this.datePicker.set('select', datetime.date, {format: 'yyyy-mm-dd'});
                         //_this.datePicker.set('min', 1);
                         //_this.datePicker.set('max', 5);
                         // _this.timePicker.set('select', datetime.time, { format: 'HH:i' });
@@ -596,15 +666,15 @@ var schedule = new Vue({
                 if (coverage.schedules.length > 0) {
                     daysInactive = coverage.schedules[0]["daysInactive"];
                 }
-     
+
                 var calcHeightPickerTime = function () {
                     var resp_height = "10px";
-                    if (coverage && coverage[0].result 
-                        && typeof coverage[0].result.schedules !== "undefined" 
-                        && coverage[0].result.schedules.length > 0) {
+                    if (coverage && coverage[0].result
+                            && typeof coverage[0].result.schedules !== "undefined"
+                            && coverage[0].result.schedules.length > 0) {
                         var list_hours = coverage[0].result.schedules[0]["hoursAvailable"];
                         var num_hours = list_hours.length;
-                        if (num_hours <= 7){
+                        if (num_hours <= 7) {
                             var calc_height = (num_hours * 33) + 150;
                             resp_height = calc_height + "px";
                         }
@@ -612,12 +682,12 @@ var schedule = new Vue({
                     return resp_height;
                 };
 
-                var proccessHours = function(coverage){
+                var proccessHours = function (coverage) {
                     var hours = [true];
-                
+
                     if (coverage && coverage.schedules.length > 0) {
                         var list_hours = coverage.schedules[0]["hoursAvailable"];
-                        for (var i=0; i < list_hours.length; i++) {
+                        for (var i = 0; i < list_hours.length; i++) {
                             var start_hour = list_hours[i].start;
                             start_hour = start_hour.split(":");
                             hours.push([parseInt(start_hour[0]), parseInt(start_hour[1])]);
@@ -625,7 +695,7 @@ var schedule = new Vue({
                     }
                     return hours;
                 };
-    
+
 
                 var getNewCoverageHours = function (datetime) {
 
@@ -652,12 +722,12 @@ var schedule = new Vue({
                     min: new Date(),
                     hiddenName: true,
                     disable: daysInactive,
-                    format:"dddd, dd, yyyy",
-                    formatSubmit:"yyyy-mm-dd",
+                    format: "dddd, dd, yyyy",
+                    formatSubmit: "yyyy-mm-dd",
                     selectMonths: false,
                     selectYears: false,
-                    container:"#picker-inout",
-                    onClose: function(context) {
+                    container: "#picker-inout",
+                    onClose: function (context) {
                         _this.dateSelected = _this.datePicker.get('select', 'yyyy-mm-dd');
                         //console.log(_this.dateSelected);
                         getNewCoverageHours(_this.dateSelected);
@@ -668,8 +738,8 @@ var schedule = new Vue({
                 //console.log("hoursCurrent", hoursCurrent);
 
                 //time
-                var $inputTime =  $('.timepicker').pickatime({
-                    container:"#timer-inout",
+                var $inputTime = $('.timepicker').pickatime({
+                    container: "#timer-inout",
                     format: 'HH:i',
                     formatSubmit: 'HH:i',
                     hiddenName: true,
@@ -679,11 +749,11 @@ var schedule = new Vue({
                         holder: 'picker__holder',
                         disabled: 'picker__list-item--disabled hide'
                     },
-                    onOpen: function() {    
+                    onOpen: function () {
                         var new_height = calcHeightPickerTime();
                         $("#startTime_root .picker__holder").css("margin-top", new_height);
                     },
-                    onSet: function(context) {
+                    onSet: function (context) {
                         _this.timeSelected = _this.timePicker.get('select', 'HH:i');
                     }
                 });
@@ -691,14 +761,13 @@ var schedule = new Vue({
                 _this.timePicker = $inputTime.pickatime('picker');
                 _this.datePicker = $inputDate.pickadate('picker');
                 _this.setCurrentSchedule();
-                    
-            }
-            else {
+
+            } else {
                 notificationGeneral("NO EXISTE INFORMACIÓN");
-            } 
+            }
         },
         setSchedule: function () {
-            if (this.dateSelected && this.timeSelected){
+            if (this.dateSelected && this.timeSelected) {
                 let currentAddress = jsonParse(getLocalStorage(nameStorage.currentAddress));
                 let datetime = {date: this.dateSelected, time: this.timeSelected};
 
@@ -713,23 +782,21 @@ var schedule = new Vue({
                         } else {
                             //punto de venta cerrado
                             if (!coverage[0].result.isOpen) {
-                                notificationGeneral(message.closed_business_point + ' ('+coverage[0].result.name+')', {type: "notice"});
-                            }
-                            else {
-                                let delivery_time =  datetime.date + ' ' + datetime.time + ':00';
+                                notificationGeneral(message.closed_business_point + ' (' + coverage[0].result.name + ')', {type: "notice"});
+                            } else {
+                                let delivery_time = datetime.date + ' ' + datetime.time + ':00';
                                 setLocalStorage(nameStorage.deliveryTime, JSON.stringify(datetime));
                                 checkoutApp.delivery = delivery_time;
                                 notificationGeneral("Fecha de entrega actualizada correctamente");
                                 $("#close").click();
                             }
                         }
-                    }).catch( function (error) {
-                        notificationGeneral(message.error , {type: "error"});
+                    }).catch(function (error) {
+                        notificationGeneral(message.error, {type: "error"});
                     });
                 }
-            }
-            else {
-                notificationGeneral("Faltan parámetros fecha u hora", {type:"notice"})
+            } else {
+                notificationGeneral("Faltan parámetros fecha u hora", {type: "notice"})
             }
         }
     }
@@ -739,8 +806,8 @@ let addressApp = new Vue({
     el: '#addresses',
     data: function () {
         return {
-            "address": {}, 
-            "addresses": [], 
+            "address": {},
+            "addresses": [],
             "tmpAddress": {}
         }
     },
@@ -753,8 +820,7 @@ let addressApp = new Vue({
                 this.address = currentAddress;
                 checkoutApp.model.userAddress = currentAddress["@rid"];
                 checkoutApp.address = currentAddress;
-            }
-            else if (tmpAddress && !currentAddress) {
+            } else if (tmpAddress && !currentAddress) {
 
                 var user = jsonParse(getLocalStorage(nameStorage.consumer));
                 //Agrega al usuario la dirección temporal
@@ -765,7 +831,7 @@ let addressApp = new Vue({
                     //checkoutApp.model.userAddress = response[response.length-1]["@rid"];
                     //checkoutApp.address = response[response.length-1];
                     //setLocalStorage(nameStorage.currentAddress, JSON.stringify(response[response.length-1]));
-                                         
+
                 }, function (error) {
                     console.log("Error al guardar dirección temporal");
                 });
@@ -793,16 +859,15 @@ let addressApp = new Vue({
                                 //checkoutApp.cart.consumerAddress = add.id;
                             }
                         }
-                        
-                   }
 
-                    
+                    }
+
+
                 }, function (error) {
-                    console.error("ERROR_GETADDRERSS", error); 
+                    console.error("ERROR_GETADDRERSS", error);
                 });
 
-            }
-            else {
+            } else {
                 console.error("ERROR_USER", error);
             }
 
@@ -827,14 +892,13 @@ let addressApp = new Vue({
             //     });
             // }
         },
-         /**
+        /**
          * Indica si una dirección esta seleccionada
          */
-        isSelected (address) {
-            if (this.address && this.address["@rid"]) {                
+        isSelected(address) {
+            if (this.address && this.address["@rid"]) {
                 return this.address['@rid'] === address['@rid'];
-            }
-            else {
+            } else {
                 return false;
             }
         },
@@ -845,30 +909,29 @@ let addressApp = new Vue({
         changeAddress: function (address) {
             var typeService = jsonParse(getLocalStorage(nameStorage.service));
             if (typeService && typeService["@rid"]) {
-    
+
                 var currentAddress = jsonParse(getLocalStorage(nameStorage.currentAddress));
                 if (currentAddress && (currentAddress["@rid"] === address["@rid"])) {
                     // console.log("DESELECTIONAADO");
                     // removeLocalStorage(nameStorage.currentAddress);
                     // removeLocalStorage(nameStorage.pointSale);
                     // this.addressSelect = {};
-                  
-                }
-                else {
+
+                } else {
                     var pointSale = jsonParse(getLocalStorage(nameStorage.pointSale));
 
                     var datetime = null;
                     if (typeService.code == '3') {
                         datetime = jsonParse(getLocalStorage(nameStorage.deliveryTime));
                     }
-                    
+
                     apiAddress.coverage({
                         "latitude": address.location.coordinates[1],
                         "longitude": address.location.coordinates[0]
                     }, datetime).then((coverage) => {
                         //Sin cobertura
                         if (Object.keys(coverage[0].result).length === 0) {
-                            
+
                             /** Analytics **/
                             var paramsCoverage = {};
                             paramsCoverage[Properties.ADDRESS_CITY] = address.city;
@@ -878,17 +941,17 @@ let addressApp = new Vue({
                             paramsCoverage[Properties.ADDRESS_LONGITUDE] = address.location.coordinates[0];
                             Analytics.track(EVENTS.OUT_OF_COVERAGE, paramsCoverage);
                             /** **/
-        
-                            notificationGeneral(message.coverage_out, {type:"notice"});
+
+                            notificationGeneral(message.coverage_out, {type: "notice"});
                         } else {
                             //address["details"] = apiAddress.getDetailsAddress(address);
                             // Vue.set(accountAddress, "tmpAddress", address); 
                             // Vue.set(accountAddress, "tmpCoverage", coverage);
-        
+
                             //punto de venta cerrado
                             if (!coverage[0].result.isOpen) {
                                 //this.addressSelect = jsonParse(getLocalStorage(nameStorage.currentAddress));
-                                notificationGeneral(message.closed_business_point + ' ('+coverage[0].result.name+')', {type: "notice"});
+                                notificationGeneral(message.closed_business_point + ' (' + coverage[0].result.name + ')', {type: "notice"});
                                 return;
                             }
                             //Cambio de punto de venta
@@ -897,8 +960,7 @@ let addressApp = new Vue({
                                 // notificationFive(message.reset_address + ' ('+coverage[0].result.name+')', true);
                                 // return;
                                 resetNotification.setup(address, coverage, false);
-                            }
-                            else {
+                            } else {
                                 checkoutApp.model.userAddress = address["@rid"];
                                 checkoutApp.address = address;
                                 addressApp.address = address;
@@ -912,8 +974,7 @@ let addressApp = new Vue({
                         element_sel.stopLoading();
                     });
                 }
-            }
-            else{
+            } else {
                 console.log("NO tiene tipo de servicio");
             }
         },

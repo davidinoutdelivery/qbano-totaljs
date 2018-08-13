@@ -33,29 +33,33 @@
                             <h6 class="txt_right">{{currencyFormat(product.price)}}</h6>
                         </div>
                         <div class="clear"></div>
-                        <section class="bgAditionals block">
-                            <div class="large-3 medium-4 small-12 columns" v-if="product.modifiers && product.modifiers.length > 0">
-                                <ul class="adition_list">
-                                    <li v-for="modifier in product.modifiers" class="ading-tag">
-                                        + {{modifier.modifier.name}}:
-                                        {{modifier.modifierItem.name}} ({{modifier.price?
+                        <section class="bgAditionals block" v-if="(product.cartItemModifiers && product.cartItemModifiers.length > 0) 
+                                 || (product.cartItemModifierGroups && product.cartItemModifierGroups.length > 0)">
+                            <ul class="adition_list" v-if="product.cartItemModifiers && product.cartItemModifiers.length > 0">
+                                <li v-for="modifier in product.cartItemModifiers" class="ading-tag">
+                                    + {{nameModifierFormat(modifier.modifier)}}:
+                                    {{modifier.modifierItem}} ({{modifier.price?
                                         currencyFormat(modifier.price):"Incluido"}})
-                                    </li>
-                                </ul>
-                            </div>
-                            <div v-for="modifierg in product.modifiersGroups" class="large-3 medium-4 small-12 columns">
-                                <ul class="adition_list" v-if="product.modifiersGroups.length > 0">
-                                    <h4>{{modifierg.group.name}}</h4>
-                                    <li v-for="modifi in modifierg.modifiers" class="ading-tag">
-                                        + {{modifi.modifier.name}}:{{modifi.modifierItem.name}}
-                                        {{modifi.price?
+                                </li>
+                            </ul>
+                            <ul class="adition_list" v-if="product.cartItemModifierGroups.length > 0"
+                                v-for="modifierg in product.cartItemModifierGroups">
+                                <li class="ading-tag">
+                                    + {{modifierg.group}}
+                                    {{modifierg.priceUnit?
+                                        "("+currencyFormat(modifierg.priceUnit)+")":""}}
+                                    <ul class="adition_list">
+                                        <li v-for="modifi in modifierg.modifiers" class="ading-tag">
+                                            + {{modifi.modifier}}:{{modifi.modifierItem}}
+                                            {{modifi.price?
                                         "("+currencyFormat(modifi.price)+")":""}}
-                                    </li>
-                                </ul>
-                            </div>
-                                <!--cupones-->
-                                <div class="bgAditionals" v-for="coupon in product.productsCoupons">
-                                    <div class="large-12 medium-12 small-12 columns">
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                            <!--cupones-->
+                            <div class="bgAditionals" v-for="coupon in product.productsCoupons">
+                                <div class="large-12 medium-12 small-12 columns">
                                     <h4>{{coupon.product.name}}</h4>
                                     <ul class="adition_list" v-if="coupon.modifiers.length > 0">
                                         <!--modifier-->
@@ -66,7 +70,7 @@
                                             currencyFormat(modifier.price):"Incluido"}})
                                         </li>
                                     </ul>
-                                     <ul v-for="modifierg in coupon.modifiersGroups">
+                                    <ul v-for="modifierg in coupon.modifiersGroups">
                                         <div class="large-4 medium-4 small-12 columns" >
                                             <ul class="adition_list">
                                                 <!--modifierGrupo-->
@@ -79,8 +83,8 @@
                                         </div>                                      
                                     </ul>
                                 </div>
-                                </div>
-                              <div class="clear"></div>                                 
+                            </div>
+                            <div class="clear"></div>                                 
                         </section>
                     </li>
                 </ul>

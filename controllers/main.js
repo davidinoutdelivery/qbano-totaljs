@@ -172,9 +172,7 @@ function bill(bill) {
                         );
                 F.functions.view_response(self, "bill", 200, {order: response[0], title: F.functions.build_title(title)});
             }).catch(function (error) {
-////////////////////////////////////////////////////////////////////////////////
                 console.log("[Error] ", error);
-////////////////////////////////////////////////////////////////////////////////                    
                 F.functions.sendCrash(error);
                 F.functions.view_response(self, "bill", 400, {order: {}, title: F.functions.build_title(title)});
             });

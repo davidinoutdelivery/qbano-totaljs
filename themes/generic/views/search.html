@@ -42,7 +42,7 @@
                                 <span class="txt">
                                     <h3>{{product.name}}</h3>
                                     <p class="price">$ {{product.price}}</p>                                     
-                                    <span class="shopCart"  @click="shop(product, product.slug, $event)"></span>
+                                    <span class="shopCart"  @click="shop(product.slugCategory, product.slug, $event)"></span>
                                 </span>
                             </div>
                         </li>

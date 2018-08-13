@@ -257,6 +257,7 @@ var products = new Vue({
                     data["pointSale"] = pointSale['slug'];
                     this.purchase.amount = 1;
                     apiAjax("product", "post", data).then(data => {
+                        console.log('data', data);
                         data = data[0].result[0].products[0];
                         element_sel.stopLoading();
                         data.idCategory = idCategory;

@@ -494,6 +494,7 @@ body .sin_padd
     -moz-box-sizing:border-box;
     box-sizing:border-box;
     position:relative;
+    z-index: 1;
 
 }
 @media only screen and (max-width:642px)
@@ -9663,6 +9664,58 @@ body .paneld_pedido
     border-bottom:2px solid #fff;
 
 }
+.displayFlex
+{
+    display: flex;
+
+}
+section.paneld_pedido.displayFlex .metodoPagoDiv 
+{
+    width: 50%;
+}
+body .paneld_pedido .metodoPagoEfectivo
+{
+    width: 60%;
+    padding: 7px;
+}
+body .paneld_pedido .metodoPagoEfectivo div
+{
+    width: 100%;
+}
+body .paneld_pedido .metodoPagoEfectivo input[type="text"]
+{
+    -webkit-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    -webkit-appearance: none;
+    border: 1px solid rgba(66,63,64,0.2);
+    background-color: #ecedef;
+    border-radius: 100px 0 0 100px;
+    display: block;
+    margin: 15px 0;
+    padding: 0 15px;
+    color: #423f40;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: 'GothamRoundedLight';
+    font-size: 14px;
+    width: 100%;
+    height: 30px;
+    line-height: 42px;
+}
+body .paneld_pedido .metodoPagoEfectivo .btnA
+{
+    border-radius: 0 100px 100px 0 !important;
+    margin: 15px 0;
+    padding: 0px;
+    font-size: 12px;
+    width: 35%;
+    height: 30px;
+    line-height: 30px;
+}
 body .paneld_pedido .large-8
 {
     text-align:right
@@ -10157,7 +10210,7 @@ body .subCartTotal .carritoClic
 }
 .list_fact
 {
-    margin:20px 0;
+    margin-top:20px;
 
 }
 .list_fact:after
@@ -10168,17 +10221,13 @@ body .subCartTotal .carritoClic
     content:'';
     display:block
 }
-.list_fact li:last-child
-{
-    border-bottom:1px dashed rgba(147,147,147,0.2)
-}
 .list_fact li
 {
     border-top:1px dashed rgba(147,147,147,0.2);
     -webkit-box-sizing:border-box;
     -moz-box-sizing:border-box;
     box-sizing:border-box;
-    padding:35px 50px;
+    padding:20px 50px;
 
 }
 .list_fact li:after
@@ -10210,9 +10259,6 @@ body .subCartTotal .carritoClic
     display:block;
     width:100%;
     text-align:left;
-    overflow:;
-    margin:0 0 20px 0;
-
 }
 @media only screen and (max-width:642px)
 {
@@ -10223,17 +10269,33 @@ body .subCartTotal .carritoClic
     }
 
 }
+section.bgAditionals.block
+{
+    margin-top: 10px; 
+}
 .list_fact li p
 {
     text-align:left;
     display:block;
     color:#595959;
     width:100%;
-    font-size:16px
+    font-size:16px;
 }
 .list_fact li .adition_list > li
 {
-    padding:10px 0
+    padding:10px 15px;
+}
+.list_fact li .adition_list li > .adition_list
+{
+    margin-bottom: 0px; 
+}
+.list_fact li .adition_list li > .adition_list li
+{
+    padding:10px 15px;
+}
+.list_fact li .adition_list li > .adition_list li:last-child
+{
+    padding-bottom: 0px;
 }
 .date_facture
 {
@@ -10253,6 +10315,7 @@ body .subCartTotal .carritoClic
     display:block;
     content:'';
     display:block
+        border-top:1px dashed rgba(147,147,147,0.2)
 }
 @media only screen and (max-width:642px)
 {
@@ -12574,7 +12637,6 @@ footer
     -webkit-background-size:cover;
     -moz-background-size:cover;
     background-size:cover;
-    z-index: -2;
 }
 footer:after
 {
@@ -12593,7 +12655,6 @@ footer .prod1F
     position:absolute;
     right:-5px;
     bottom:-5px;
-    z-index: -1;
 }
 @media only screen and (max-width:1500px)
 {
@@ -12632,7 +12693,6 @@ footer .prod2F
     position:absolute;
     left:-5px;
     bottom:-5px;
-    z-index: -1;
 }
 @media only screen and (max-width:1500px)
 {
@@ -14874,4 +14934,15 @@ body .picker__wrap
 .text_bold
 {
     font-weight:700;
+}
+#section_orders .list_pedidos_fijos .price_h {
+    margin-top: 4px;
+}
+#section_orders .list_pedidos_fijos a .date {
+    display: block;
+    color: #1f1f1f;
+}
+.ading-tag ul
+{
+    margin: 10px;
 }

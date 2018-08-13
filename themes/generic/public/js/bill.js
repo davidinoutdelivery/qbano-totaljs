@@ -4,9 +4,7 @@ $(window).load(function () {
 
 $(document).ready(function () {
     hasNotification();
-    //if (isLogged()) {
-        bill.setup();
-    //}
+    bill.setup();
 });
 
 /**
@@ -29,7 +27,7 @@ var bill = new Vue({
             if (model) {
                 this.model = model;
             }
-            
+
             /** Analytics **/
             var params = {};
             params[Properties.CONTENT_NAME] = "bill";
@@ -43,6 +41,12 @@ var bill = new Vue({
                 return "$ " + value.toLocaleString();
             } else {
                 return "$ 0";
+            }
+        },
+        nameModifierFormat: function (value) {
+            if (value) {
+                let resp = value.split(" ");
+                return resp[0];
             }
         },
         /**
